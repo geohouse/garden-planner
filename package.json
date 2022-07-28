@@ -1,0 +1,11 @@
+{
+  "name": "garden-planner",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "parcel": "^2.6.2"
+  }
+}
