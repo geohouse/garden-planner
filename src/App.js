@@ -1,9 +1,9 @@
 //import logo from './logo.svg';
 import "./App.css";
-import NewPlant from "./NewPlant.js";
+import GardenPlanner from "./GardenPlanner.js";
 
 function App() {
-  return <NewPlant />;
+  return <GardenPlanner />;
 
   // <div className="App">
   //   <header className="App-header">

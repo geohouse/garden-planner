@@ -33,8 +33,9 @@ export default function NewPlant() {
           <label for="attracts-hummingbirds">Hummingbirds?</label>
           <input id="attracts-hummingbirds" type="checkbox"></input>
         </div>
+        <input type="submit" value="Add plant to list"></input>
       </form>
-      <h1>Garden planner in progress</h1>;
+      <h1>Garden planner in progress</h1>
     </>
   );
 }
