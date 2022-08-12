@@ -32,12 +32,22 @@ export default function NewPlant(props) {
         </div>
         <div>
           <label htmlFor="bloom-color">Bloom color</label>
-          <input id="bloom-color" type="color" value="#E66465"></input>
+          <input
+            id="bloom-color"
+            type="color"
+            value={props.bloomColor}
+            onChange={props.onBloomColorChange}
+          ></input>
         </div>
         <div>
           <p id="attracted-wildlife">Attracts</p>
           <label htmlFor="attracts-bees">Bees?</label>
-          <input id="attracts-bees" type="checkbox"></input>
+          <input
+            id="attracts-bees"
+            type="checkbox"
+            checked={props.wildlifeAttracted.bees}
+            onChange={props.onWildlifeAttractedChange}
+          ></input>
           <label htmlFor="attracts-butterflies">Butterflies?</label>
           <input id="attracts-butterflies" type="checkbox"></input>
           <label htmlFor="attracts-hummingbirds">Hummingbirds?</label>

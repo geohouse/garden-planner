@@ -3,7 +3,17 @@ import { useState } from "react";
 
 export default function GardenPlanner() {
   const [plantName, setPlantName] = useState("");
-  const [bloomTime, setBloomTime] = useState({});
+  const [bloomTime, setBloomTime] = useState({
+    monthNumAsString: "1",
+    monthName: "Jan",
+  });
+  const [bloomColor, setBloomColor] = useState("#E66465");
+  const [wildlifeAttracted, setWildlifeAttracted] = useState({
+    bees: false,
+    butterflies: false,
+    hummingbirds: false,
+  });
+
   function handleNameChange(event) {
     setPlantName(event.target.value);
   }
@@ -39,6 +49,27 @@ export default function GardenPlanner() {
 
   console.log(`The bloom time is: ${bloomTime["monthName"]}`);
 
+  function handleBloomColorChange(event) {
+    setBloomColor(event.target.value);
+  }
+
+  console.log(`The bloom color is: ${bloomColor}`);
+
+  function handleWildlifeAttractedChange(event) {
+    // Returns the id of the input element(checkbox) that changed.
+    // Will be 'attracts-bees', 'attracts-butterflies', or 'attracts-hummingbirds'
+    const wildlifeChanged = event.target.id;
+    // Returns 'bees', 'butterflies', or 'hummingbirds'
+    const wildlifeChangedStem = wildlifeChanged.split("-")[1];
+
+    // Need to use [] in the key assignment after the spread operator
+    // to have the evaluated wildlifeChangedStem value used
+    setWildlifeAttracted({
+      ...wildlifeAttracted,
+      [wildlifeChangedStem]: !wildlifeAttracted[wildlifeChangedStem],
+    });
+  }
+  console.log(wildlifeAttracted);
   return (
     <>
       <NewPlant
@@ -46,6 +77,10 @@ export default function GardenPlanner() {
         onNameChange={handleNameChange}
         bloomTime={bloomTime}
         onBloomTimeChange={handleBloomTimeChange}
+        bloomColor={bloomColor}
+        onBloomColorChange={handleBloomColorChange}
+        wildlifeAttracted={wildlifeAttracted}
+        onWildlifeAttractedChange={handleWildlifeAttractedChange}
       />
     </>
   );
