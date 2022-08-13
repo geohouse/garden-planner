@@ -1,7 +1,7 @@
 export default function NewPlant(props) {
   return (
     <>
-      <form id="new-plant-form">
+      <form id="new-plant-form" onSubmit={props.onPlantSubmit}>
         <div>
           <label htmlFor="plant-name">Plant name</label>
           <input
@@ -49,11 +49,21 @@ export default function NewPlant(props) {
             onChange={props.onWildlifeAttractedChange}
           ></input>
           <label htmlFor="attracts-butterflies">Butterflies?</label>
-          <input id="attracts-butterflies" type="checkbox"></input>
+          <input
+            id="attracts-butterflies"
+            type="checkbox"
+            checked={props.wildlifeAttracted.butterflies}
+            onChange={props.onWildlifeAttractedChange}
+          ></input>
           <label htmlFor="attracts-hummingbirds">Hummingbirds?</label>
-          <input id="attracts-hummingbirds" type="checkbox"></input>
+          <input
+            id="attracts-hummingbirds"
+            type="checkbox"
+            checked={props.wildlifeAttracted.hummingbirds}
+            onChange={props.onWildlifeAttractedChange}
+          ></input>
         </div>
-        <input type="submit" value="Add plant to list"></input>
+        <input type="submit" value="Add plant to the garden plan"></input>
       </form>
       <h1>Garden planner in progress</h1>
     </>

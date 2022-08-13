@@ -13,6 +13,8 @@ export default function GardenPlanner() {
     butterflies: false,
     hummingbirds: false,
   });
+  // Will need to read back from local storage later.
+  const [plants, setPlants] = useState([]);
 
   function handleNameChange(event) {
     setPlantName(event.target.value);
@@ -59,17 +61,34 @@ export default function GardenPlanner() {
     // Returns the id of the input element(checkbox) that changed.
     // Will be 'attracts-bees', 'attracts-butterflies', or 'attracts-hummingbirds'
     const wildlifeChanged = event.target.id;
-    // Returns 'bees', 'butterflies', or 'hummingbirds'
+    // Returns 'bees', 'butterflies', or 'hummingbirds' that match the keys in the wildlifeAttracted object
     const wildlifeChangedStem = wildlifeChanged.split("-")[1];
 
     // Need to use [] in the key assignment after the spread operator
-    // to have the evaluated wildlifeChangedStem value used
+    // to have the evaluated wildlifeChangedStem value used (and overwriting the previous value with the toggled boolean)
     setWildlifeAttracted({
       ...wildlifeAttracted,
       [wildlifeChangedStem]: !wildlifeAttracted[wildlifeChangedStem],
     });
   }
   console.log(wildlifeAttracted);
+  function handlePlantSubmit(event) {
+    event.preventDefault();
+
+    setPlants([
+      ...plants,
+      {
+        id: plants.length + 1,
+        plantName: plantName,
+        bloomTime: bloomTime,
+        bloomColor: bloomColor,
+        wildlifeAttracted: wildlifeAttracted,
+      },
+    ]);
+  }
+  console.log(`Here's the plant list:`);
+  console.log(plants);
+
   return (
     <>
       <NewPlant
@@ -81,6 +100,7 @@ export default function GardenPlanner() {
         onBloomColorChange={handleBloomColorChange}
         wildlifeAttracted={wildlifeAttracted}
         onWildlifeAttractedChange={handleWildlifeAttractedChange}
+        onPlantSubmit={handlePlantSubmit}
       />
     </>
   );
