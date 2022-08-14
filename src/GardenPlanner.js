@@ -1,4 +1,5 @@
-import NewPlant from "./NewPlant.js";
+import AddPlant from "./AddPlant.js";
+import PlantList from "./PlantList.js";
 import { useState } from "react";
 
 export default function GardenPlanner() {
@@ -72,6 +73,7 @@ export default function GardenPlanner() {
     });
   }
   console.log(wildlifeAttracted);
+
   function handlePlantSubmit(event) {
     event.preventDefault();
 
@@ -91,7 +93,7 @@ export default function GardenPlanner() {
 
   return (
     <>
-      <NewPlant
+      <AddPlant
         plantName={plantName}
         onNameChange={handleNameChange}
         bloomTime={bloomTime}
@@ -102,6 +104,7 @@ export default function GardenPlanner() {
         onWildlifeAttractedChange={handleWildlifeAttractedChange}
         onPlantSubmit={handlePlantSubmit}
       />
+      <PlantList inputPlants={plants} />
     </>
   );
 }

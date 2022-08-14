@@ -1,4 +1,4 @@
-export default function NewPlant(props) {
+export default function AddPlant(props) {
   return (
     <>
       <form id="new-plant-form" onSubmit={props.onPlantSubmit}>

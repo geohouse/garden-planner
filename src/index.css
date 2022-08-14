@@ -19,3 +19,9 @@ code {
 
 #attracted-wildlife {
 }
+
+.plantList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+}
