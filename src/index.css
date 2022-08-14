@@ -25,3 +25,8 @@ code {
   grid-template-columns: 1fr 1fr;
   list-style: none;
 }
+
+.bloom-color {
+  height: 25px;
+  width: 25px;
+}

@@ -45,12 +45,12 @@ export default function GardenPlanner() {
     // keep track of the month name corresponding to the month num (as a string).
     // Do that in an object.
     setBloomTime({
-      monthNumAsString: event.target.value,
-      monthName: selectedMonthName,
+      monthNumAsStringArray: [event.target.value],
+      monthNameArray: [selectedMonthName],
     });
   }
 
-  console.log(`The bloom time is: ${bloomTime["monthName"]}`);
+  console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
 
   function handleBloomColorChange(event) {
     setBloomColor(event.target.value);
