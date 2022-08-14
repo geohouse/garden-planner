@@ -8,6 +8,12 @@ export default function PlantList(props) {
           return (
             <li key={plant.id}>
               <Plant plantInfo={plant} />
+              <button
+                className="delete-plant"
+                onClick={() => props.onDeletePlantClick(plant.id)}
+              >
+                Remove plant from list
+              </button>
             </li>
           );
         })}

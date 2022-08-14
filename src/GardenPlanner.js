@@ -91,6 +91,11 @@ export default function GardenPlanner() {
   console.log(`Here's the plant list:`);
   console.log(plants);
 
+  function handleDeletePlantClick(plantID) {
+    console.log(plantID);
+    setPlants(plants.filter((plant) => plant.id !== plantID));
+  }
+
   return (
     <>
       <AddPlant
@@ -104,7 +109,10 @@ export default function GardenPlanner() {
         onWildlifeAttractedChange={handleWildlifeAttractedChange}
         onPlantSubmit={handlePlantSubmit}
       />
-      <PlantList inputPlants={plants} />
+      <PlantList
+        inputPlants={plants}
+        onDeletePlantClick={handleDeletePlantClick}
+      />
     </>
   );
 }

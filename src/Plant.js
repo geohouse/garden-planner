@@ -7,7 +7,7 @@ export default function Plant(props) {
       wildlifeAttractedArray.push(wildlifeTypeKey);
     }
   }
-  const wildlifeAttractedString = wildlifeAttractedArray.join(",");
+  const wildlifeAttractedString = wildlifeAttractedArray.join(", ");
 
   return (
     <>
