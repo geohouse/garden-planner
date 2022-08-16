@@ -2,7 +2,7 @@
 import "./App.css";
 import GardenPlanner from "./GardenPlanner.js";
 
-function App() {
+export default function App() {
   return <GardenPlanner />;
 
   // <div className="App">
@@ -22,5 +22,3 @@ function App() {
   //   </header>
   // </div>
 }
-
-export default App;
