@@ -27,8 +27,8 @@ export default function Plant(props) {
             </svg>
           </div>
           <div className="bloom-months">
-            {props.plantInfo.bloomTime.monthNameArray.map((month) => {
-              return <p>{month}</p>;
+            {props.plantInfo.bloomTime.monthNameArray.map((month, index) => {
+              return <p key={index}>{month}</p>;
             })}
           </div>
         </div>

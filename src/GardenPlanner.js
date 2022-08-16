@@ -1,12 +1,13 @@
 import AddPlant from "./AddPlant.js";
 import PlantList from "./PlantList.js";
 import { useState } from "react";
+import PlantPlot from "./PlantPlot.js";
 
 export default function GardenPlanner() {
   const [plantName, setPlantName] = useState("");
   const [bloomTime, setBloomTime] = useState({
-    monthNumAsString: "1",
-    monthName: "Jan",
+    monthNumAsStringArray: ["1"],
+    monthNameArray: ["Jan"],
   });
   const [bloomColor, setBloomColor] = useState("#E66465");
   const [wildlifeAttracted, setWildlifeAttracted] = useState({
@@ -91,8 +92,10 @@ export default function GardenPlanner() {
   console.log(`Here's the plant list:`);
   console.log(plants);
 
+  // The plantID is passed back from the PlantList component
+  // and represents the plant where the delete button was clicked
   function handleDeletePlantClick(plantID) {
-    console.log(plantID);
+    //console.log(plantID);
     setPlants(plants.filter((plant) => plant.id !== plantID));
   }
 
@@ -109,6 +112,7 @@ export default function GardenPlanner() {
         onWildlifeAttractedChange={handleWildlifeAttractedChange}
         onPlantSubmit={handlePlantSubmit}
       />
+      <PlantPlot inputPlants={plants} />
       <PlantList
         inputPlants={plants}
         onDeletePlantClick={handleDeletePlantClick}
