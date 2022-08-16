@@ -27,6 +27,7 @@ export default function AddPlant(props) {
             max="12"
             step="1"
             value={props.bloomTime.monthNumAsString}
+            defaultValue="1"
             onChange={props.onBloomTimeChange}
           ></input>
         </div>

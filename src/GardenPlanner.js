@@ -112,7 +112,7 @@ export default function GardenPlanner() {
         onWildlifeAttractedChange={handleWildlifeAttractedChange}
         onPlantSubmit={handlePlantSubmit}
       />
-      <PlantPlot inputPlants={plants} />
+      {/*<PlantPlot inputPlants={plants} />*/}
       <PlantList
         inputPlants={plants}
         onDeletePlantClick={handleDeletePlantClick}
