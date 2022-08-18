@@ -29,7 +29,7 @@ it("Plant information entered in the PlantList is stored correctly when Add plan
   //const div = document.createElement("div");
   //const root = createRoot(div);
   render(<GardenPlanner onSubmit={handleSubmit} />);
-  userEvent.type(screen.getByLabelText("Plant name"), "Marigold");
+  userEvent.type(screen.getByLabelText("Plant name"), "Cosmos");
   //   const user = userEvent.setup();
   //   const { getByText } = render(<App />);
 });

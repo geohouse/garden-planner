@@ -21,3 +21,5 @@ import "@testing-library/jest-dom";
 //     disconnect: jest.fn(),
 //   })),
 // }));
+
+global.ResizeObserver = require("resize-observer-polyfill");
