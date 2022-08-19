@@ -29,7 +29,15 @@ it("Plant information entered in the PlantList is stored correctly when Add plan
   //const div = document.createElement("div");
   //const root = createRoot(div);
   render(<GardenPlanner onSubmit={handleSubmit} />);
+  // Add a test plant
   userEvent.type(screen.getByLabelText("Plant name"), "Cosmos");
+  // Check all of the wildlife options (bees, butterflies, hummingbirds)
+  userEvent.click(screen.getByLabelText("Bees?"));
+  userEvent.click(screen.getByLabelText("Butterflies?"));
+  userEvent.click(screen.getByLabelText("Hummingbirds?"));
+  // Verify the wildlife options are in fact checked
+  console.log("Is bees clicked?");
+  console.log(document.querySelector("#attracts-bees").checked);
   //   const user = userEvent.setup();
   //   const { getByText } = render(<App />);
 });

@@ -1,0 +1,10 @@
+
+JestDOM, used for testing, does not support 
+This polyfill needed to allow testing of the full app with the plot from Chart enabled. Apparently Chart uses 'resize-observer' which Jest DOM , so needed this polyfill to emulate it enough to do the testing.
+
+Solution used from here
+https://github.com/ZeeCoder/use-resize-observer/issues/40
+
+Other possibilities tried
+https://stackoverflow.com/questions/64558062/how-to-mock-resizeobserver-to-work-in-unit-tests-using-react-testing-library
+

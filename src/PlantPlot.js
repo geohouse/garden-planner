@@ -76,9 +76,9 @@ export default function PlantPlot(props) {
     return datasetsArray;
   }
 
-  const tester = createDatasets();
-  console.log("tester");
-  console.log(tester);
+  //const tester = createDatasets();
+  //console.log("tester");
+  //console.log(tester);
 
   const dataToGraph = {
     labels: monthLabels,
