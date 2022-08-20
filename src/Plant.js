@@ -11,10 +11,12 @@ export default function Plant(props) {
 
   return (
     <>
-      <div className="plant">
-        <p className="plant-name">{props.plantInfo.plantName}</p>
+      <div role="list" className="plant">
+        <p className="plant-name" role="listitem" aria-label="plant-name">
+          {props.plantInfo.plantName}
+        </p>
         <div className="bloom-features">
-          <p>Bloom color</p>
+          <p role="listitem">Bloom color</p>
           <div className="bloom-color">
             <svg viewBox="0 0 25 25" xmlns="<http://www.w3.org/2000/svg>">
               <rect
@@ -26,7 +28,7 @@ export default function Plant(props) {
               />
             </svg>
           </div>
-          <div className="bloom-months">
+          <div role="listitem" className="bloom-months">
             {props.plantInfo.bloomTime.monthNameArray.map((month, index) => {
               return <p key={index}>{month}</p>;
             })}
@@ -34,7 +36,13 @@ export default function Plant(props) {
         </div>
         <div className="attract-wildlife">
           <p>Attracts:</p>
-          <p>{wildlifeAttractedString}</p>
+          <p
+            className="wildlife-attracted"
+            role="listitem"
+            aria-label="wildlife-attracted"
+          >
+            {wildlifeAttractedString}
+          </p>
         </div>
       </div>
     </>

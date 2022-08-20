@@ -21,7 +21,7 @@ export default function GardenPlanner() {
   function handleNameChange(event) {
     setPlantName(event.target.value);
   }
-  console.log(`The plant name is: ${plantName}`);
+  //console.log(`The plant name is: ${plantName}`);
 
   function handleBloomTimeChange(event) {
     const monthNames = [
@@ -51,13 +51,13 @@ export default function GardenPlanner() {
     });
   }
 
-  console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
+  //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
 
   function handleBloomColorChange(event) {
     setBloomColor(event.target.value);
   }
 
-  console.log(`The bloom color is: ${bloomColor}`);
+  //console.log(`The bloom color is: ${bloomColor}`);
 
   function handleWildlifeAttractedChange(event) {
     // Returns the id of the input element(checkbox) that changed.
@@ -73,7 +73,7 @@ export default function GardenPlanner() {
       [wildlifeChangedStem]: !wildlifeAttracted[wildlifeChangedStem],
     });
   }
-  console.log(wildlifeAttracted);
+  //console.log(wildlifeAttracted);
 
   function handlePlantSubmit(event) {
     event.preventDefault();
@@ -89,8 +89,8 @@ export default function GardenPlanner() {
       },
     ]);
   }
-  console.log(`Here's the plant list:`);
-  console.log(plants);
+  //console.log(`Here's the plant list:`);
+  //console.log(plants);
 
   // The plantID is passed back from the PlantList component
   // and represents the plant where the delete button was clicked

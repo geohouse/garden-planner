@@ -27,7 +27,6 @@ export default function AddPlant(props) {
             max="12"
             step="1"
             value={props.bloomTime.monthNumAsString}
-            defaultValue="1"
             onChange={props.onBloomTimeChange}
           ></input>
         </div>
@@ -64,7 +63,8 @@ export default function AddPlant(props) {
             onChange={props.onWildlifeAttractedChange}
           ></input>
         </div>
-        <input type="submit" value="Add plant to the garden plan"></input>
+        <label htmlFor="add-plant-to-plan">Add plant to the garden plan?</label>
+        <input id="add-plant-to-plan" type="submit" value="Add plant"></input>
       </form>
       <h1>Garden planner in progress</h1>
     </>
