@@ -1,8 +1,6 @@
 import React from "react";
 //import ReactDOM from "react-dom";
-import { createRoot } from "react-dom/client";
 import App from "./App.js";
-import AddPlant from "./AddPlant.js";
 import GardenPlanner from "./GardenPlanner.js";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
