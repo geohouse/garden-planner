@@ -51,6 +51,35 @@ it("Successfully submit Butterfly bush that attracts bees, hummingbirds, and but
   //   const { getByText } = render(<App />);
 });
 
+it("Successfully submit little bluestem that does not attract bees, hummingbirds, or butterflies", () => {
+  const handleSubmit = jest.fn();
+  //const div = document.createElement("div" );
+  //const root = createRoot(div);
+  render(<GardenPlanner onSubmit={handleSubmit} />);
+  // Add a test plant
+  userEvent.type(screen.getByLabelText("Plant name"), "Little bluestem");
+  // Check all of the wildlife options (bees, butterflies, hummingbirds)
+  // userEvent.click(screen.getByLabelText("Bees?"));
+  // userEvent.click(screen.getByLabelText("Butterflies?"));
+  // userEvent.click(screen.getByLabelText("Hummingbirds?"));
+  // Verify the wildlife options are in fact checked - a bit hacky but functional to verify.
+  //console.log("Is bees clicked?");
+  //console.log(document.querySelector("#attracts-bees").checked);
+
+  // Submit the new plant
+  userEvent.click(screen.getByLabelText("Add plant to the garden plan?"));
+  //expect(handleSubmit).toHaveBeenCalledTimes(1);
+  expect(
+    screen.getByRole("listitem", { name: /plant-name/i })
+  ).toHaveTextContent("Little bluestem");
+
+  expect(
+    screen.getByRole("listitem", { name: /wildlife-attracted/i })
+  ).toHaveTextContent("");
+  //   const user = userEvent.setup();
+  //   const { getByText } = render(<App />);
+});
+
 // it("Renders the main app successfully", () => {
 //   const root = createRoot(document.querySelector("#react-root"));
 //   root.render(<App />);
