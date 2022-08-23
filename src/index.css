@@ -37,4 +37,18 @@ code {
   flex: 1 10px;
   margin: 7px;
   padding: 5px;
+  color: #aaaaaa;
+  border: 3px solid #222222;
+}
+
+.light-text {
+  color: #ffffff;
+}
+
+.dark-text {
+  color: #222222;
+}
+
+.selected-color {
+  border: 3px solid red;
 }
