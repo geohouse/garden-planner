@@ -9,3 +9,5 @@ https://stackoverflow.com/questions/64558062/how-to-mock-resizeobserver-to-work-
 
 Using Jest tests helped with improving html accessibility through specifying [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques#roles) ([to allow `getByRole` recommended queries](https://testing-library.com/docs/queries/about/)) and ARIA labels to assign accessible names to elements so that they can be searched/filtered by their `aria-label` attributes using the `name` query option
 
+useState and useEffect in the color picker to keep track of current color and highlight the newly selected color on each new color click.
+
