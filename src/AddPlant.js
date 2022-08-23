@@ -1,3 +1,5 @@
+import ColorBlocks from "./ColorBlocks";
+
 export default function AddPlant(props) {
   return (
     <>
@@ -32,12 +34,13 @@ export default function AddPlant(props) {
         </div>
         <div>
           <label htmlFor="bloom-color">Bloom color</label>
-          <input
+          <ColorBlocks />
+          {/* <input
             id="bloom-color"
             type="color"
             value={props.bloomColor}
             onChange={props.onBloomColorChange}
-          ></input>
+          ></input> */}
         </div>
         <div>
           <p id="attracted-wildlife">Attracts</p>

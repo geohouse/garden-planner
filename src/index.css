@@ -17,9 +17,6 @@ code {
   border-radius: 5px;
 }
 
-#attracted-wildlife {
-}
-
 .plantList {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -29,4 +26,15 @@ code {
 .bloom-color {
   height: 25px;
   width: 25px;
+}
+
+#color-block-holder {
+  display: flex;
+  flex-direction: row;
+}
+
+.color-block-button {
+  flex: 1 10px;
+  margin: 7px;
+  padding: 5px;
 }
