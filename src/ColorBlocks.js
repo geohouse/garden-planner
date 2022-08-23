@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-export default function ColorBlocks() {
+export default function ColorBlocks(props) {
   const [currColor, setCurrentColor] = useState("");
 
   // Update the selected border every time the color selection is changed
@@ -15,6 +15,8 @@ export default function ColorBlocks() {
       }
     });
   }, [currColor]);
+
+  const { onBloomColorChange } = props;
 
   const colors = {
     Red: "#ff0033",
@@ -36,6 +38,8 @@ export default function ColorBlocks() {
     event.preventDefault();
     console.log("clicked");
     console.log(event.currentTarget.innerHTML);
+    console.log(event.currentTarget.style.backgroundColor);
+    onBloomColorChange(event.currentTarget.style.backgroundColor);
     setCurrentColor(event.currentTarget.innerHTML);
   }
 

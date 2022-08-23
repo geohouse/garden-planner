@@ -53,8 +53,10 @@ export default function GardenPlanner() {
 
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
 
-  function handleBloomColorChange(event) {
-    setBloomColor(event.target.value);
+  function handleBloomColorChange(hexColor) {
+    setBloomColor(hexColor);
+    console.log("Bloom color is:");
+    console.log(bloomColor);
   }
 
   //console.log(`The bloom color is: ${bloomColor}`);
@@ -106,7 +108,6 @@ export default function GardenPlanner() {
         onNameChange={handleNameChange}
         bloomTime={bloomTime}
         onBloomTimeChange={handleBloomTimeChange}
-        bloomColor={bloomColor}
         onBloomColorChange={handleBloomColorChange}
         wildlifeAttracted={wildlifeAttracted}
         onWildlifeAttractedChange={handleWildlifeAttractedChange}

@@ -34,7 +34,7 @@ export default function AddPlant(props) {
         </div>
         <div>
           <label htmlFor="bloom-color">Bloom color</label>
-          <ColorBlocks />
+          <ColorBlocks onBloomColorChange={props.onBloomColorChange} />
           {/* <input
             id="bloom-color"
             type="color"
