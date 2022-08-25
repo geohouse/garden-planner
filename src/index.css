@@ -17,9 +17,6 @@ code {
   border-radius: 5px;
 }
 
-#attracted-wildlife {
-}
-
 .plantList {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -27,6 +24,44 @@ code {
 }
 
 .bloom-color {
-  height: 25px;
-  width: 25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* height: 25px;
+  width: 25px; */
+}
+
+#color-block-holder {
+  display: flex;
+  flex-direction: row;
+}
+
+.color-block-button {
+  flex: 1 10px;
+  margin: 7px;
+  padding: 5px;
+  color: #aaaaaa;
+  border: 3px solid #222222;
+}
+
+.light-text {
+  color: #ffffff;
+}
+
+.dark-text {
+  color: #222222;
+}
+
+.selected-color {
+  border: 3px solid red;
+}
+
+.plant-card {
+  display: flex;
+  flex-direction: column;
+}
+
+svg {
+  width: 35px;
+  height: 35px;
 }

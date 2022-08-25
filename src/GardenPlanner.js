@@ -9,7 +9,8 @@ export default function GardenPlanner() {
     monthNumAsStringArray: ["1"],
     monthNameArray: ["Jan"],
   });
-  const [bloomColor, setBloomColor] = useState("#E66465");
+  const [bloomColor, setBloomColor] = useState("");
+  const [bloomColorName, setBloomColorName] = useState("");
   const [wildlifeAttracted, setWildlifeAttracted] = useState({
     bees: false,
     butterflies: false,
@@ -53,8 +54,11 @@ export default function GardenPlanner() {
 
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
 
-  function handleBloomColorChange(event) {
-    setBloomColor(event.target.value);
+  function handleBloomColorChange(hexColor, colorName) {
+    setBloomColor(hexColor);
+    setBloomColorName(colorName);
+    console.log("Bloom color is:");
+    console.log(bloomColor);
   }
 
   //console.log(`The bloom color is: ${bloomColor}`);
@@ -85,6 +89,7 @@ export default function GardenPlanner() {
         plantName: plantName,
         bloomTime: bloomTime,
         bloomColor: bloomColor,
+        bloomColorName: bloomColorName,
         wildlifeAttracted: wildlifeAttracted,
       },
     ]);
@@ -106,7 +111,6 @@ export default function GardenPlanner() {
         onNameChange={handleNameChange}
         bloomTime={bloomTime}
         onBloomTimeChange={handleBloomTimeChange}
-        bloomColor={bloomColor}
         onBloomColorChange={handleBloomColorChange}
         wildlifeAttracted={wildlifeAttracted}
         onWildlifeAttractedChange={handleWildlifeAttractedChange}
