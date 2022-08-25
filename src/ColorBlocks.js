@@ -36,10 +36,14 @@ export default function ColorBlocks(props) {
 
   function handleColorChange(event) {
     event.preventDefault();
-    console.log("clicked");
-    console.log(event.currentTarget.innerHTML);
-    console.log(event.currentTarget.style.backgroundColor);
-    onBloomColorChange(event.currentTarget.style.backgroundColor);
+    //console.log("clicked");
+    //console.log(event.currentTarget.innerHTML);
+    //console.log(event.currentTarget.style.backgroundColor);
+    // sets both the current color (hex) and the current color name
+    onBloomColorChange(
+      event.currentTarget.style.backgroundColor,
+      event.currentTarget.innerHTML
+    );
     setCurrentColor(event.currentTarget.innerHTML);
   }
 
@@ -48,10 +52,10 @@ export default function ColorBlocks(props) {
       <div id="color-block-holder">
         {Object.values(colors).map((color, index) => {
           const colorName = Object.keys(colors)[index];
-          console.log(colorName);
+          //console.log(colorName);
           // Only works when don't wrap color in {}
           const colorStyle = { backgroundColor: color };
-          console.log(colorStyle);
+          //console.log(colorStyle);
           let classList = "color-block-button";
           // Set colors to change the text color for better contrast
           // depending on the bloom color option.
@@ -73,6 +77,7 @@ export default function ColorBlocks(props) {
                 className={classList}
                 style={colorStyle}
                 onClick={handleColorChange}
+                type="button"
                 // id={colorName}
               >
                 {colorName}

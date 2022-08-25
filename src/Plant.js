@@ -11,19 +11,27 @@ export default function Plant(props) {
 
   return (
     <>
-      <div role="list" className="plant">
+      <div role="list" className="plant-card">
         <p className="plant-name" role="listitem" aria-label="plant-name">
           {props.plantInfo.plantName}
         </p>
         <div className="bloom-features">
           <p role="listitem">Bloom color</p>
           <div className="bloom-color">
-            <svg viewBox="0 0 25 25" xmlns="<http://www.w3.org/2000/svg>">
+            <p
+              role="listitem"
+              aria-label="bloom-color-label"
+              className="bloom-color-label"
+            >
+              {props.plantInfo.bloomColorName}
+            </p>
+            <svg viewBox="0 0 35 35" xmlns="<http://www.w3.org/2000/svg>">
               <rect
+                className="bloom-color-svg"
                 x="5"
                 y="5"
-                width="15px"
-                height="15px"
+                width="25px"
+                height="25px"
                 fill={props.plantInfo.bloomColor}
               />
             </svg>
