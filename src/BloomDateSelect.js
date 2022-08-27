@@ -24,6 +24,7 @@ export default function BloomDateSelect(props) {
     monthButtonList.forEach((monthButton) => {
       monthButton.classList.add("selected-month");
     });
+    onBloomTimeChange(months);
   }
 
   function handleNoMonthSelect(event) {

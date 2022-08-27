@@ -19,7 +19,7 @@ export default function AddPlant(props) {
         </div>
         <label htmlFor="bloom-date-holder">Bloom duration</label>
         <div id="bloom-date-holder">
-          <BloomDateSelect />
+          <BloomDateSelect onBloomTimeChange={props.onBloomTimeChange} />
           {/* Will need to make a better month selector myself because
         Firefox and Safari both don't support ticks and tick numbers for sliders
         and I want something users can paint over for selection instead of the fiddly month selector*/}
