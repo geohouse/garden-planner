@@ -1,11 +1,30 @@
 import { useState, useEffect } from "react";
 export default function BloomDateSelect(props) {
   const [selectedMonths, setSelectedMonths] = useState({});
-
+  const [disableAllSelection, setDisableAllSelection] = useState(false);
+  const [disableNoneSelection, setDisableNoneSelection] = useState(false);
   useEffect(() => {
     console.log("The new selected months are:");
     console.log(selectedMonths);
   }, [selectedMonths]);
+
+  useEffect(() => {
+    console.log("in disable effect");
+    const allMonthsButton = document.querySelector("#select-all-months");
+    const noMonthsButton = document.querySelector("#select-no-months");
+
+    if (disableAllSelection) {
+      allMonthsButton.setAttribute("disabled", "");
+    } else {
+      allMonthsButton.removeAttribute("disabled");
+    }
+
+    if (disableNoneSelection) {
+      noMonthsButton.setAttribute("disabled", "");
+    } else {
+      noMonthsButton.removeAttribute("disabled");
+    }
+  }, [disableAllSelection, disableNoneSelection]);
 
   const { onBloomTimeChange } = props;
   const months = {
@@ -33,6 +52,8 @@ export default function BloomDateSelect(props) {
     // all months have been selected.
     onBloomTimeChange(months);
     setSelectedMonths(months);
+    setDisableAllSelection(true);
+    setDisableNoneSelection(false);
   }
 
   function handleNoMonthSelect(event) {
@@ -45,6 +66,8 @@ export default function BloomDateSelect(props) {
     // are selected
     onBloomTimeChange({});
     setSelectedMonths({});
+    setDisableNoneSelection(true);
+    setDisableAllSelection(false);
   }
 
   function updateCurrentlySelectedMonthsObj() {
@@ -54,6 +77,7 @@ export default function BloomDateSelect(props) {
       // (doesn't have an .includes() method)
       let monthNum = 0;
       const monthName = monthButton.innerText;
+      // Look up the monthNum (key) by looping through the monthNames (value)
       for (const keyValueArray of Object.entries(months)) {
         if (keyValueArray[1] === monthName) {
           monthNum = keyValueArray[0];
@@ -69,6 +93,16 @@ export default function BloomDateSelect(props) {
         newSelectedMonths[monthNum] = monthName;
         setSelectedMonths(newSelectedMonths);
         onBloomTimeChange(newSelectedMonths);
+        // Activate the all/none selectors depending on
+        // how many months are selected
+        if (Object.keys(newSelectedMonths).length >= 1) {
+          setDisableNoneSelection(false);
+        }
+        if (
+          Object.keys(newSelectedMonths).length < Object.keys(months).length
+        ) {
+          setDisableAllSelection(false);
+        }
       }
       // REMOVE any months from the list that aren't selected any longer.
       if (

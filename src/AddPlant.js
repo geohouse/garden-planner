@@ -17,7 +17,10 @@ export default function AddPlant(props) {
             {/* This is an approximate text entry size (won't be exactly this many characters long based on font settings*/}
           </input>
         </div>
-        <label htmlFor="bloom-date-holder">Bloom duration</label>
+        <label htmlFor="bloom-date-holder">
+          Bloom duration (supports click and drag to quickly 'paint' over
+          multiple months)
+        </label>
         <div id="bloom-date-holder">
           <BloomDateSelect onBloomTimeChange={props.onBloomTimeChange} />
           {/* Will need to make a better month selector myself because

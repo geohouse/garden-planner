@@ -50,6 +50,7 @@ export default function GardenPlanner() {
       monthNumAsStringArray: Object.keys(selectedMonthObj),
       monthNameArray: Object.values(selectedMonthObj),
     });
+    console.log("bloom time object is:");
   }
 
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
