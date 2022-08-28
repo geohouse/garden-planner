@@ -11,3 +11,5 @@ Using Jest tests helped with improving html accessibility through specifying [AR
 
 useState and useEffect in the color picker to keep track of current color and highlight the newly selected color on each new color click. Pass setBloomColor function for setting main app state down to the color selector to set the color. Used an object of color names(keys) color hex codes (values) to compactly allow making the color selector buttons with correct labels and get the right color for them, then settin the correct hex bloomColor for use in the list/graph and styling the selected button based on the color name.
 
+Made 'paint over' effect in the date picker buttons by selecting on mouse down over the button, or on mouse over if the left button was clicked at that time. Used mock functions in jest to stand-in as the expected props passed to components. Some state tests were running faster than the logic code to determine state updates was running/rendering. Used `setTimeout()` with `jest.useFakeTimers()` to give a slight delay to allow the test to run only after the expected update had taken place. This is a signal that re-factoring will be useful.
+
