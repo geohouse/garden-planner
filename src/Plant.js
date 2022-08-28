@@ -36,11 +36,12 @@ export default function Plant(props) {
               />
             </svg>
           </div>
-          <div role="listitem" className="bloom-months">
+          <p>Bloom time</p>
+          <ul className="bloom-months">
             {props.plantInfo.bloomTime.monthNameArray.map((month, index) => {
-              return <p key={index}>{month}</p>;
+              return <li key={index}>{month}</li>;
             })}
-          </div>
+          </ul>
         </div>
         <div className="attract-wildlife">
           <p>Attracts:</p>

@@ -154,6 +154,7 @@ export default function BloomDateSelect(props) {
   return (
     <>
       <button
+        key={13}
         id="select-all-months"
         type="button"
         onClick={handleAllMonthSelect}
@@ -175,7 +176,12 @@ export default function BloomDateSelect(props) {
           </button>
         );
       })}
-      <button id="select-no-months" type="button" onClick={handleNoMonthSelect}>
+      <button
+        key={14}
+        id="select-no-months"
+        type="button"
+        onClick={handleNoMonthSelect}
+      >
         Select no months
       </button>
     </>
