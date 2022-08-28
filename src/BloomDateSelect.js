@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 export default function BloomDateSelect(props) {
   const [selectedMonths, setSelectedMonths] = useState({});
   const [disableAllSelection, setDisableAllSelection] = useState(false);
-  const [disableNoneSelection, setDisableNoneSelection] = useState(false);
+  // Disable by default because when page loaded, no buttons are selected.
+  const [disableNoneSelection, setDisableNoneSelection] = useState(true);
   useEffect(() => {
     console.log("The new selected months are:");
     console.log(selectedMonths);
@@ -102,6 +103,9 @@ export default function BloomDateSelect(props) {
           Object.keys(newSelectedMonths).length < Object.keys(months).length
         ) {
           setDisableAllSelection(false);
+        } else {
+          // All the buttons are clicked now, so disable the all selection button
+          setDisableAllSelection(true);
         }
       }
       // REMOVE any months from the list that aren't selected any longer.
@@ -114,6 +118,12 @@ export default function BloomDateSelect(props) {
         const { [monthNum]: toRemove, ...rest } = selectedMonths;
         setSelectedMonths({ ...rest });
         onBloomTimeChange({ ...rest });
+
+        if (Object.keys(rest).length >= 1) {
+          setDisableAllSelection(false);
+        } else {
+          setDisableNoneSelection(true);
+        }
       }
     });
   }
