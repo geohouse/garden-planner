@@ -35,7 +35,6 @@ export default function ColorBlocks(props) {
   };
 
   function handleColorChange(event) {
-    event.preventDefault();
     //console.log("clicked");
     //console.log(event.currentTarget.innerHTML);
     //console.log(event.currentTarget.style.backgroundColor);
@@ -49,44 +48,39 @@ export default function ColorBlocks(props) {
 
   return (
     <>
-      <div id="color-block-holder">
-        {Object.values(colors).map((color, index) => {
-          const colorName = Object.keys(colors)[index];
-          //console.log(colorName);
-          // Only works when don't wrap color in {}
-          const colorStyle = { backgroundColor: color };
-          //console.log(colorStyle);
-          let classList = "color-block-button";
-          // Set colors to change the text color for better contrast
-          // depending on the bloom color option.
-          if (
-            ["Red", "Orange", "Green", "Blue", "Purple"].includes(colorName)
-          ) {
-            classList += " light-text";
-          } else {
-            classList += " dark-text";
-          }
+      {Object.values(colors).map((color, index) => {
+        const colorName = Object.keys(colors)[index];
+        //console.log(colorName);
+        // Only works when don't wrap color in {}
+        const colorStyle = { backgroundColor: color };
+        //console.log(colorStyle);
+        let classList = "color-block-button";
+        // Set colors to change the text color for better contrast
+        // depending on the bloom color option.
+        if (["Red", "Orange", "Green", "Blue", "Purple"].includes(colorName)) {
+          classList += " light-text";
+        } else {
+          classList += " dark-text";
+        }
 
-          return (
-            <>
-              {/* <label id={`label-${colorName}`} for={colorName}>
+        return (
+          <>
+            {/* <label id={`label-${colorName}`} for={colorName}>
                 {colorName}
               </label> */}
-              <button
-                key={index}
-                className={classList}
-                style={colorStyle}
-                onClick={handleColorChange}
-                type="button"
-                // id={colorName}
-              >
-                {colorName}
-              </button>
-            </>
-          );
-        })}
-      </div>
-      Testing color blocks
+            <button
+              key={index}
+              className={classList}
+              style={colorStyle}
+              onClick={handleColorChange}
+              type="button"
+              // id={colorName}
+            >
+              {colorName}
+            </button>
+          </>
+        );
+      })}
     </>
   );
 }

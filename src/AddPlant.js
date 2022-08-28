@@ -1,5 +1,5 @@
 import ColorBlocks from "./ColorBlocks";
-
+import BloomDateSelect from "./BloomDateSelect";
 export default function AddPlant(props) {
   return (
     <>
@@ -17,11 +17,16 @@ export default function AddPlant(props) {
             {/* This is an approximate text entry size (won't be exactly this many characters long based on font settings*/}
           </input>
         </div>
-        <div>
+        <label htmlFor="bloom-date-holder">
+          Bloom duration (supports click and drag to quickly 'paint' over
+          multiple months)
+        </label>
+        <div id="bloom-date-holder">
+          <BloomDateSelect onBloomTimeChange={props.onBloomTimeChange} />
           {/* Will need to make a better month selector myself because
         Firefox and Safari both don't support ticks and tick numbers for sliders
         and I want something users can paint over for selection instead of the fiddly month selector*/}
-          <label htmlFor="bloom-time">Bloom time</label>
+          {/* <label htmlFor="bloom-time">Bloom time</label>
           <input
             id="bloom-time"
             type="range"
@@ -30,10 +35,10 @@ export default function AddPlant(props) {
             step="1"
             value={props.bloomTime.monthNumAsString}
             onChange={props.onBloomTimeChange}
-          ></input>
+          ></input> */}
         </div>
-        <div>
-          <label htmlFor="bloom-color">Bloom color</label>
+        <label htmlFor="color-block-holder">Bloom color</label>
+        <div id="color-block-holder">
           <ColorBlocks onBloomColorChange={props.onBloomColorChange} />
           {/* <input
             id="bloom-color"
