@@ -8,10 +8,17 @@ import reportWebVitals from "./reportWebVitals";
 // interface DocumentSelected
 
 // When selecting by id name or class name (both strings), the matching type definition
-// in the lib.dom.d.ts file is:
+// in the lib.dom.d.ts file (https://github.com/microsoft/TypeScript/blob/main/lib/lib.dom.d.ts) is:
 // querySelector<E extends Element = Element>(selectors: string): E | null;
 // so the expected types in this case (can verify by mousing over 'reactRootElement') are: Element | null;
-// const reactRootElement = document.querySelector("#react-root");
+const reactRootElement = document.querySelector("#react-root");
+
+// 2 other options that wouldn't require the if statement below checking for null type.
+// (both of these assume that the element IS present in the DOM, and therefore will always
+// have type Element - we're telling TypeScript that this is always going to be true)
+// Reference: https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter
+// const reactRootElement = document.querySelector("#react-root") as Element; // This is a 'type assertion' / 'cast' of the result as an Element type
+// const reactRootElement = document.querySelector("#react-root")!; // This removes the possibility of a null or undefined type from the prior expression.
 
 // When select by element type, i.e. div, the
 // matching type definition in the lib.dom.d.ts file is:
