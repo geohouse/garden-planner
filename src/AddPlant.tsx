@@ -5,7 +5,7 @@ import BloomDateSelect from "./BloomDateSelect";
 // able to import and use the interfaces in the
 // main GardenPlanner app and also here.
 interface BloomTime {
-  monthNameAsStringArray: string[];
+  monthNumAsStringArray: string[];
   monthNameArray: string[];
 }
 
@@ -19,11 +19,15 @@ interface BloomTimeObj {
   [key: number]: string;
 }
 
-interface WildlifeAttracted {
-  bees: boolean;
-  butterflies: boolean;
-  hummingbirds: boolean;
-}
+// need to take any string as a key
+// instead of the default Union of 'bees'|'butterflies'|'hummingbirds'
+// because later in the code there is a wildlife type string used as a key index into the object
+// and this fails unless the key type is the generic string.
+// interface WildlifeAttracted {
+//   bees: boolean;
+//   butterflies: boolean;
+//   hummingbirds: boolean;
+// }
 
 interface AddPlantsProps {
   plantName: string;
@@ -31,7 +35,7 @@ interface AddPlantsProps {
   bloomTime: BloomTime;
   onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
   onBloomColorChange: (hexColor: string, colorName: string) => void;
-  wildlifeAttracted: WildlifeAttracted;
+  wildlifeAttracted: { [key: string]: boolean };
   onWildlifeAttractedChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;

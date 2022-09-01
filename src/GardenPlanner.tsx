@@ -3,6 +3,19 @@ import PlantList from "./PlantList";
 import { useState } from "react";
 import PlantPlot from "./PlantPlot";
 
+interface BloomTimeObj {
+  [key: number]: string;
+}
+
+interface PlantsType {
+  id: number;
+  plantName: string;
+  bloomTime: BloomTimeObj;
+  bloomColor: string;
+  bloomColorName: string;
+  wildlifeAttracted: { [key: number]: boolean };
+}
+
 export default function GardenPlanner() {
   const [plantName, setPlantName] = useState("");
   const [bloomTime, setBloomTime] = useState({
@@ -11,20 +24,27 @@ export default function GardenPlanner() {
   });
   const [bloomColor, setBloomColor] = useState("");
   const [bloomColorName, setBloomColorName] = useState("");
-  const [wildlifeAttracted, setWildlifeAttracted] = useState({
+  // This sets the useState object type to be more inclusive and take any string as a key
+  // instead of the default Union of 'bees'|'butterflies'|'hummingbirds'
+  // because later in the code there is a wildlife type string used as a key index into the object
+  // and this fails unless the key type is the generic string.
+  const [wildlifeAttracted, setWildlifeAttracted] = useState<{
+    [key: string]: boolean;
+  }>({
     bees: false,
     butterflies: false,
     hummingbirds: false,
   });
   // Will need to read back from local storage later.
-  const [plants, setPlants] = useState([]);
+  // The type is an array of objects having the PlantsType
+  const [plants, setPlants] = useState<PlantsType[]>([]);
 
-  function handleNameChange(event) {
+  function handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setPlantName(event.target.value);
   }
   //console.log(`The plant name is: ${plantName}`);
 
-  function handleBloomTimeChange(selectedMonthObj) {
+  function handleBloomTimeChange(selectedMonthObj: { [key: number]: string }) {
     // const monthNames = [
     //   "Jan",
     //   "Feb",
@@ -66,7 +86,9 @@ export default function GardenPlanner() {
 
   //console.log(`The bloom color is: ${bloomColor}`);
 
-  function handleWildlifeAttractedChange(event) {
+  function handleWildlifeAttractedChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
     // Returns the id of the input element(checkbox) that changed.
     // Will be 'attracts-bees', 'attracts-butterflies', or 'attracts-hummingbirds'
     const wildlifeChanged = event.target.id;
@@ -82,7 +104,7 @@ export default function GardenPlanner() {
   }
   //console.log(wildlifeAttracted);
 
-  function handlePlantSubmit(event) {
+  function handlePlantSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setPlants([
@@ -102,7 +124,7 @@ export default function GardenPlanner() {
 
   // The plantID is passed back from the PlantList component
   // and represents the plant where the delete button was clicked
-  function handleDeletePlantClick(plantID) {
+  function handleDeletePlantClick(plantID: number) {
     //console.log(plantID);
     setPlants(plants.filter((plant) => plant.id !== plantID));
   }
