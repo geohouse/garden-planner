@@ -1,11 +1,11 @@
 import React from "react";
 //import ReactDOM from "react-dom";
-import App from "./App.js";
-import GardenPlanner from "./GardenPlanner.js";
+import App from "./App";
+import GardenPlanner from "./GardenPlanner";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ColorBlocks from "./ColorBlocks.js";
-import BloomDateSelect from "./BloomDateSelect.js";
+import ColorBlocks from "./ColorBlocks";
+import BloomDateSelect from "./BloomDateSelect";
 
 //import ResizeObserver from "./__mocks__/ResizeObserver";
 // import { act } from "react-dom/test-utils";

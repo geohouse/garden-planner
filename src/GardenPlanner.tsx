@@ -1,7 +1,7 @@
-import AddPlant from "./AddPlant.js";
-import PlantList from "./PlantList.js";
+import AddPlant from "./AddPlant";
+import PlantList from "./PlantList";
 import { useState } from "react";
-import PlantPlot from "./PlantPlot.js";
+import PlantPlot from "./PlantPlot";
 
 export default function GardenPlanner() {
   const [plantName, setPlantName] = useState("");

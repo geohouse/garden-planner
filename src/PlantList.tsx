@@ -1,4 +1,4 @@
-import Plant from "./Plant.js";
+import Plant from "./Plant";
 
 export default function PlantList(props) {
   return (
