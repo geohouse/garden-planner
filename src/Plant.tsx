@@ -1,4 +1,21 @@
-export default function Plant(props) {
+interface BloomTimeObj {
+  [key: number]: string;
+}
+
+interface PlantsType {
+  id: number;
+  plantName: string;
+  bloomTime: BloomTimeObj;
+  bloomColor: string;
+  bloomColorName: string;
+  wildlifeAttracted: { [key: number]: boolean };
+}
+
+interface PlantProps {
+  plantInfo: PlantsType;
+}
+
+export default function Plant(props: PlantProps) {
   // Get the wildlife attracted list (wildlife keys where the value is true)
   // for use in rendering below. Easier to process this here, then pass it to the renderer.
   let wildlifeAttractedArray = [];
@@ -8,6 +25,8 @@ export default function Plant(props) {
     }
   }
   const wildlifeAttractedString = wildlifeAttractedArray.join(", ");
+
+  const monthNameArray: string[] = Object.values(props.plantInfo.bloomTime);
 
   return (
     <>
@@ -38,7 +57,7 @@ export default function Plant(props) {
           </div>
           <p>Bloom time</p>
           <ul className="bloom-months">
-            {props.plantInfo.bloomTime.monthNameArray.map((month, index) => {
+            {monthNameArray.map((month, index) => {
               return <li key={index}>{month}</li>;
             })}
           </ul>

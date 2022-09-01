@@ -1,6 +1,24 @@
 import Plant from "./Plant";
 
-export default function PlantList(props) {
+interface BloomTimeObj {
+  [key: number]: string;
+}
+
+interface PlantsType {
+  id: number;
+  plantName: string;
+  bloomTime: BloomTimeObj;
+  bloomColor: string;
+  bloomColorName: string;
+  wildlifeAttracted: { [key: number]: boolean };
+}
+
+interface PlantListProps {
+  inputPlants: PlantsType[];
+  onDeletePlantClick: (plantID: number) => void;
+}
+
+export default function PlantList(props: PlantListProps) {
   return (
     <>
       <ul className="plantList">
