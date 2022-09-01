@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
-export default function BloomDateSelect(props) {
+
+// This accomodates the keys being 1-12 (or any number) without any hardcoding.
+// Could make more specific to only allow 1-12 and that would also be OK.
+interface BloomTimeObj {
+  [key: number]: string;
+}
+
+interface BloomDateSelectProps {
+  onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
+}
+
+export default function BloomDateSelect(props: BloomDateSelectProps) {
   const [selectedMonths, setSelectedMonths] = useState({});
   const [disableAllSelection, setDisableAllSelection] = useState(false);
   // Disable by default because when page loaded, no buttons are selected.
@@ -15,15 +26,31 @@ export default function BloomDateSelect(props) {
     const noMonthsButton = document.querySelector("#select-no-months");
 
     if (disableAllSelection) {
-      allMonthsButton.setAttribute("disabled", "");
+      if (allMonthsButton) {
+        allMonthsButton.setAttribute("disabled", "");
+      } else {
+        console.error("Cannot locate the button with id select-all-months");
+      }
     } else {
-      allMonthsButton.removeAttribute("disabled");
+      if (allMonthsButton) {
+        allMonthsButton.removeAttribute("disabled");
+      } else {
+        console.error("Cannot locate the button with id select-all-months");
+      }
     }
 
     if (disableNoneSelection) {
-      noMonthsButton.setAttribute("disabled", "");
+      if (noMonthsButton) {
+        noMonthsButton.setAttribute("disabled", "");
+      } else {
+        console.error("Cannot locate the button with id select-no-months");
+      }
     } else {
-      noMonthsButton.removeAttribute("disabled");
+      if (noMonthsButton) {
+        noMonthsButton.removeAttribute("disabled");
+      } else {
+        console.error("Cannot locate the button with id select-no-months");
+      }
     }
   }, [disableAllSelection, disableNoneSelection]);
 
@@ -43,7 +70,7 @@ export default function BloomDateSelect(props) {
     12: "Dec",
   };
 
-  function handleAllMonthSelect(event) {
+  function handleAllMonthSelect(event: React.ChangeEvent<HTMLButtonElement>) {
     console.log("all month click");
     const monthButtonList = document.querySelectorAll(".bloom-month");
     monthButtonList.forEach((monthButton) => {
@@ -57,7 +84,7 @@ export default function BloomDateSelect(props) {
     setDisableNoneSelection(false);
   }
 
-  function handleNoMonthSelect(event) {
+  function handleNoMonthSelect(event: React.ChangeEvent<HTMLButtonElement>) {
     console.log("no month click");
     const monthButtonList = document.querySelectorAll(".bloom-month");
     monthButtonList.forEach((monthButton) => {
@@ -72,7 +99,12 @@ export default function BloomDateSelect(props) {
   }
 
   function updateCurrentlySelectedMonthsObj() {
-    const monthButtonList = document.querySelectorAll(".bloom-month");
+    // Need to cast this as a NodeList of HTML Elements instead of the default
+    // NodeList of Elements in order for the monthName to be able to be extracted from each
+    // button using the .innerText property.
+    const monthButtonList = document.querySelectorAll(
+      ".bloom-month"
+    ) as NodeListOf<HTMLElement>;
     monthButtonList.forEach((monthButton) => {
       //This is a DOMTokenList, and uses the .contains() method
       // (doesn't have an .includes() method)

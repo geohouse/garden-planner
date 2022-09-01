@@ -9,8 +9,10 @@ interface BloomTime {
   monthNameArray: string[];
 }
 
+// This accomodates the keys being 1-12 (or any number) without any hardcoding.
+// Could make more specific to only allow 1-12 and that would also be OK.
 interface BloomTimeObj {
-  number: string;
+  [key: number]: string;
 }
 
 interface WildlifeAttracted {
