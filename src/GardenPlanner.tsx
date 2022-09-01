@@ -51,11 +51,13 @@ export default function GardenPlanner() {
       monthNameArray: Object.values(selectedMonthObj),
     });
     console.log("bloom time object is:");
+    console.log(bloomTime);
+    console.log(selectedMonthObj);
   }
 
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
 
-  function handleBloomColorChange(hexColor, colorName) {
+  function handleBloomColorChange(hexColor: string, colorName: string) {
     setBloomColor(hexColor);
     setBloomColorName(colorName);
     console.log("Bloom color is:");

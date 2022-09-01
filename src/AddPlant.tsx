@@ -1,6 +1,38 @@
 import ColorBlocks from "./ColorBlocks";
 import BloomDateSelect from "./BloomDateSelect";
-export default function AddPlant(props) {
+
+// Will need to re-factor these into their own file to be
+// able to import and use the interfaces in the
+// main GardenPlanner app and also here.
+interface BloomTime {
+  monthNameAsStringArray: string[];
+  monthNameArray: string[];
+}
+
+interface BloomTimeObj {
+  number: string;
+}
+
+interface WildlifeAttracted {
+  bees: boolean;
+  butterflies: boolean;
+  hummingbirds: boolean;
+}
+
+interface AddPlantsProps {
+  plantName: string;
+  onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  bloomTime: BloomTime;
+  onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
+  onBloomColorChange: (hexColor: string, colorName: string) => void;
+  wildlifeAttracted: WildlifeAttracted;
+  onWildlifeAttractedChange: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  onPlantSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export default function AddPlant(props: AddPlantsProps) {
   return (
     <>
       <form id="new-plant-form" onSubmit={props.onPlantSubmit}>
@@ -10,7 +42,7 @@ export default function AddPlant(props) {
             type="text"
             id="plant-name"
             placeholder="What is the name of the plant?"
-            size="60"
+            size={60}
             value={props.plantName}
             onChange={props.onNameChange}
           >
