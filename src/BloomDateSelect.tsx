@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-// This accomodates the keys being 1-12 (or any number) without any hardcoding.
+// This accommodates the keys being 1-12 (or any number) without any hardcoding.
 // Could make more specific to only allow 1-12 and that would also be OK.
 interface BloomTimeObj {
   [key: number]: string;
@@ -70,7 +70,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
     12: "Dec",
   };
 
-  function handleAllMonthSelect(event: React.ChangeEvent<HTMLButtonElement>) {
+  function handleAllMonthSelect() {
     console.log("all month click");
     const monthButtonList = document.querySelectorAll(".bloom-month");
     monthButtonList.forEach((monthButton) => {
@@ -84,7 +84,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
     setDisableNoneSelection(false);
   }
 
-  function handleNoMonthSelect(event: React.ChangeEvent<HTMLButtonElement>) {
+  function handleNoMonthSelect() {
     console.log("no month click");
     const monthButtonList = document.querySelectorAll(".bloom-month");
     monthButtonList.forEach((monthButton) => {
@@ -168,15 +168,15 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
     });
   }
 
-  function handleMonthToggle(event: React.MouseEvent) {
+  function handleMonthToggle(event: React.MouseEvent<Element, MouseEvent>) {
     console.log("month toggle");
     console.log(event.currentTarget);
     event.currentTarget.classList.toggle("selected-month");
     updateCurrentlySelectedMonthsObj();
   }
 
-  function handleMonthMouseOver(event: React.MouseEvent) {
-    console.log(event.currentTarget.innerText);
+  function handleMonthMouseOver(event: React.MouseEvent<Element, MouseEvent>) {
+    //console.log(event.currentTarget.innerText);
     // Use event.buttons to get the mouse button(s) if any,
     // that were pressed at the time of the mouseover event.
     // I want to listen to the left button being clicked through
