@@ -11,6 +11,8 @@ import {
 
 import { Line } from "react-chartjs-2";
 
+import { PlantsType } from "./GardenPlannerInterfaces";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,7 +23,24 @@ ChartJS.register(
   Legend
 );
 
-export default function PlantPlot(props) {
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
+
+// interface PlantsType {
+//   id: number;
+//   plantName: string;
+//   bloomTime: BloomTimeObj;
+//   bloomColor: string;
+//   bloomColorName: string;
+//   wildlifeAttracted: { [key: number]: boolean };
+// }
+
+interface PlantPlotProps {
+  inputPlants: PlantsType[];
+}
+
+export default function PlantPlot(props: PlantPlotProps) {
   const inputPlants = props.inputPlants;
   //console.log("plant plot");
   //console.log(inputPlants);
@@ -43,7 +62,7 @@ export default function PlantPlot(props) {
   ];
 
   function createDatasets() {
-    const numPlants = inputPlants.length;
+    //const numPlants = inputPlants.length;
     // Initialize a holder array with undefined values (any surviving
     // undefined entries just appear as holes in the graph)
     const templateBloomArray = Array.from({ length: 12 });
@@ -53,9 +72,10 @@ export default function PlantPlot(props) {
       // Only prep the graph data if there was at least 1 bloom time noted.
       // Otherwise the array to plot will all be undefined values, and nothing will
       // show on the graph.
-      if (plant.bloomTime.monthNumAsStringArray.length > 0) {
+      const monthNumAsStringArray: string[] = Object.keys(plant.bloomTime);
+      if (monthNumAsStringArray.length > 0) {
         //console.log("Firing if");
-        plant.bloomTime.monthNumAsStringArray.forEach((bloomTimeEntryStr) => {
+        monthNumAsStringArray.forEach((bloomTimeEntryStr) => {
           const bloomTimeEntryNum = Number.parseInt(bloomTimeEntryStr, 10);
           // Fill in the graph entry to span the bloom month start and the bloom month end
           // Graph indices are 0-based

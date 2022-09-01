@@ -1,6 +1,6 @@
 //import logo from './logo.svg';
 import "./App.css";
-import GardenPlanner from "./GardenPlanner.js";
+import GardenPlanner from "./GardenPlanner";
 
 export default function App() {
   return <GardenPlanner />;

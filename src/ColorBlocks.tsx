@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-export default function ColorBlocks(props) {
+
+interface ColorBlocksProps {
+  onBloomColorChange: (hexColor: string, colorName: string) => void;
+}
+
+export default function ColorBlocks(props: ColorBlocksProps) {
   const [currColor, setCurrentColor] = useState("");
 
   // Update the selected border every time the color selection is changed
@@ -34,7 +39,7 @@ export default function ColorBlocks(props) {
     None: "#ffffff",
   };
 
-  function handleColorChange(event) {
+  function handleColorChange(event: React.MouseEvent<HTMLButtonElement>) {
     //console.log("clicked");
     //console.log(event.currentTarget.innerHTML);
     //console.log(event.currentTarget.style.backgroundColor);

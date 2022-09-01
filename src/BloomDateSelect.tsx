@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
-export default function BloomDateSelect(props) {
+import { BloomTimeObj } from "./GardenPlannerInterfaces";
+// This accommodates the keys being 1-12 (or any number) without any hardcoding.
+// Could make more specific to only allow 1-12 and that would also be OK.
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
+
+interface BloomDateSelectProps {
+  onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
+}
+
+export default function BloomDateSelect(props: BloomDateSelectProps) {
   const [selectedMonths, setSelectedMonths] = useState({});
   const [disableAllSelection, setDisableAllSelection] = useState(false);
   // Disable by default because when page loaded, no buttons are selected.
@@ -15,20 +26,36 @@ export default function BloomDateSelect(props) {
     const noMonthsButton = document.querySelector("#select-no-months");
 
     if (disableAllSelection) {
-      allMonthsButton.setAttribute("disabled", "");
+      if (allMonthsButton) {
+        allMonthsButton.setAttribute("disabled", "");
+      } else {
+        console.error("Cannot locate the button with id select-all-months");
+      }
     } else {
-      allMonthsButton.removeAttribute("disabled");
+      if (allMonthsButton) {
+        allMonthsButton.removeAttribute("disabled");
+      } else {
+        console.error("Cannot locate the button with id select-all-months");
+      }
     }
 
     if (disableNoneSelection) {
-      noMonthsButton.setAttribute("disabled", "");
+      if (noMonthsButton) {
+        noMonthsButton.setAttribute("disabled", "");
+      } else {
+        console.error("Cannot locate the button with id select-no-months");
+      }
     } else {
-      noMonthsButton.removeAttribute("disabled");
+      if (noMonthsButton) {
+        noMonthsButton.removeAttribute("disabled");
+      } else {
+        console.error("Cannot locate the button with id select-no-months");
+      }
     }
   }, [disableAllSelection, disableNoneSelection]);
 
   const { onBloomTimeChange } = props;
-  const months = {
+  const months: { [key: number]: string } = {
     1: "Jan",
     2: "Feb",
     3: "Mar",
@@ -43,7 +70,7 @@ export default function BloomDateSelect(props) {
     12: "Dec",
   };
 
-  function handleAllMonthSelect(event) {
+  function handleAllMonthSelect() {
     console.log("all month click");
     const monthButtonList = document.querySelectorAll(".bloom-month");
     monthButtonList.forEach((monthButton) => {
@@ -57,7 +84,7 @@ export default function BloomDateSelect(props) {
     setDisableNoneSelection(false);
   }
 
-  function handleNoMonthSelect(event) {
+  function handleNoMonthSelect() {
     console.log("no month click");
     const monthButtonList = document.querySelectorAll(".bloom-month");
     monthButtonList.forEach((monthButton) => {
@@ -72,7 +99,12 @@ export default function BloomDateSelect(props) {
   }
 
   function updateCurrentlySelectedMonthsObj() {
-    const monthButtonList = document.querySelectorAll(".bloom-month");
+    // Need to cast this as a NodeList of HTML Elements instead of the default
+    // NodeList of Elements in order for the monthName to be able to be extracted from each
+    // button using the .innerText property.
+    const monthButtonList = document.querySelectorAll(
+      ".bloom-month"
+    ) as NodeListOf<HTMLButtonElement>;
     monthButtonList.forEach((monthButton) => {
       //This is a DOMTokenList, and uses the .contains() method
       // (doesn't have an .includes() method)
@@ -81,16 +113,22 @@ export default function BloomDateSelect(props) {
       // Look up the monthNum (key) by looping through the monthNames (value)
       for (const keyValueArray of Object.entries(months)) {
         if (keyValueArray[1] === monthName) {
-          monthNum = keyValueArray[0];
+          // When using Object.entries, the key (pos [0] of each array of the arrays)
+          // is a string, even if the actual key value in the object is a number,
+          // so need to convert to numeric here.
+          monthNum = parseInt(keyValueArray[0], 10);
         }
       }
       // ADD any newly selected months if this button is selected
       // and is not already in the list
       if (
         monthButton.classList.contains("selected-month") &&
-        !Object.keys(selectedMonths).includes(monthNum)
+        !Object.keys(selectedMonths).includes(monthNum.toString())
       ) {
-        const newSelectedMonths = { ...selectedMonths };
+        //Need to re-establish the key/value types
+        const newSelectedMonths: { [key: number]: string } = {
+          ...selectedMonths,
+        };
         newSelectedMonths[monthNum] = monthName;
         setSelectedMonths(newSelectedMonths);
         onBloomTimeChange(newSelectedMonths);
@@ -110,12 +148,14 @@ export default function BloomDateSelect(props) {
       }
       // REMOVE any months from the list that aren't selected any longer.
       if (
-        Object.keys(selectedMonths).includes(monthNum) &&
+        Object.keys(selectedMonths).includes(monthNum.toString()) &&
         !monthButton.classList.contains("selected-month")
       ) {
         // deconstruct the selectedMonths obj using the dynamic value of monthNum
         // to extract the part to remove (need to do : assignment for dynamic destructuring to work)
-        const { [monthNum]: toRemove, ...rest } = selectedMonths;
+        // Need to re-establish the key:value types
+        const { [monthNum]: toRemove, ...rest }: { [key: number]: string } =
+          selectedMonths;
         setSelectedMonths({ ...rest });
         onBloomTimeChange({ ...rest });
 
@@ -128,15 +168,15 @@ export default function BloomDateSelect(props) {
     });
   }
 
-  function handleMonthToggle(event) {
+  function handleMonthToggle(event: React.MouseEvent<Element, MouseEvent>) {
     console.log("month toggle");
     console.log(event.currentTarget);
     event.currentTarget.classList.toggle("selected-month");
     updateCurrentlySelectedMonthsObj();
   }
 
-  function handleMonthMouseOver(event) {
-    console.log(event.currentTarget.innerText);
+  function handleMonthMouseOver(event: React.MouseEvent<Element, MouseEvent>) {
+    //console.log(event.currentTarget.innerText);
     // Use event.buttons to get the mouse button(s) if any,
     // that were pressed at the time of the mouseover event.
     // I want to listen to the left button being clicked through

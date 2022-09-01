@@ -1,6 +1,48 @@
 import ColorBlocks from "./ColorBlocks";
 import BloomDateSelect from "./BloomDateSelect";
-export default function AddPlant(props) {
+import { BloomTime, BloomTimeObj } from "./GardenPlannerInterfaces";
+// Will need to re-factor these into their own file to be
+// able to import and use the interfaces in the
+// main GardenPlanner app and also here.
+// interface BloomTime {
+//   monthNumAsStringArray: string[];
+//   monthNameArray: string[];
+// }
+
+// // interfaces are only used for object types. `type` can be used to alias the type
+// // for other features e.g. functions.
+// //type BloomColorChange = (hexColor: string, colorName: string) => void;
+
+// // This accomodates the keys being 1-12 (or any number) without any hardcoding.
+// // Could make more specific to only allow 1-12 and that would also be OK.
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
+
+// need to take any string as a key
+// instead of the default Union of 'bees'|'butterflies'|'hummingbirds'
+// because later in the code there is a wildlife type string used as a key index into the object
+// and this fails unless the key type is the generic string.
+// interface WildlifeAttracted {
+//   bees: boolean;
+//   butterflies: boolean;
+//   hummingbirds: boolean;
+// }
+
+interface AddPlantsProps {
+  plantName: string;
+  onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  bloomTime: BloomTime;
+  onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
+  onBloomColorChange: (hexColor: string, colorName: string) => void;
+  wildlifeAttracted: { [key: string]: boolean };
+  onWildlifeAttractedChange: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  onPlantSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export default function AddPlant(props: AddPlantsProps) {
   return (
     <>
       <form id="new-plant-form" onSubmit={props.onPlantSubmit}>
@@ -10,7 +52,7 @@ export default function AddPlant(props) {
             type="text"
             id="plant-name"
             placeholder="What is the name of the plant?"
-            size="60"
+            size={60}
             value={props.plantName}
             onChange={props.onNameChange}
           >
