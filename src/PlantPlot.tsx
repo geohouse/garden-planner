@@ -11,6 +11,8 @@ import {
 
 import { Line } from "react-chartjs-2";
 
+import { PlantsType } from "./GardenPlannerInterfaces";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,18 +23,18 @@ ChartJS.register(
   Legend
 );
 
-interface BloomTimeObj {
-  [key: number]: string;
-}
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
 
-interface PlantsType {
-  id: number;
-  plantName: string;
-  bloomTime: BloomTimeObj;
-  bloomColor: string;
-  bloomColorName: string;
-  wildlifeAttracted: { [key: number]: boolean };
-}
+// interface PlantsType {
+//   id: number;
+//   plantName: string;
+//   bloomTime: BloomTimeObj;
+//   bloomColor: string;
+//   bloomColorName: string;
+//   wildlifeAttracted: { [key: number]: boolean };
+// }
 
 interface PlantPlotProps {
   inputPlants: PlantsType[];

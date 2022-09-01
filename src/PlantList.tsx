@@ -1,17 +1,18 @@
 import Plant from "./Plant";
+import { PlantsType } from "./GardenPlannerInterfaces";
 
-interface BloomTimeObj {
-  [key: number]: string;
-}
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
 
-interface PlantsType {
-  id: number;
-  plantName: string;
-  bloomTime: BloomTimeObj;
-  bloomColor: string;
-  bloomColorName: string;
-  wildlifeAttracted: { [key: number]: boolean };
-}
+// interface PlantsType {
+//   id: number;
+//   plantName: string;
+//   bloomTime: BloomTimeObj;
+//   bloomColor: string;
+//   bloomColorName: string;
+//   wildlifeAttracted: { [key: number]: boolean };
+// }
 
 interface PlantListProps {
   inputPlants: PlantsType[];

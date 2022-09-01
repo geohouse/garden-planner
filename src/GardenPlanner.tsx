@@ -2,19 +2,20 @@ import AddPlant from "./AddPlant";
 import PlantList from "./PlantList";
 import { useState } from "react";
 import PlantPlot from "./PlantPlot";
+import { PlantsType } from "./GardenPlannerInterfaces";
 
-interface BloomTimeObj {
-  [key: number]: string;
-}
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
 
-interface PlantsType {
-  id: number;
-  plantName: string;
-  bloomTime: BloomTimeObj;
-  bloomColor: string;
-  bloomColorName: string;
-  wildlifeAttracted: { [key: number]: boolean };
-}
+// interface PlantsType {
+//   id: number;
+//   plantName: string;
+//   bloomTime: BloomTimeObj;
+//   bloomColor: string;
+//   bloomColorName: string;
+//   wildlifeAttracted: { [key: number]: boolean };
+// }
 
 export default function GardenPlanner() {
   const [plantName, setPlantName] = useState("");

@@ -1,23 +1,23 @@
 import ColorBlocks from "./ColorBlocks";
 import BloomDateSelect from "./BloomDateSelect";
-
+import { BloomTime, BloomTimeObj } from "./GardenPlannerInterfaces";
 // Will need to re-factor these into their own file to be
 // able to import and use the interfaces in the
 // main GardenPlanner app and also here.
-interface BloomTime {
-  monthNumAsStringArray: string[];
-  monthNameArray: string[];
-}
+// interface BloomTime {
+//   monthNumAsStringArray: string[];
+//   monthNameArray: string[];
+// }
 
-// interfaces are only used for object types. `type` can be used to alias the type
-// for other features e.g. functions.
-//type BloomColorChange = (hexColor: string, colorName: string) => void;
+// // interfaces are only used for object types. `type` can be used to alias the type
+// // for other features e.g. functions.
+// //type BloomColorChange = (hexColor: string, colorName: string) => void;
 
-// This accomodates the keys being 1-12 (or any number) without any hardcoding.
-// Could make more specific to only allow 1-12 and that would also be OK.
-interface BloomTimeObj {
-  [key: number]: string;
-}
+// // This accomodates the keys being 1-12 (or any number) without any hardcoding.
+// // Could make more specific to only allow 1-12 and that would also be OK.
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
 
 // need to take any string as a key
 // instead of the default Union of 'bees'|'butterflies'|'hummingbirds'

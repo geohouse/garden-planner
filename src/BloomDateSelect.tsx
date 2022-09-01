@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-
+import { BloomTimeObj } from "./GardenPlannerInterfaces";
 // This accommodates the keys being 1-12 (or any number) without any hardcoding.
 // Could make more specific to only allow 1-12 and that would also be OK.
-interface BloomTimeObj {
-  [key: number]: string;
-}
+// interface BloomTimeObj {
+//   [key: number]: string;
+// }
 
 interface BloomDateSelectProps {
   onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
