@@ -149,10 +149,10 @@ export default function GardenPlanner() {
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     // Returns the id of the input element(checkbox) that changed.
-    // Will be e.g. 'attracts-bees', 'attracts-butterflies', or 'attracts-hummingbirds'
+    // Will be e.g. 'bloom-attracts-bees', 'bloom-attracts-butterflies', or 'bloom-attracts-hummingbirds'
     const wildlifeChangedBloom = event.target.id;
     // Returns 'bees', 'butterflies', or 'hummingbirds' that match the keys in the wildlifeAttracted object
-    const wildlifeChangedStemBloom = wildlifeChangedBloom.split("-")[1];
+    const wildlifeChangedStemBloom = wildlifeChangedBloom.split("-")[2];
 
     // Need to use [] in the key assignment after the spread operator
     // to have the evaluated wildlifeChangedStem value used (and overwriting the previous value with the toggled boolean)
@@ -167,21 +167,25 @@ export default function GardenPlanner() {
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     const wildlifeChangedFruit = event.target.id;
-    const wildlifeChangedStemFruit = wildlifeChangedFruit.split("-")[1];
+    const wildlifeChangedStemFruit = wildlifeChangedFruit.split("-")[2];
     setWildlifeAttractedFruit({
       ...wildlifeAttractedFruit,
-      [wildlifeChangedStemFruit]: !wildlifeAttractedFruit[wildlifeChangedFruit],
+      [wildlifeChangedStemFruit]:
+        !wildlifeAttractedFruit[wildlifeChangedStemFruit],
     });
   }
 
   function handleWildlifeAttractedChangeOther(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
+    console.log(event);
     const wildlifeChangedOther = event.target.id;
-    const wildlifeChangedStemOther = wildlifeChangedOther.split("-")[1];
+    const wildlifeChangedStemOther = wildlifeChangedOther.split("-")[2];
+    console.log(wildlifeChangedStemOther);
     setWildlifeAttractedOther({
-      ...wildlifeAttractedFruit,
-      [wildlifeChangedStemOther]: !wildlifeAttractedFruit[wildlifeChangedOther],
+      ...wildlifeAttractedOther,
+      [wildlifeChangedStemOther]:
+        !wildlifeAttractedOther[wildlifeChangedStemOther],
     });
   }
 

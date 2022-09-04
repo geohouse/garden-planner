@@ -12,9 +12,123 @@ code {
     monospace;
 }
 
+#date-selectors {
+  display: flex;
+  flex-direction: row;
+}
+
 #new-plant-form {
   background-color: #eeeeee;
   border-radius: 5px;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#bloom-date-holder {
+  display: grid;
+  width: 80%;
+  height: 45vh;
+  margin: 0 5vw 0 5vw;
+  /* grid-template-areas:
+    "title" "title" "title"
+    "select-all" "select-all" "select-all"
+    "jan" "feb" "mar"
+    "apr" "may" "jun"
+    "jul" "aug" "sep"
+    "oct" "nov" "dec"
+    "select-none" "select-none" "select-none"
+    "wildlife" "wildlife" "wildlife"; */
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#bloom-date-holder > #bloom-date-holder-label {
+  grid-column: 1/4;
+}
+
+#bloom-date-holder > #bloom-select-all-months {
+  grid-column: 1/4;
+}
+
+#bloom-date-holder > #bloom-select-no-months {
+  grid-column: 1/4;
+}
+
+#bloom-date-holder > #bloom-attracted-wildlife-div {
+  grid-column: 1/4;
+}
+
+#fruit-date-holder {
+  display: grid;
+  width: 80%;
+  height: 45vh;
+  margin: 0 5vw 0 5vw;
+  /* grid-template-areas:
+    "title" "title" "title"
+    "select-all" "select-all" "select-all"
+    "jan" "feb" "mar"
+    "apr" "may" "jun"
+    "jul" "aug" "sep"
+    "oct" "nov" "dec"
+    "select-none" "select-none" "select-none"
+    "wildlife" "wildlife" "wildlife"; */
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#fruit-date-holder > #fruit-date-holder-label {
+  grid-column: 1/4;
+}
+
+#fruit-date-holder > #fruit-select-all-months {
+  grid-column: 1/4;
+}
+
+#fruit-date-holder > #fruit-select-no-months {
+  grid-column: 1/4;
+}
+
+#fruit-date-holder > #fruit-attracted-wildlife-div {
+  grid-column: 1/4;
+}
+
+#other-date-holder {
+  display: grid;
+  width: 80%;
+  height: 45vh;
+  margin: 0 5vw 0 5vw;
+  /* grid-template-areas:
+    "title" "title" "title"
+    "select-all" "select-all" "select-all"
+    "jan" "feb" "mar"
+    "apr" "may" "jun"
+    "jul" "aug" "sep"
+    "oct" "nov" "dec"
+    "select-none" "select-none" "select-none"
+    "wildlife" "wildlife" "wildlife"; */
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#other-date-holder > #other-date-holder-label {
+  grid-column: 1/4;
+}
+
+#other-date-holder > #other-select-all-months {
+  grid-column: 1/4;
+}
+
+#other-date-holder > #other-select-no-months {
+  grid-column: 1/4;
+}
+
+#other-date-holder > #other-attracted-wildlife-div {
+  grid-column: 1/4;
+}
+
+#add-plant {
+  flex: 1 5vw;
 }
 
 .plantList {
@@ -66,23 +180,11 @@ svg {
   height: 35px;
 }
 
-#bloom-date-holder {
+/* #bloom-date-holder {
   display: flex;
   flex-direction: row;
   height: 10vh;
-}
-
-#fruit-date-holder {
-  display: flex;
-  flex-direction: row;
-  height: 10vh;
-}
-
-#other-date-holder {
-  display: flex;
-  flex-direction: row;
-  height: 10vh;
-}
+} */
 
 .bloom-month {
   flex: 1 5vw;

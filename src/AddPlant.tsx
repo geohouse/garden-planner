@@ -79,20 +79,21 @@ export default function AddPlant(props: AddPlantsProps) {
             onChange={props.onBloomColorChange}
           ></input> */}
         </div>
+
+        <p>
+          Date selectors (all support clicking and dragging to quickly 'paint'
+          over multiple months)
+        </p>
         <div id="date-selectors">
-          <p>
-            Date selectors (all support clicking and dragging to quickly 'paint'
-            over multiple months)
-          </p>
-          <label htmlFor="bloom-date-holder">Bloom duration</label>
           <div id="bloom-date-holder">
+            <p id="bloom-date-holder-label">Bloom duration</p>
             <DateSelect
               onDateSelectChange={props.onBloomTimeChange}
               eventTypeForDate="bloom"
             />
             {/* Will need to make a better month selector myself because
-        Firefox and Safari both don't support ticks and tick numbers for sliders
-        and I want something users can paint over for selection instead of the fiddly month selector*/}
+         Firefox and Safari both don't support ticks and tick numbers for sliders
+         and I want something users can paint over for selection instead of the fiddly month selector*/}
             {/* <label htmlFor="bloom-time">Bloom time</label>
           <input
             id="bloom-time"
@@ -103,7 +104,7 @@ export default function AddPlant(props: AddPlantsProps) {
             value={props.bloomTime.monthNumAsString}
             onChange={props.onBloomTimeChange}
           ></input> */}
-            <div>
+            <div id="bloom-attracted-wildlife-div">
               <p id="bloom-attracted-wildlife">Attracts</p>
               <label htmlFor="bloom-attracts-bees">Bees?</label>
               <input
@@ -142,13 +143,14 @@ export default function AddPlant(props: AddPlantsProps) {
               ></input>
             </div>
           </div>
-          <label htmlFor="fruit-date-holder">Fruit or seed duration</label>
+
           <div id="fruit-date-holder">
+            <p id="fruit-date-holder-label">Fruit or seed duration</p>
             <DateSelect
               onDateSelectChange={props.onFruitTimeChange}
               eventTypeForDate="fruit"
             />
-            <div>
+            <div id="fruit-attracted-wildlife-div">
               <p id="fruit-attracted-wildlife">Attracts</p>
               <label htmlFor="fruit-attracts-songbirds">Songbirds?</label>
               <input
@@ -173,15 +175,16 @@ export default function AddPlant(props: AddPlantsProps) {
               ></input>
             </div>
           </div>
-          <label htmlFor="other-date-holder">
-            Other attractions for wildlife (e.g. leaves or bark)
-          </label>
+
           <div id="other-date-holder">
+            <p id="other-date-holder-label">
+              Other attractions for wildlife (e.g. leaves or bark)
+            </p>
             <DateSelect
               onDateSelectChange={props.onFruitTimeChange}
               eventTypeForDate="other"
             />
-            <div>
+            <div id="other-attracted-wildlife-div">
               <p id="other-attracted-wildlife">Attracts</p>
               <label htmlFor="other-attracts-bees">Bees?</label>
               <input
@@ -228,9 +231,14 @@ export default function AddPlant(props: AddPlantsProps) {
             </div>
           </div>
         </div>
-        <label htmlFor="add-plant-to-plan">Add plant to the garden plan?</label>
-        <input id="add-plant-to-plan" type="submit" value="Add plant"></input>
+        <div id="add-plant">
+          <label htmlFor="add-plant-to-plan">
+            Add plant to the garden plan?
+          </label>
+          <input id="add-plant-to-plan" type="submit" value="Add plant"></input>
+        </div>
       </form>
+
       <h1>Garden planner in progress</h1>
     </>
   );
