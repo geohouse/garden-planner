@@ -13,11 +13,16 @@ export interface DateSelectionObj {
   [key: number]: string;
 }
 
+export interface BloomFruitTimeObj {
+  monthNumAsStringArray: string[];
+  monthNameArray: string[];
+}
+
 export interface PlantsType {
   id: number;
   plantName: string;
-  bloomTime: DateSelectionObj;
-  fruitTime: DateSelectionObj;
+  bloomTime: BloomFruitTimeObj;
+  fruitTime: BloomFruitTimeObj;
   bloomColor: string;
   bloomColorName: string;
   wildlifeAttracted: { [key: number]: boolean };

@@ -5,7 +5,7 @@ import GardenPlanner from "./GardenPlanner";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ColorBlocks from "./ColorBlocks";
-import BloomDateSelect from "./BloomDateSelect";
+import DateSelect from "./DateSelect";
 
 //import ResizeObserver from "./__mocks__/ResizeObserver";
 // import { act } from "react-dom/test-utils";
@@ -51,7 +51,7 @@ it("Makes sure bloom color buttons are visible and provides the name of the colo
 });
 
 it("Renders the expected number of bloom date buttons (12 months + allSelect + noneSelect)", () => {
-  render(<BloomDateSelect />);
+  render(<DateSelect />);
   expect(
     screen.getByRole("button", { name: /Select all months/i })
   ).toBeVisible();
@@ -83,7 +83,7 @@ it("[Select no months] bloom button is disabled on load and no months selected",
     console.log("In Jest Mock onBloomTimeChange. Called with month obj:");
     console.log(input);
   });
-  render(<BloomDateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
+  render(<DateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
   expect(
     screen.getByRole("button", { name: /Select no months/i })
   ).toBeDisabled();
@@ -133,7 +133,7 @@ it("[Select all months] bloom button selects all months then disables itself and
     console.log("In Jest Mock onBloomTimeChange. Called with month obj:");
     console.log(input);
   });
-  render(<BloomDateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
+  render(<DateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
   userEvent.click(screen.getByRole("button", { name: /Select all months/i }));
   expect(screen.getByRole("button", { name: /Jan/i })).toHaveClass(
     "selected-month"
@@ -187,7 +187,7 @@ it("[Select no months] bloom button becomes enabled after 1 month is selected", 
     console.log("In Jest Mock onBloomTimeChange. Called with month obj:");
     console.log(input);
   });
-  render(<BloomDateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
+  render(<DateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
   userEvent.click(screen.getByRole("button", { name: /Feb/i }));
 
   expect(
@@ -203,7 +203,7 @@ it("[Select no months] bloom button de-selects all months then disables itself",
     console.log("In Jest Mock onBloomTimeChange. Called with month obj:");
     console.log(input);
   });
-  render(<BloomDateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
+  render(<DateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
   userEvent.click(screen.getByRole("button", { name: /Jan/i }));
   userEvent.click(screen.getByRole("button", { name: /Select no months/i }));
   expect(screen.getByRole("button", { name: /Jan/i })).not.toHaveClass(
@@ -255,7 +255,7 @@ it("Selecting 1 month enables [Select no months] button, then de-selecting same 
     console.log("In Jest Mock onBloomTimeChange. Called with month obj:");
     console.log(input);
   });
-  render(<BloomDateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
+  render(<DateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
   expect(
     screen.getByRole("button", { name: /Select no months/i })
   ).toBeDisabled();
@@ -294,7 +294,7 @@ it("Press [Select all months] button, then de-select one month disables [Select 
     console.log("In Jest Mock onBloomTimeChange. Called with month obj:");
     console.log(input);
   });
-  render(<BloomDateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
+  render(<DateSelect onBloomTimeChange={onBloomTimeChange_jestMock} />);
   userEvent.click(screen.getByRole("button", { name: /Select all months/i }));
   expect(
     screen.getByRole("button", { name: /Select all months/i })

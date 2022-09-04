@@ -28,7 +28,15 @@ export default function Plant(props: PlantProps) {
   }
   const wildlifeAttractedString = wildlifeAttractedArray.join(", ");
 
-  const monthNameArray: string[] = Object.values(props.plantInfo.bloomTime);
+  const bloomMonthNameArray: string[] =
+    props.plantInfo.bloomTime.monthNameArray;
+
+  const fruitMonthNameArray: string[] =
+    props.plantInfo.fruitTime.monthNameArray;
+
+  console.log(bloomMonthNameArray[1]);
+  console.log(fruitMonthNameArray[1]);
+  console.log(props.plantInfo.bloomTime.monthNameArray);
 
   return (
     <>
@@ -57,9 +65,15 @@ export default function Plant(props: PlantProps) {
               />
             </svg>
           </div>
-          <p>Bloom time</p>
+          <p>Blooming months</p>
           <ul className="bloom-months">
-            {monthNameArray.map((month, index) => {
+            {bloomMonthNameArray.map((month, index) => {
+              return <li key={index}>{month}</li>;
+            })}
+          </ul>
+          <p>Fruiting months</p>
+          <ul className="fruit-months">
+            {fruitMonthNameArray.map((month, index) => {
               return <li key={index}>{month}</li>;
             })}
           </ul>

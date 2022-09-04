@@ -72,7 +72,8 @@ export default function PlantPlot(props: PlantPlotProps) {
       // Only prep the graph data if there was at least 1 bloom time noted.
       // Otherwise the array to plot will all be undefined values, and nothing will
       // show on the graph.
-      const monthNumAsStringArray: string[] = Object.keys(plant.bloomTime);
+      const monthNumAsStringArray: string[] =
+        plant.bloomTime.monthNumAsStringArray;
       if (monthNumAsStringArray.length > 0) {
         //console.log("Firing if");
         monthNumAsStringArray.forEach((bloomTimeEntryStr) => {
