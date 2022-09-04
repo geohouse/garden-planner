@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react";
-import { BloomTimeObj } from "./GardenPlannerInterfaces";
+import { DateSelectionObj } from "./GardenPlannerInterfaces";
 // This accommodates the keys being 1-12 (or any number) without any hardcoding.
 // Could make more specific to only allow 1-12 and that would also be OK.
-// interface BloomTimeObj {
+// interface DateSelectionObj {
 //   [key: number]: string;
 // }
 
-interface BloomDateSelectProps {
-  onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
+interface DateSelectProps {
+  onDateSelectChange: (selectedMonthObj: DateSelectionObj) => void;
+  eventTypeForDate: string;
 }
 
-export default function BloomDateSelect(props: BloomDateSelectProps) {
+export default function DateSelect(props: DateSelectProps) {
   const [selectedMonths, setSelectedMonths] = useState({});
   const [disableAllSelection, setDisableAllSelection] = useState(false);
   // Disable by default because when page loaded, no buttons are selected.
   const [disableNoneSelection, setDisableNoneSelection] = useState(true);
+  const { onDateSelectChange, eventTypeForDate } = props;
   useEffect(() => {
     console.log("The new selected months are:");
     console.log(selectedMonths);
@@ -22,20 +24,29 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
 
   useEffect(() => {
     console.log("in disable effect");
-    const allMonthsButton = document.querySelector("#select-all-months");
-    const noMonthsButton = document.querySelector("#select-no-months");
+    const allMonthsButton = document.querySelector(
+      `#${eventTypeForDate}-select-all-months`
+    );
+    const noMonthsButton = document.querySelector(
+      `#${eventTypeForDate}-select-no-months`
+    );
 
     if (disableAllSelection) {
       if (allMonthsButton) {
+        // Any string after the 'disabled' attribute will set it to 'true', even the empty string
         allMonthsButton.setAttribute("disabled", "");
       } else {
-        console.error("Cannot locate the button with id select-all-months");
+        console.error(
+          `Cannot locate the button with id: ${eventTypeForDate}-select-all-months`
+        );
       }
     } else {
       if (allMonthsButton) {
         allMonthsButton.removeAttribute("disabled");
       } else {
-        console.error("Cannot locate the button with id select-all-months");
+        console.error(
+          `Cannot locate the button with id: ${eventTypeForDate}-select-all-months`
+        );
       }
     }
 
@@ -43,18 +54,21 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
       if (noMonthsButton) {
         noMonthsButton.setAttribute("disabled", "");
       } else {
-        console.error("Cannot locate the button with id select-no-months");
+        console.error(
+          `Cannot locate the button with id: ${eventTypeForDate}-select-no-months`
+        );
       }
     } else {
       if (noMonthsButton) {
         noMonthsButton.removeAttribute("disabled");
       } else {
-        console.error("Cannot locate the button with id select-no-months");
+        console.error(
+          `Cannot locate the button with id: ${eventTypeForDate}-select-no-months`
+        );
       }
     }
-  }, [disableAllSelection, disableNoneSelection]);
+  }, [disableAllSelection, disableNoneSelection, eventTypeForDate]);
 
-  const { onBloomTimeChange } = props;
   const months: { [key: number]: string } = {
     1: "Jan",
     2: "Feb",
@@ -72,13 +86,15 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
 
   function handleAllMonthSelect() {
     console.log("all month click");
-    const monthButtonList = document.querySelectorAll(".bloom-month");
+    const monthButtonList = document.querySelectorAll(
+      `.${eventTypeForDate}-month`
+    );
     monthButtonList.forEach((monthButton) => {
       monthButton.classList.add("selected-month");
     });
     // Use the months object directly to set the state because
     // all months have been selected.
-    onBloomTimeChange(months);
+    onDateSelectChange(months);
     setSelectedMonths(months);
     setDisableAllSelection(true);
     setDisableNoneSelection(false);
@@ -86,13 +102,15 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
 
   function handleNoMonthSelect() {
     console.log("no month click");
-    const monthButtonList = document.querySelectorAll(".bloom-month");
+    const monthButtonList = document.querySelectorAll(
+      `.${eventTypeForDate}-month`
+    );
     monthButtonList.forEach((monthButton) => {
       monthButton.classList.remove("selected-month");
     });
     // Use empty object to set the state because none of the months
     // are selected
-    onBloomTimeChange({});
+    onDateSelectChange({});
     setSelectedMonths({});
     setDisableNoneSelection(true);
     setDisableAllSelection(false);
@@ -103,7 +121,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
     // NodeList of Elements in order for the monthName to be able to be extracted from each
     // button using the .innerText property.
     const monthButtonList = document.querySelectorAll(
-      ".bloom-month"
+      `.${eventTypeForDate}-month`
     ) as NodeListOf<HTMLButtonElement>;
     monthButtonList.forEach((monthButton) => {
       //This is a DOMTokenList, and uses the .contains() method
@@ -131,7 +149,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
         };
         newSelectedMonths[monthNum] = monthName;
         setSelectedMonths(newSelectedMonths);
-        onBloomTimeChange(newSelectedMonths);
+        onDateSelectChange(newSelectedMonths);
         // Activate the all/none selectors depending on
         // how many months are selected
         if (Object.keys(newSelectedMonths).length >= 1) {
@@ -157,7 +175,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
         const { [monthNum]: toRemove, ...rest }: { [key: number]: string } =
           selectedMonths;
         setSelectedMonths({ ...rest });
-        onBloomTimeChange({ ...rest });
+        onDateSelectChange({ ...rest });
 
         if (Object.keys(rest).length >= 1) {
           setDisableAllSelection(false);
@@ -195,7 +213,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
     <>
       <button
         key={13}
-        id="select-all-months"
+        id={`${eventTypeForDate}-select-all-months`}
         type="button"
         onClick={handleAllMonthSelect}
       >
@@ -208,7 +226,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
           <button
             type="button"
             key={monthNum}
-            className="bloom-month"
+            className={`${eventTypeForDate}-month`}
             onMouseOver={handleMonthMouseOver}
             onMouseDown={handleMonthToggle}
           >
@@ -218,7 +236,7 @@ export default function BloomDateSelect(props: BloomDateSelectProps) {
       })}
       <button
         key={14}
-        id="select-no-months"
+        id={`${eventTypeForDate}-select-no-months`}
         type="button"
         onClick={handleNoMonthSelect}
       >

@@ -7,16 +7,17 @@ export interface BloomTime {
 // for other features e.g. functions.
 //type BloomColorChange = (hexColor: string, colorName: string) => void;
 
-// This accomodates the keys being 1-12 (or any number) without any hardcoding.
+// This accommodates the keys being 1-12 (or any number) without any hardcoding.
 // Could make more specific to only allow 1-12 and that would also be OK.
-export interface BloomTimeObj {
+export interface DateSelectionObj {
   [key: number]: string;
 }
 
 export interface PlantsType {
   id: number;
   plantName: string;
-  bloomTime: BloomTimeObj;
+  bloomTime: DateSelectionObj;
+  fruitTime: DateSelectionObj;
   bloomColor: string;
   bloomColorName: string;
   wildlifeAttracted: { [key: number]: boolean };

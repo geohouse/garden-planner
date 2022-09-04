@@ -23,6 +23,10 @@ export default function GardenPlanner() {
     monthNumAsStringArray: ["1"],
     monthNameArray: ["Jan"],
   });
+  const [fruitTime, setFruitTime] = useState({
+    monthNumAsStringArray: ["1"],
+    monthNameArray: ["Jan"],
+  });
   const [bloomColor, setBloomColor] = useState("");
   const [bloomColorName, setBloomColorName] = useState("");
   // This sets the useState object type to be more inclusive and take any string as a key
@@ -35,9 +39,10 @@ export default function GardenPlanner() {
     bees: false,
     butterflies: false,
     hummingbirds: false,
+    songbirds: false,
   });
   // Will need to read back from local storage later.
-  // The type is an array of objects having the PlantsType
+  // The type is an array (of objects) having the PlantsType
   const [plants, setPlants] = useState<PlantsType[]>([]);
 
   function handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -74,6 +79,15 @@ export default function GardenPlanner() {
     console.log("bloom time object is:");
     console.log(bloomTime);
     console.log(selectedMonthObj);
+  }
+
+  function handleFruitTimeChange(selectedMonthObj: { [key: number]: string }) {
+    setFruitTime({
+      monthNumAsStringArray: Object.keys(selectedMonthObj),
+      monthNameArray: Object.values(selectedMonthObj),
+    });
+    console.log("fruit time object is:");
+    console.log(fruitTime);
   }
 
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
@@ -114,6 +128,7 @@ export default function GardenPlanner() {
         id: plants.length + 1,
         plantName: plantName,
         bloomTime: bloomTime,
+        fruitTime: fruitTime,
         bloomColor: bloomColor,
         bloomColorName: bloomColorName,
         wildlifeAttracted: wildlifeAttracted,
@@ -137,6 +152,7 @@ export default function GardenPlanner() {
         onNameChange={handleNameChange}
         bloomTime={bloomTime}
         onBloomTimeChange={handleBloomTimeChange}
+        onFruitTimeChange={handleFruitTimeChange}
         onBloomColorChange={handleBloomColorChange}
         wildlifeAttracted={wildlifeAttracted}
         onWildlifeAttractedChange={handleWildlifeAttractedChange}

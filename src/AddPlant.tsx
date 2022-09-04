@@ -1,6 +1,6 @@
 import ColorBlocks from "./ColorBlocks";
-import BloomDateSelect from "./BloomDateSelect";
-import { BloomTime, BloomTimeObj } from "./GardenPlannerInterfaces";
+import DateSelect from "./DateSelect";
+import { BloomTime, DateSelectionObj } from "./GardenPlannerInterfaces";
 // Will need to re-factor these into their own file to be
 // able to import and use the interfaces in the
 // main GardenPlanner app and also here.
@@ -33,7 +33,8 @@ interface AddPlantsProps {
   plantName: string;
   onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   bloomTime: BloomTime;
-  onBloomTimeChange: (selectedMonthObj: BloomTimeObj) => void;
+  onBloomTimeChange: (selectedMonthObj: DateSelectionObj) => void;
+  onFruitTimeChange: (selectedMonthObj: DateSelectionObj) => void;
   onBloomColorChange: (hexColor: string, colorName: string) => void;
   wildlifeAttracted: { [key: string]: boolean };
   onWildlifeAttractedChange: (
@@ -59,12 +60,25 @@ export default function AddPlant(props: AddPlantsProps) {
             {/* This is an approximate text entry size (won't be exactly this many characters long based on font settings*/}
           </input>
         </div>
+        <label htmlFor="color-block-holder">Bloom color</label>
+        <div id="color-block-holder">
+          <ColorBlocks onBloomColorChange={props.onBloomColorChange} />
+          {/* <input
+            id="bloom-color"
+            type="color"
+            value={props.bloomColor}
+            onChange={props.onBloomColorChange}
+          ></input> */}
+        </div>
         <label htmlFor="bloom-date-holder">
           Bloom duration (supports click and drag to quickly 'paint' over
           multiple months)
         </label>
         <div id="bloom-date-holder">
-          <BloomDateSelect onBloomTimeChange={props.onBloomTimeChange} />
+          <DateSelect
+            onDateSelectChange={props.onBloomTimeChange}
+            eventTypeForDate="bloom"
+          />
           {/* Will need to make a better month selector myself because
         Firefox and Safari both don't support ticks and tick numbers for sliders
         and I want something users can paint over for selection instead of the fiddly month selector*/}
@@ -79,15 +93,15 @@ export default function AddPlant(props: AddPlantsProps) {
             onChange={props.onBloomTimeChange}
           ></input> */}
         </div>
-        <label htmlFor="color-block-holder">Bloom color</label>
-        <div id="color-block-holder">
-          <ColorBlocks onBloomColorChange={props.onBloomColorChange} />
-          {/* <input
-            id="bloom-color"
-            type="color"
-            value={props.bloomColor}
-            onChange={props.onBloomColorChange}
-          ></input> */}
+        <label htmlFor="fruit-date-holder">
+          Fruit or seed duration (supports click and drag to quickly 'paint'
+          over multiple months)
+        </label>
+        <div id="fruit-date-holder">
+          <DateSelect
+            onDateSelectChange={props.onFruitTimeChange}
+            eventTypeForDate="fruit"
+          />
         </div>
         <div>
           <p id="attracted-wildlife">Attracts</p>
@@ -110,6 +124,13 @@ export default function AddPlant(props: AddPlantsProps) {
             id="attracts-hummingbirds"
             type="checkbox"
             checked={props.wildlifeAttracted.hummingbirds}
+            onChange={props.onWildlifeAttractedChange}
+          ></input>
+          <label htmlFor="attracts-songbirds">Songbirds?</label>
+          <input
+            id="attracts-songbirds"
+            type="checkbox"
+            checked={props.wildlifeAttracted.songbirds}
             onChange={props.onWildlifeAttractedChange}
           ></input>
         </div>
