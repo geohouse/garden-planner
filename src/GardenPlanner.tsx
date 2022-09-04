@@ -33,14 +33,35 @@ export default function GardenPlanner() {
   // instead of the default Union of 'bees'|'butterflies'|'hummingbirds'
   // because later in the code there is a wildlife type string used as a key index into the object
   // and this fails unless the key type is the generic string.
-  const [wildlifeAttracted, setWildlifeAttracted] = useState<{
+  const [wildlifeAttractedBloom, setWildlifeAttractedBloom] = useState<{
     [key: string]: boolean;
   }>({
     bees: false,
     butterflies: false,
     hummingbirds: false,
     songbirds: false,
+    other: false,
   });
+
+  const [wildlifeAttractedFruit, setWildlifeAttractedFruit] = useState<{
+    [key: string]: boolean;
+  }>({
+    songbirds: false,
+    mammals: false,
+    other: false,
+  });
+
+  const [wildlifeAttractedOther, setWildlifeAttractedOther] = useState<{
+    [key: string]: boolean;
+  }>({
+    bees: false,
+    butterflies: false,
+    hummingbirds: false,
+    songbirds: false,
+    mammals: false,
+    other: false,
+  });
+
   // Will need to read back from local storage later.
   // The type is an array (of objects) having the PlantsType
   const [plants, setPlants] = useState<PlantsType[]>([]);
@@ -101,22 +122,69 @@ export default function GardenPlanner() {
 
   //console.log(`The bloom color is: ${bloomColor}`);
 
-  function handleWildlifeAttractedChange(
+  // Would like to generalize this function similar to below to have all 3
+  // attracts wildlife types set by the same function with input parameter telling
+  // the function which one to set, but can't get this working right now.
+
+  // function handleWildlifeAttractedChange(
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   stateUpdateFxn: (
+  //     value: React.SetStateAction<{ [key: string]: boolean }>
+  //   ) => void,
+  //   currState: { [key: string]: boolean }
+  // ): void {
+  //   // Returns the id of the input element (checkbox) that changed.
+  //   // will be e.g. 'attracts-bees', 'attracts-butterflies', etc.
+  //   const wildlifeChanged = event.target.id;
+  //   const wildlifeChangedStem = wildlifeChanged.split("-")[1];
+  //   stateUpdateFxn({
+  //     ...currState,
+  //     [wildlifeChangedStem]: !currState[wildlifeChangedStem],
+  //   });
+  // }
+
+  //Type '(event: ChangeEvent<HTMLInputElement>, stateUpdateFxn: (value: SetStateAction<{ [key: string]: boolean; }>) => void, currState: { [key: string]: boolean; }) => void' is missing the following properties from type 'OnWildlifeChangeObj': stateUpdateFxn, currState
+
+  function handleWildlifeAttractedChangeBloom(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     // Returns the id of the input element(checkbox) that changed.
-    // Will be 'attracts-bees', 'attracts-butterflies', or 'attracts-hummingbirds'
-    const wildlifeChanged = event.target.id;
+    // Will be e.g. 'attracts-bees', 'attracts-butterflies', or 'attracts-hummingbirds'
+    const wildlifeChangedBloom = event.target.id;
     // Returns 'bees', 'butterflies', or 'hummingbirds' that match the keys in the wildlifeAttracted object
-    const wildlifeChangedStem = wildlifeChanged.split("-")[1];
+    const wildlifeChangedStemBloom = wildlifeChangedBloom.split("-")[1];
 
     // Need to use [] in the key assignment after the spread operator
     // to have the evaluated wildlifeChangedStem value used (and overwriting the previous value with the toggled boolean)
-    setWildlifeAttracted({
-      ...wildlifeAttracted,
-      [wildlifeChangedStem]: !wildlifeAttracted[wildlifeChangedStem],
+    setWildlifeAttractedBloom({
+      ...wildlifeAttractedBloom,
+      [wildlifeChangedStemBloom]:
+        !wildlifeAttractedBloom[wildlifeChangedStemBloom],
     });
   }
+
+  function handleWildlifeAttractedChangeFruit(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const wildlifeChangedFruit = event.target.id;
+    const wildlifeChangedStemFruit = wildlifeChangedFruit.split("-")[1];
+    setWildlifeAttractedFruit({
+      ...wildlifeAttractedFruit,
+      [wildlifeChangedStemFruit]: !wildlifeAttractedFruit[wildlifeChangedFruit],
+    });
+  }
+
+  function handleWildlifeAttractedChangeOther(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const wildlifeChangedOther = event.target.id;
+    const wildlifeChangedStemOther = wildlifeChangedOther.split("-")[1];
+    setWildlifeAttractedOther({
+      ...wildlifeAttractedFruit,
+      [wildlifeChangedStemOther]: !wildlifeAttractedFruit[wildlifeChangedOther],
+    });
+  }
+
   //console.log(wildlifeAttracted);
 
   function handlePlantSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -131,7 +199,9 @@ export default function GardenPlanner() {
         fruitTime: fruitTime,
         bloomColor: bloomColor,
         bloomColorName: bloomColorName,
-        wildlifeAttracted: wildlifeAttracted,
+        wildlifeAttractedBloom: wildlifeAttractedBloom,
+        wildlifeAttractedFruit: wildlifeAttractedFruit,
+        wildlifeAttractedOther: wildlifeAttractedOther,
       },
     ]);
   }
@@ -154,8 +224,12 @@ export default function GardenPlanner() {
         onBloomTimeChange={handleBloomTimeChange}
         onFruitTimeChange={handleFruitTimeChange}
         onBloomColorChange={handleBloomColorChange}
-        wildlifeAttracted={wildlifeAttracted}
-        onWildlifeAttractedChange={handleWildlifeAttractedChange}
+        wildlifeAttractedBloom={wildlifeAttractedBloom}
+        onWildlifeAttractedChangeBloom={handleWildlifeAttractedChangeBloom}
+        wildlifeAttractedFruit={wildlifeAttractedFruit}
+        onWildlifeAttractedChangeFruit={handleWildlifeAttractedChangeFruit}
+        wildlifeAttractedOther={wildlifeAttractedOther}
+        onWildlifeAttractedChangeOther={handleWildlifeAttractedChangeOther}
         onPlantSubmit={handlePlantSubmit}
       />
       <PlantPlot inputPlants={plants} />
@@ -166,3 +240,9 @@ export default function GardenPlanner() {
     </>
   );
 }
+
+// (local function) handleWildlifeAttractedChange(event: React.ChangeEvent<HTMLInputElement>, stateUpdateFxn: (value: React.SetStateAction<{
+//   [key: string]: boolean;
+// }>) => void, currState: {
+//   [key: string]: boolean;
+// }): void

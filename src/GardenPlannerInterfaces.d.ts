@@ -18,6 +18,18 @@ export interface BloomFruitTimeObj {
   monthNameArray: string[];
 }
 
+// Not currently used and has some problems in trying to generalize the wildlife updates
+// export interface OnWildlifeChangeObj {
+//   // this function call signature definition is needed
+//   (
+//     event: React.ChangeEvent<HTMLInputElement>,
+//     stateUpdateFxn: (
+//       value: React.SetStateAction<{ [key: string]: boolean }>
+//     ) => void,
+//     currState: { [key: string]: boolean }
+//   ): void;
+// }
+
 export interface PlantsType {
   id: number;
   plantName: string;
@@ -25,5 +37,7 @@ export interface PlantsType {
   fruitTime: BloomFruitTimeObj;
   bloomColor: string;
   bloomColorName: string;
-  wildlifeAttracted: { [key: number]: boolean };
+  wildlifeAttractedBloom: { [key: number]: boolean };
+  wildlifeAttractedFruit: { [key: number]: boolean };
+  wildlifeAttractedOther: { [key: number]: boolean };
 }

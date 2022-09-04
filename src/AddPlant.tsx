@@ -1,3 +1,4 @@
+import React from "react";
 import ColorBlocks from "./ColorBlocks";
 import DateSelect from "./DateSelect";
 import { BloomTime, DateSelectionObj } from "./GardenPlannerInterfaces";
@@ -36,8 +37,16 @@ interface AddPlantsProps {
   onBloomTimeChange: (selectedMonthObj: DateSelectionObj) => void;
   onFruitTimeChange: (selectedMonthObj: DateSelectionObj) => void;
   onBloomColorChange: (hexColor: string, colorName: string) => void;
-  wildlifeAttracted: { [key: string]: boolean };
-  onWildlifeAttractedChange: (
+  wildlifeAttractedBloom: { [key: string]: boolean };
+  wildlifeAttractedFruit: { [key: string]: boolean };
+  wildlifeAttractedOther: { [key: string]: boolean };
+  onWildlifeAttractedChangeBloom: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  onWildlifeAttractedChangeFruit: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  onWildlifeAttractedChangeOther: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
   onPlantSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -70,19 +79,21 @@ export default function AddPlant(props: AddPlantsProps) {
             onChange={props.onBloomColorChange}
           ></input> */}
         </div>
-        <label htmlFor="bloom-date-holder">
-          Bloom duration (supports click and drag to quickly 'paint' over
-          multiple months)
-        </label>
-        <div id="bloom-date-holder">
-          <DateSelect
-            onDateSelectChange={props.onBloomTimeChange}
-            eventTypeForDate="bloom"
-          />
-          {/* Will need to make a better month selector myself because
+        <div id="date-selectors">
+          <p>
+            Date selectors (all support clicking and dragging to quickly 'paint'
+            over multiple months)
+          </p>
+          <label htmlFor="bloom-date-holder">Bloom duration</label>
+          <div id="bloom-date-holder">
+            <DateSelect
+              onDateSelectChange={props.onBloomTimeChange}
+              eventTypeForDate="bloom"
+            />
+            {/* Will need to make a better month selector myself because
         Firefox and Safari both don't support ticks and tick numbers for sliders
         and I want something users can paint over for selection instead of the fiddly month selector*/}
-          {/* <label htmlFor="bloom-time">Bloom time</label>
+            {/* <label htmlFor="bloom-time">Bloom time</label>
           <input
             id="bloom-time"
             type="range"
@@ -92,47 +103,130 @@ export default function AddPlant(props: AddPlantsProps) {
             value={props.bloomTime.monthNumAsString}
             onChange={props.onBloomTimeChange}
           ></input> */}
-        </div>
-        <label htmlFor="fruit-date-holder">
-          Fruit or seed duration (supports click and drag to quickly 'paint'
-          over multiple months)
-        </label>
-        <div id="fruit-date-holder">
-          <DateSelect
-            onDateSelectChange={props.onFruitTimeChange}
-            eventTypeForDate="fruit"
-          />
-        </div>
-        <div>
-          <p id="attracted-wildlife">Attracts</p>
-          <label htmlFor="attracts-bees">Bees?</label>
-          <input
-            id="attracts-bees"
-            type="checkbox"
-            checked={props.wildlifeAttracted.bees}
-            onChange={props.onWildlifeAttractedChange}
-          ></input>
-          <label htmlFor="attracts-butterflies">Butterflies?</label>
-          <input
-            id="attracts-butterflies"
-            type="checkbox"
-            checked={props.wildlifeAttracted.butterflies}
-            onChange={props.onWildlifeAttractedChange}
-          ></input>
-          <label htmlFor="attracts-hummingbirds">Hummingbirds?</label>
-          <input
-            id="attracts-hummingbirds"
-            type="checkbox"
-            checked={props.wildlifeAttracted.hummingbirds}
-            onChange={props.onWildlifeAttractedChange}
-          ></input>
-          <label htmlFor="attracts-songbirds">Songbirds?</label>
-          <input
-            id="attracts-songbirds"
-            type="checkbox"
-            checked={props.wildlifeAttracted.songbirds}
-            onChange={props.onWildlifeAttractedChange}
-          ></input>
+            <div>
+              <p id="bloom-attracted-wildlife">Attracts</p>
+              <label htmlFor="bloom-attracts-bees">Bees?</label>
+              <input
+                id="bloom-attracts-bees"
+                type="checkbox"
+                checked={props.wildlifeAttractedBloom.bees}
+                onChange={props.onWildlifeAttractedChangeBloom}
+              ></input>
+              <label htmlFor="bloom-attracts-butterflies">Butterflies?</label>
+              <input
+                id="bloom-attracts-butterflies"
+                type="checkbox"
+                checked={props.wildlifeAttractedBloom.butterflies}
+                onChange={props.onWildlifeAttractedChangeBloom}
+              ></input>
+              <label htmlFor="bloom-attracts-hummingbirds">Hummingbirds?</label>
+              <input
+                id="bloom-attracts-hummingbirds"
+                type="checkbox"
+                checked={props.wildlifeAttractedBloom.hummingbirds}
+                onChange={props.onWildlifeAttractedChangeBloom}
+              ></input>
+              <label htmlFor="bloom-attracts-songbirds">Songbirds?</label>
+              <input
+                id="bloom-attracts-songbirds"
+                type="checkbox"
+                checked={props.wildlifeAttractedBloom.songbirds}
+                onChange={props.onWildlifeAttractedChangeBloom}
+              ></input>
+              <label htmlFor="bloom-attracts-other">Other?</label>
+              <input
+                id="bloom-attracts-other"
+                type="checkbox"
+                checked={props.wildlifeAttractedBloom.other}
+                onChange={props.onWildlifeAttractedChangeBloom}
+              ></input>
+            </div>
+          </div>
+          <label htmlFor="fruit-date-holder">Fruit or seed duration</label>
+          <div id="fruit-date-holder">
+            <DateSelect
+              onDateSelectChange={props.onFruitTimeChange}
+              eventTypeForDate="fruit"
+            />
+            <div>
+              <p id="fruit-attracted-wildlife">Attracts</p>
+              <label htmlFor="fruit-attracts-songbirds">Songbirds?</label>
+              <input
+                id="fruit-attracts-songbirds"
+                type="checkbox"
+                checked={props.wildlifeAttractedFruit.songbirds}
+                onChange={props.onWildlifeAttractedChangeFruit}
+              ></input>
+              <label htmlFor="fruit-attracts-mammals">Mammals?</label>
+              <input
+                id="fruit-attracts-mammals"
+                type="checkbox"
+                checked={props.wildlifeAttractedFruit.mammals}
+                onChange={props.onWildlifeAttractedChangeFruit}
+              ></input>
+              <label htmlFor="fruit-attracts-other">Other?</label>
+              <input
+                id="fruit-attracts-other"
+                type="checkbox"
+                checked={props.wildlifeAttractedFruit.other}
+                onChange={props.onWildlifeAttractedChangeFruit}
+              ></input>
+            </div>
+          </div>
+          <label htmlFor="other-date-holder">
+            Other attractions for wildlife (e.g. leaves or bark)
+          </label>
+          <div id="other-date-holder">
+            <DateSelect
+              onDateSelectChange={props.onFruitTimeChange}
+              eventTypeForDate="other"
+            />
+            <div>
+              <p id="other-attracted-wildlife">Attracts</p>
+              <label htmlFor="other-attracts-bees">Bees?</label>
+              <input
+                id="other-attracts-bees"
+                type="checkbox"
+                checked={props.wildlifeAttractedOther.bees}
+                onChange={props.onWildlifeAttractedChangeOther}
+              ></input>
+              <label htmlFor="other-attracts-butterflies">Butterflies?</label>
+              <input
+                id="other-attracts-butterflies"
+                type="checkbox"
+                checked={props.wildlifeAttractedOther.butterflies}
+                onChange={props.onWildlifeAttractedChangeOther}
+              ></input>
+              <label htmlFor="other-attracts-hummingbirds">Hummingbirds?</label>
+              <input
+                id="other-attracts-hummingbirds"
+                type="checkbox"
+                checked={props.wildlifeAttractedOther.hummingbirds}
+                onChange={props.onWildlifeAttractedChangeOther}
+              ></input>
+              <label htmlFor="other-attracts-songbirds">Songbirds?</label>
+              <input
+                id="other-attracts-songbirds"
+                type="checkbox"
+                checked={props.wildlifeAttractedOther.songbirds}
+                onChange={props.onWildlifeAttractedChangeOther}
+              ></input>
+              <label htmlFor="other-attracts-mammals">Mammals?</label>
+              <input
+                id="other-attracts-mammals"
+                type="checkbox"
+                checked={props.wildlifeAttractedOther.mammals}
+                onChange={props.onWildlifeAttractedChangeOther}
+              ></input>
+              <label htmlFor="other-attracts-other">Other?</label>
+              <input
+                id="other-attracts-other"
+                type="checkbox"
+                checked={props.wildlifeAttractedOther.other}
+                onChange={props.onWildlifeAttractedChangeOther}
+              ></input>
+            </div>
+          </div>
         </div>
         <label htmlFor="add-plant-to-plan">Add plant to the garden plan?</label>
         <input id="add-plant-to-plan" type="submit" value="Add plant"></input>

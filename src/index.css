@@ -78,11 +78,21 @@ svg {
   height: 10vh;
 }
 
+#other-date-holder {
+  display: flex;
+  flex-direction: row;
+  height: 10vh;
+}
+
 .bloom-month {
   flex: 1 5vw;
 }
 
 .fruit-month {
+  flex: 1 5vw;
+}
+
+.other-month {
   flex: 1 5vw;
 }
 
