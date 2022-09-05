@@ -34,8 +34,11 @@ interface AddPlantsProps {
   plantName: string;
   onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   bloomTime: BloomTime;
+  fruitTime: BloomTime;
+  otherTime: BloomTime;
   onBloomTimeChange: (selectedMonthObj: DateSelectionObj) => void;
   onFruitTimeChange: (selectedMonthObj: DateSelectionObj) => void;
+  onOtherTimeChange: (selectedMonthObj: DateSelectionObj) => void;
   onBloomColorChange: (hexColor: string, colorName: string) => void;
   wildlifeAttractedBloom: { [key: string]: boolean };
   wildlifeAttractedFruit: { [key: string]: boolean };
@@ -181,7 +184,7 @@ export default function AddPlant(props: AddPlantsProps) {
               Other attractions for wildlife (e.g. leaves or bark)
             </p>
             <DateSelect
-              onDateSelectChange={props.onFruitTimeChange}
+              onDateSelectChange={props.onOtherTimeChange}
               eventTypeForDate="other"
             />
             <div id="other-attracted-wildlife-div">

@@ -200,8 +200,8 @@ export default function DateSelect(props: DateSelectProps) {
     // I want to listen to the left button being clicked through
     // the mouseover to allow 'painting' over the buttons, and the
     // left button's value is 1.
-    console.log("The mouse buttons pressed are:");
-    console.log(event.buttons);
+    //console.log("The mouse buttons pressed are:");
+    //console.log(event.buttons);
     // treat mouseover with left button click the same as a full
     // click directly on the button, and run the toggle handler
     if (event.buttons === 1) {
@@ -221,7 +221,7 @@ export default function DateSelect(props: DateSelectProps) {
       </button>
       {Object.values(months).map((monthName, index) => {
         const monthNum = Object.keys(months)[index];
-        console.log(monthName);
+        //console.log(monthName);
         return (
           <button
             type="button"

@@ -30,14 +30,65 @@ export interface BloomFruitTimeObj {
 //   ): void;
 // }
 
+interface WildlifeAttractedBloomType {
+  bees: boolean;
+  butterflies: boolean;
+  hummingbirds: boolean;
+  songbirds: boolean;
+}
+
+interface WildlifeAttractedFruitType {
+  songbirds: boolean;
+  mammals: boolean;
+  other: boolean;
+}
+
+interface WildlifeAttractedOtherType {
+  bees: boolean;
+  butterflies: boolean;
+  hummingbirds: boolean;
+  songbirds: boolean;
+  mammals: boolean;
+  other: boolean;
+}
+
 export interface PlantsType {
   id: number;
   plantName: string;
   bloomTime: BloomFruitTimeObj;
   fruitTime: BloomFruitTimeObj;
+  otherTime: BloomFruitTimeObj;
   bloomColor: string;
   bloomColorName: string;
-  wildlifeAttractedBloom: { [key: number]: boolean };
-  wildlifeAttractedFruit: { [key: number]: boolean };
-  wildlifeAttractedOther: { [key: number]: boolean };
+  wildlifeAttractedBloom: WildlifeAttractedBloomType;
+  wildlifeAttractedFruit: WildlifeAttractedFruitType;
+  wildlifeAttractedOther: WildlifeAttractedOtherType;
 }
+
+// export interface PlantsType {
+//   id: number;
+//   plantName: string;
+//   bloomTime: BloomFruitTimeObj;
+//   fruitTime: BloomFruitTimeObj;
+//   bloomColor: string;
+//   bloomColorName: string;
+//   wildlifeAttractedBloom: {
+//     bees: boolean;
+//     butterflies: boolean;
+//     hummingbirds: boolean;
+//     songbirds: boolean;
+//   };
+//   wildlifeAttractedFruit: {
+//     songbirds: boolean;
+//     mammals: boolean;
+//     other: boolean;
+//   };
+//   wildlifeAttractedOther: {
+//     bees: boolean;
+//     butterflies: boolean;
+//     hummingbirds: boolean;
+//     songbirds: boolean;
+//     mammals: boolean;
+//     other: boolean;
+//   };
+// }

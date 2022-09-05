@@ -27,15 +27,17 @@ export default function GardenPlanner() {
     monthNumAsStringArray: ["1"],
     monthNameArray: ["Jan"],
   });
+  const [otherTime, setOtherTime] = useState({
+    monthNumAsStringArray: ["1"],
+    monthNameArray: ["Jan"],
+  });
   const [bloomColor, setBloomColor] = useState("");
   const [bloomColorName, setBloomColorName] = useState("");
   // This sets the useState object type to be more inclusive and take any string as a key
   // instead of the default Union of 'bees'|'butterflies'|'hummingbirds'
   // because later in the code there is a wildlife type string used as a key index into the object
   // and this fails unless the key type is the generic string.
-  const [wildlifeAttractedBloom, setWildlifeAttractedBloom] = useState<{
-    [key: string]: boolean;
-  }>({
+  const [wildlifeAttractedBloom, setWildlifeAttractedBloom] = useState({
     bees: false,
     butterflies: false,
     hummingbirds: false,
@@ -43,17 +45,13 @@ export default function GardenPlanner() {
     other: false,
   });
 
-  const [wildlifeAttractedFruit, setWildlifeAttractedFruit] = useState<{
-    [key: string]: boolean;
-  }>({
+  const [wildlifeAttractedFruit, setWildlifeAttractedFruit] = useState({
     songbirds: false,
     mammals: false,
     other: false,
   });
 
-  const [wildlifeAttractedOther, setWildlifeAttractedOther] = useState<{
-    [key: string]: boolean;
-  }>({
+  const [wildlifeAttractedOther, setWildlifeAttractedOther] = useState({
     bees: false,
     butterflies: false,
     hummingbirds: false,
@@ -111,6 +109,15 @@ export default function GardenPlanner() {
     console.log(fruitTime);
   }
 
+  function handleOtherTimeChange(selectedMonthObj: { [key: number]: string }) {
+    setOtherTime({
+      monthNumAsStringArray: Object.keys(selectedMonthObj),
+      monthNameArray: Object.values(selectedMonthObj),
+    });
+    console.log("other time object is:");
+    console.log(otherTime);
+  }
+
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
 
   function handleBloomColorChange(hexColor: string, colorName: string) {
@@ -159,7 +166,9 @@ export default function GardenPlanner() {
     setWildlifeAttractedBloom({
       ...wildlifeAttractedBloom,
       [wildlifeChangedStemBloom]:
-        !wildlifeAttractedBloom[wildlifeChangedStemBloom],
+        !wildlifeAttractedBloom[
+          wildlifeChangedStemBloom as keyof typeof wildlifeAttractedBloom
+        ],
     });
   }
 
@@ -171,7 +180,9 @@ export default function GardenPlanner() {
     setWildlifeAttractedFruit({
       ...wildlifeAttractedFruit,
       [wildlifeChangedStemFruit]:
-        !wildlifeAttractedFruit[wildlifeChangedStemFruit],
+        !wildlifeAttractedFruit[
+          wildlifeChangedStemFruit as keyof typeof wildlifeAttractedFruit
+        ],
     });
   }
 
@@ -185,7 +196,9 @@ export default function GardenPlanner() {
     setWildlifeAttractedOther({
       ...wildlifeAttractedOther,
       [wildlifeChangedStemOther]:
-        !wildlifeAttractedOther[wildlifeChangedStemOther],
+        !wildlifeAttractedOther[
+          wildlifeChangedStemOther as keyof typeof wildlifeAttractedOther
+        ],
     });
   }
 
@@ -201,6 +214,7 @@ export default function GardenPlanner() {
         plantName: plantName,
         bloomTime: bloomTime,
         fruitTime: fruitTime,
+        otherTime: otherTime,
         bloomColor: bloomColor,
         bloomColorName: bloomColorName,
         wildlifeAttractedBloom: wildlifeAttractedBloom,
@@ -225,8 +239,11 @@ export default function GardenPlanner() {
         plantName={plantName}
         onNameChange={handleNameChange}
         bloomTime={bloomTime}
+        fruitTime={fruitTime}
+        otherTime={otherTime}
         onBloomTimeChange={handleBloomTimeChange}
         onFruitTimeChange={handleFruitTimeChange}
+        onOtherTimeChange={handleOtherTimeChange}
         onBloomColorChange={handleBloomColorChange}
         wildlifeAttractedBloom={wildlifeAttractedBloom}
         onWildlifeAttractedChangeBloom={handleWildlifeAttractedChangeBloom}

@@ -18,26 +18,84 @@ interface PlantProps {
 }
 
 export default function Plant(props: PlantProps) {
-  // Get the wildlife attracted list (wildlife keys where the value is true)
-  // for use in rendering below. Easier to process this here, then pass it to the renderer.
-  let wildlifeAttractedArray = [];
-  for (const wildlifeTypeKey in props.plantInfo.wildlifeAttracted) {
-    if (props.plantInfo.wildlifeAttracted[wildlifeTypeKey]) {
-      wildlifeAttractedArray.push(wildlifeTypeKey);
-    }
+  function prepWildlifeListsForDisplay() {
+    let wildlifeAttractedBloom = Object.keys(
+      props.plantInfo.wildlifeAttractedBloom
+    ).filter((wildlifeType, index) => {
+      if (Object.values(props.plantInfo.wildlifeAttractedBloom)[index]) {
+        return wildlifeType;
+      }
+      return null;
+    });
+    let wildlifeAttractedFruit = Object.keys(
+      props.plantInfo.wildlifeAttractedFruit
+    ).filter((wildlifeType, index) => {
+      if (Object.values(props.plantInfo.wildlifeAttractedFruit)[index]) {
+        return wildlifeType;
+      }
+      return null;
+    });
+    let wildlifeAttractedOther = Object.keys(
+      props.plantInfo.wildlifeAttractedOther
+    ).filter((wildlifeType, index) => {
+      if (Object.values(props.plantInfo.wildlifeAttractedOther)[index]) {
+        return wildlifeType;
+      }
+      return null;
+    });
+
+    // Get the wildlife attracted list (wildlife keys where the value is true)
+    // for use in rendering below. Easier to process this here, then pass it to the renderer.
+    // Tried re-factoring into a single function for all 3 wildlife attraction types, but
+    // couldn't get it to work with passing the dynamic (and nested) types needed, so
+    // am doing this instead.
+    //Bloom
+    // for (let wildlifeTypeKey in props.plantInfo.wildlifeAttractedBloom) {
+    //   // For wildlife entries that have a true value, add to holder array
+    //   let currWildlifeEntry =
+    //     props.plantInfo.wildlifeAttractedBloom[
+    //       wildlifeTypeKey as keyof WildlifeAttractedBloomType
+    //     ];
+    //   if (currWildlifeEntry) {
+    //     wildlifeListObj.wildlifeAttractedBloom.push(wildlifeTypeKey);
+    //   }
+    // }
+    // // Fruit
+    // for (let wildlifeTypeKey in props.plantInfo.wildlifeAttractedFruit) {
+    //   // For wildlife entries that have a true value, add to holder array
+    //   let currWildlifeEntry =
+    //     props.plantInfo.wildlifeAttractedFruit[
+    //       wildlifeTypeKey as keyof WildlifeAttractedFruitType
+    //     ];
+    //   if (currWildlifeEntry) {
+    //     wildlifeListObj.wildlifeAttractedFruit.push(wildlifeTypeKey);
+    //   }
+    // }
+
+    // // Other
+    // for (let wildlifeTypeKey in props.plantInfo.wildlifeAttractedOther) {
+    //   // For wildlife entries that have a true value, add to holder array
+    //   let currWildlifeEntry =
+    //     props.plantInfo.wildlifeAttractedOther[
+    //       wildlifeTypeKey as keyof WildlifeAttractedOtherType
+    //     ];
+    //   if (currWildlifeEntry) {
+    //     wildlifeListObj.wildlifeAttractedOther.push(wildlifeTypeKey);
+    //   }
+    // }
+
+    const wildlifeListObj = {
+      wildlifeAttractedBloom,
+      wildlifeAttractedFruit,
+      wildlifeAttractedOther,
+    };
+    return wildlifeListObj;
   }
-  const wildlifeAttractedString = wildlifeAttractedArray.join(", ");
-
-  const bloomMonthNameArray: string[] =
-    props.plantInfo.bloomTime.monthNameArray;
-
-  const fruitMonthNameArray: string[] =
-    props.plantInfo.fruitTime.monthNameArray;
-
-  console.log(bloomMonthNameArray[1]);
-  console.log(fruitMonthNameArray[1]);
-  console.log(props.plantInfo.bloomTime.monthNameArray);
-
+  const {
+    wildlifeAttractedBloom,
+    wildlifeAttractedFruit,
+    wildlifeAttractedOther,
+  } = prepWildlifeListsForDisplay();
   return (
     <>
       <div role="list" className="plant-card">
@@ -65,29 +123,65 @@ export default function Plant(props: PlantProps) {
               />
             </svg>
           </div>
-          <p>Blooming months</p>
-          <ul className="bloom-months">
-            {bloomMonthNameArray.map((month, index) => {
-              return <li key={index}>{month}</li>;
-            })}
-          </ul>
-          <p>Fruiting months</p>
-          <ul className="fruit-months">
-            {fruitMonthNameArray.map((month, index) => {
-              return <li key={index}>{month}</li>;
-            })}
-          </ul>
+          <div className="plant-card-blooming">
+            <p>Blooming months</p>
+            <ul className="bloom-months">
+              {props.plantInfo.bloomTime.monthNameArray.map((month, index) => {
+                return <li key={index}>{month}</li>;
+              })}
+            </ul>
+            <p>Attracts:</p>
+            <ul className="bloom-months-wildlife">
+              {wildlifeAttractedBloom.map((entry) => {
+                return (
+                  <li key={entry}>{entry[0].toUpperCase() + entry.slice(1)}</li>
+                );
+              })}
+            </ul>
+          </div>
+          <div className="plant-card-fruiting">
+            <p>Fruiting months</p>
+            <ul className="fruit-months">
+              {props.plantInfo.fruitTime.monthNameArray.map((month, index) => {
+                return <li key={index}>{month}</li>;
+              })}
+            </ul>
+            <p>Attracts:</p>
+            <ul className="fruit-months-wildlife">
+              {wildlifeAttractedFruit.map((entry) => {
+                return (
+                  <li key={entry}>{entry[0].toUpperCase() + entry.slice(1)}</li>
+                );
+              })}
+            </ul>
+          </div>
+          <div className="plant-card-other">
+            <p>Other months</p>
+            <ul className="other-months">
+              {props.plantInfo.otherTime.monthNameArray.map((month, index) => {
+                return <li key={index}>{month}</li>;
+              })}
+            </ul>
+            <p>Attracts:</p>
+            <ul className="other-months-wildlife">
+              {wildlifeAttractedOther.map((entry) => {
+                return (
+                  <li key={entry}>{entry[0].toUpperCase() + entry.slice(1)}</li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
-        <div className="attract-wildlife">
+        {/* <div className="attract-wildlife">
           <p>Attracts:</p>
           <p
             className="wildlife-attracted"
             role="listitem"
             aria-label="wildlife-attracted"
           >
-            {wildlifeAttractedString}
-          </p>
-        </div>
+            {wildlifeAttractedString}}
+          </p> 
+            </div>*/}
       </div>
     </>
   );
