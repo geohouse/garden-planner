@@ -147,17 +147,6 @@ export default function PlantPlot(props: PlantPlotProps) {
   }
 
   function createDatasets() {
-    //const numPlants = inputPlants.length;
-    // Initialize a holder array with undefined values (any surviving
-    // undefined entries just appear as holes in the graph)
-
-    // for (let plantTime of ["bloom", "fruit", "other"]) {
-    //   const tempArray = Array.from({ length: 12 });
-    // }
-    // const templateBloomArray = Array.from({ length: 12 });
-    // const templateFruitArray = Array.from({ length: 12 });
-    // const templateOtherArray = Array.from({ length: 12 });
-    //console.log({ numPlants });
     let datasetArray = [];
     for (let plantIndex = 0; plantIndex < inputPlants.length; plantIndex++) {
       let currPlant = inputPlants[plantIndex];
@@ -169,99 +158,44 @@ export default function PlantPlot(props: PlantPlotProps) {
     }
     return datasetArray;
   }
-  // let bloomArray = [...templateBloomArray];
-  // let fruitArray = [...templateFruitArray];
-  // let otherArray = [...templateOtherArray];
-  // Only prep the graph data if there was at least 1 bloom time noted.
-  // Otherwise the array to plot will all be undefined values, and nothing will
-  // show on the graph.
-  // const monthNumAsStringArray_bloom: string[] =
-  //   plant.bloomTime.monthNumAsStringArray;
-  // const monthNumAsStringArray_fruit: string[] =
-  //   plant.fruitTime.monthNumAsStringArray;
-  // const monthNumAsStringArray_other: string[] =
-  //   plant.otherTime.monthNumAsStringArray;
-  // if (monthNumAsStringArray_bloom.length > 0) {
-  //   //console.log("Firing if");
-  //   monthNumAsStringArray_bloom.forEach((bloomTimeEntryStr) => {
-  //     const bloomTimeEntryNum = Number.parseInt(bloomTimeEntryStr, 10);
-  //     // Fill in the graph entry to span the bloom month start and the bloom month end
-  //     // Graph indices are 0-based
-  //     bloomArray[bloomTimeEntryNum - 1] = plantIndex + 1;
-  //     bloomArray[bloomTimeEntryNum] = plantIndex + 1;
-  //     //console.log({ bloomArray });
-  //   });
-  // }
-
-  // if (monthNumAsStringArray_fruit.length > 0) {
-  //   //console.log("Firing if");
-  //   monthNumAsStringArray_fruit.forEach((fruitTimeEntryStr) => {
-  //     const fruitTimeEntryNum = Number.parseInt(fruitTimeEntryStr, 10);
-  //     // Fill in the graph entry to span the bloom month start and the bloom month end
-  //     // Graph indices are 0-based
-  //     fruitArray[fruitTimeEntryNum - 1] = plantIndex + 0.9;
-  //     fruitArray[fruitTimeEntryNum] = plantIndex + 0.9;
-  //     //console.log({ bloomArray });
-  //   });
-  // }
-
-  // if (monthNumAsStringArray_other.length > 0) {
-  //   //console.log("Firing if");
-  //   monthNumAsStringArray_other.forEach((otherTimeEntryStr) => {
-  //     const otherTimeEntryNum = Number.parseInt(otherTimeEntryStr, 10);
-  //     // Fill in the graph entry to span the bloom month start and the bloom month end
-  //     // Graph indices are 0-based
-  //     otherArray[otherTimeEntryNum - 1] = plantIndex + 0.8;
-  //     otherArray[otherTimeEntryNum] = plantIndex + 0.8;
-  //     //console.log({ bloomArray });
-  //   });
-  // }
-  //console.log(bloomArray);
-
-  // const currPlantForGraph = {
-  //   label: plant.plantName,
-  //   data: bloomArray,
-  //   borderColor: plant.bloomColor,
-  //   backgroundColor: plant.bloomColor,
-  // };
-  //return currPlantForGraph;
 
   const plottingData = createDatasets();
-
-  // const tester = createDatasets();
-  // console.log("tester");
-  // console.log(tester);
-
-  // const dataToGraph = {
-  //   labels: monthLabels,
-  //   datasets: createDatasets(),
-  // };
-
-  //   const testData = {
-  //     labels: ["Jan", "Feb", "Mar"],
-  //     datasets: [
-  //       {
-  //         label: "Test1",
-  //         data: [100, 100, 100],
-  //         borderColor: "rgb(255,0,0)",
-  //         backgroundColor: "rgba(255,0,0,0.5)",
-  //       },
-  //       {
-  //         label: "Test2",
-  //         data: [150, 150, 150],
-  //         borderColor: "rgb(0,255,0)",
-  //         backgroundColor: "rgba(0,255,0,0.5)",
-  //       },
-  //     ],
-  //   };
 
   const dataToGraph = {
     labels: monthLabels,
     datasets: plottingData,
   };
 
+  const plottingOptions = {
+    scales: {
+      y: {
+        ticks: {
+          color: "#ff0000",
+          // callback: function(val, index) {
+          //   // Hide every 2nd tick label
+          //   return index % 2 === 0 ? this.getLabelForValue(val) : '';
+          // },
+        },
+      },
+      x: {
+        ticks: {
+          color: "#00ffff",
+        },
+      },
+    },
+  };
+
+  // const plottingOptions = {
+  //   plugins: {
+  //     title: {
+  //       display: true,
+  //       text: "Testing chart!",
+  //     },
+  //   },
+  // };
+
   console.log("Data to graph is:");
   console.log(dataToGraph);
   //return <></>;
-  return <Line data={dataToGraph} />;
+  return <Line data={dataToGraph} options={plottingOptions} />;
 }
