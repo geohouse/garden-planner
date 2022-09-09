@@ -20,16 +20,16 @@ import { PlantsType } from "./GardenPlannerInterfaces";
 export default function GardenPlanner() {
   const [plantName, setPlantName] = useState("");
   const [bloomTime, setBloomTime] = useState({
-    monthNumAsStringArray: ["1"],
-    monthNameArray: ["Jan"],
+    monthNumAsStringArray: [""],
+    monthNameArray: [""],
   });
   const [fruitTime, setFruitTime] = useState({
-    monthNumAsStringArray: ["1"],
-    monthNameArray: ["Jan"],
+    monthNumAsStringArray: [""],
+    monthNameArray: [""],
   });
   const [otherTime, setOtherTime] = useState({
-    monthNumAsStringArray: ["1"],
-    monthNameArray: ["Jan"],
+    monthNumAsStringArray: [""],
+    monthNameArray: [""],
   });
   const [bloomColor, setBloomColor] = useState("");
   const [bloomColorName, setBloomColorName] = useState("");
