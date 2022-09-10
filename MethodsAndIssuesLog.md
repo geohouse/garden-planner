@@ -20,3 +20,5 @@ Generalized the `BloomDateSelect` component to be `DateSelect` instead to render
 Using `keyof` to resolve type errors when using square bracket notation with a string variable to index into a typed object (to tell TS this string should match one of the defined key types of the object) and `keyof typeof` to resolve type errors with square bracket indexing into an object that isn't a TS interface and doesn't have explicit index signatures for keys set on it.
 
 When needing to create data objects/arrays for plotting multiple line segments for each of the plants (bloom, fruiting, other), re-factoring as needed to use the most efficient way to loop through the input data to create the needed output format - `map` or `for` loops.
+
+Importing type from Chart.js (`Tick[]`) to enable correct typing and autocompletion of tick values created manually using a callback function and a type `Tick[]` array of objects.
