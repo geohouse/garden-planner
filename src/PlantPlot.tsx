@@ -9,11 +9,16 @@ import {
   Legend,
 } from "chart.js";
 
+import annotationPlugin from "chartjs-plugin-annotation";
+
 import type { Tick } from "chart.js";
 
 import { Line } from "react-chartjs-2";
 
 import { PlantsType } from "./GardenPlannerInterfaces";
+import { isBoxedPrimitive } from "util/types";
+
+ChartJS.register(annotationPlugin);
 
 ChartJS.register(
   CategoryScale,
@@ -186,14 +191,51 @@ export default function PlantPlot(props: PlantPlotProps) {
   let bloomArray: number[] = [];
   let fruitArray: number[] = [];
   let otherArray: number[] = [];
+  let minMaxYPerPlantArray: { min: number; max: number }[] = [];
 
   for (let typeObj of yTickArray) {
     bloomArray.push(typeObj.bloom);
     fruitArray.push(typeObj.fruit);
     otherArray.push(typeObj.other);
+    minMaxYPerPlantArray.push({ min: typeObj.other, max: typeObj.bloom });
   }
   // combined array needed in order to filter the ticks to just include those represented in this array
   const combinedArray = bloomArray.concat(fruitArray).concat(otherArray);
+
+  function buildAnnotationObjects(
+    minMaxYPerPlantArray: { min: number; max: number }[]
+  ) {
+    let holderObj: { [key: string]: {} } = {};
+    for (let index = 0; index < minMaxYPerPlantArray.length; index++) {
+      let plantBoxObj = {};
+      let currMin = minMaxYPerPlantArray[index].min;
+      let currMax = minMaxYPerPlantArray[index].max;
+      plantBoxObj = {
+        type: "box",
+        label: {
+          content: "Gussy Testing",
+          display: true,
+          position: { x: "center", y: "start" },
+          yAdjust: -40,
+        },
+        xMin: 0,
+        xMax: 13,
+        yMin: currMin - 0.1,
+        yMax: currMax + 0.1,
+        backgroundColor: "rgba(200,200,200,0.4)",
+        borderColor: "rgba(220,220,220,0.6)",
+        yScaleID: "y",
+        xScaleID: "x",
+        // This draws the rectangle first, behind the lines (the z parameter for drawing order
+        // doesn't seem to work, so use this instead.)
+        drawTime: "beforeDatasetsDraw",
+      };
+      holderObj[`box${index}`] = plantBoxObj;
+    }
+    return holderObj;
+  }
+
+  const annotationObject = buildAnnotationObjects(minMaxYPerPlantArray);
 
   // I was getting lots of type errors when setting the ticks callback - it's supposed to be a fancy
   // intersection type combining lots of different subtypes for the Line component, but was very hard
@@ -201,6 +243,33 @@ export default function PlantPlot(props: PlantPlotProps) {
   // an 'any' type to avoid the type errors and to continue on. I realize this isn't the best,
   // but it's the only way I could clear this error for now.
   const plottingOptions: any = {
+    plugins: {
+      annotation: {
+        annotations: annotationObject,
+        // annotations: {
+        //   box1: {
+        //     type: "box",
+        //     label: {
+        //       content: "Testing Gussy",
+        //       display: true,
+        //       position: { x: "center", y: "start" },
+        //       yAdjust: -30,
+        //     },
+        //     xMin: 1,
+        //     xMax: 13,
+        //     yMin: 0.8,
+        //     yMax: 0.9,
+        //     backgroundColor: "rgba(200,200,200,0.4)",
+        //     borderColor: "rgba(220,220,220,0.6)",
+        //     yScaleID: "y",
+        //     xScaleID: "x",
+        //     // This draws the rectangle first, behind the lines (the z parameter for drawing order
+        //     // doesn't seem to work, so use this instead.)
+        //     drawTime: "beforeDatasetsDraw",
+        //   },
+        // },
+      },
+    },
     scales: {
       y: {
         // Filter the y axis ticks to only include those that are represented by a plant event (bloom, fruit, other)
@@ -263,5 +332,5 @@ export default function PlantPlot(props: PlantPlotProps) {
   console.log("Data to graph is:");
   console.log(dataToGraph);
   //return <></>;
-  return <Line data={dataToGraph} options={plottingOptions} />;
+  return <Line options={plottingOptions} data={dataToGraph} />;
 }
