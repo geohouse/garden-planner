@@ -140,6 +140,10 @@ export default function PlantPlot(props: PlantPlotProps) {
       return null;
     });
 
+    console.log("Building wildlife list");
+    console.log(Object.keys(inputPlantObj.wildlifeAttractedBloom));
+    console.log(Object.values(inputPlantObj.wildlifeAttractedBloom));
+    console.log({ wildlifeAttractedBloom });
     let holderObj: { bloom: string[]; fruit: string[]; other: string[] } = {
       bloom: wildlifeAttractedBloom,
       fruit: wildlifeAttractedFruit,
@@ -256,10 +260,12 @@ export default function PlantPlot(props: PlantPlotProps) {
     let holderObj: { [key: string]: {} } = {};
     for (let index = 0; index < minMaxYPerPlantArray.length; index++) {
       let plantBoxObj = {};
+      let bloomWildlifeObj = {};
       let currMin = minMaxYPerPlantArray[index].min;
       let currMax = minMaxYPerPlantArray[index].max;
       let currName = plantNameArray[index];
       let currWildlife = plantWildlifeArray[index];
+      console.log({ currWildlife });
       plantBoxObj = {
         type: "box",
         label: {
@@ -280,7 +286,15 @@ export default function PlantPlot(props: PlantPlotProps) {
         // doesn't seem to work, so use this instead.)
         drawTime: "beforeDatasetsDraw",
       };
+
+      bloomWildlifeObj = {
+        type: "label",
+        xValue: 1.1,
+        yValue: minMaxYPerPlantArray[index].max + 0.03,
+        content: currWildlife.bloom.join(","),
+      };
       holderObj[`box${index}`] = plantBoxObj;
+      holderObj[`bloomLabel${index}`] = bloomWildlifeObj;
     }
     console.log("The options holder is:");
     console.log(holderObj);
