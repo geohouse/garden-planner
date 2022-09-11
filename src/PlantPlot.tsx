@@ -93,6 +93,15 @@ export default function PlantPlot(props: PlantPlotProps) {
     return plantCharacteristicsToPlot;
   }
 
+  // To keep track of the plant names and wildlife attracted for each plant, following the
+  // same plant order that is used for the plotting
+  let plantNameArray: string[] = [];
+  let plantWildlifeArray: {
+    bloom: string[];
+    fruit: string[];
+    other: string[];
+  }[] = [];
+
   // will be used to create the correct y axis tick marks and labels
   let yTickArray: { bloom: number; fruit: number; other: number }[] = [];
 
@@ -105,10 +114,51 @@ export default function PlantPlot(props: PlantPlotProps) {
     yTickArray.push(holderObj);
   }
 
+  function createWildlifeObj_singlePlant(inputPlantObj: PlantsType) {
+    let wildlifeAttractedBloom = Object.keys(
+      inputPlantObj.wildlifeAttractedBloom
+    ).filter((wildlifeType, index) => {
+      if (Object.values(inputPlantObj.wildlifeAttractedBloom)[index]) {
+        return wildlifeType;
+      }
+      return null;
+    });
+    let wildlifeAttractedFruit = Object.keys(
+      inputPlantObj.wildlifeAttractedFruit
+    ).filter((wildlifeType, index) => {
+      if (Object.values(inputPlantObj.wildlifeAttractedFruit)[index]) {
+        return wildlifeType;
+      }
+      return null;
+    });
+    let wildlifeAttractedOther = Object.keys(
+      inputPlantObj.wildlifeAttractedOther
+    ).filter((wildlifeType, index) => {
+      if (Object.values(inputPlantObj.wildlifeAttractedOther)[index]) {
+        return wildlifeType;
+      }
+      return null;
+    });
+
+    let holderObj: { bloom: string[]; fruit: string[]; other: string[] } = {
+      bloom: wildlifeAttractedBloom,
+      fruit: wildlifeAttractedFruit,
+      other: wildlifeAttractedOther,
+    };
+
+    return holderObj;
+  }
+
   function createSinglePlantData(
     inputPlantObj: PlantsType,
     plantIndex: number
   ) {
+    plantNameArray.push(inputPlantObj.plantName);
+    let plantWildlifeAttractedObj =
+      createWildlifeObj_singlePlant(inputPlantObj);
+    plantWildlifeArray.push(plantWildlifeAttractedObj);
+    // Pass the index to make the ytick label data structure
+    createYTickObj_singlePlant(plantIndex);
     const plantCharacteristicsToPlot = determinePlantCharsToPlot(inputPlantObj);
     const templateArray = Array.from({ length: 12 });
     let singlePlantPlotDataArray = [];
@@ -117,8 +167,6 @@ export default function PlantPlot(props: PlantPlotProps) {
       plantCharIndex < plantCharacteristicsToPlot.length;
       plantCharIndex++
     ) {
-      // Pass the index to make the ytick label data structure
-      createYTickObj_singlePlant(plantIndex);
       let plantEvent = plantCharacteristicsToPlot[plantCharIndex];
       // Keep going if this was the initial placeholder empty string in the array
       if (plantEvent === "") {
@@ -210,10 +258,12 @@ export default function PlantPlot(props: PlantPlotProps) {
       let plantBoxObj = {};
       let currMin = minMaxYPerPlantArray[index].min;
       let currMax = minMaxYPerPlantArray[index].max;
+      let currName = plantNameArray[index];
+      let currWildlife = plantWildlifeArray[index];
       plantBoxObj = {
         type: "box",
         label: {
-          content: "Gussy Testing",
+          content: currName,
           display: true,
           position: { x: "center", y: "start" },
           yAdjust: -40,
@@ -232,9 +282,12 @@ export default function PlantPlot(props: PlantPlotProps) {
       };
       holderObj[`box${index}`] = plantBoxObj;
     }
+    console.log("The options holder is:");
+    console.log(holderObj);
     return holderObj;
   }
 
+  console.log({ minMaxYPerPlantArray });
   const annotationObject = buildAnnotationObjects(minMaxYPerPlantArray);
 
   // I was getting lots of type errors when setting the ticks callback - it's supposed to be a fancy
