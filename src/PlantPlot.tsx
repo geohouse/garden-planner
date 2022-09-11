@@ -17,6 +17,7 @@ import { Line } from "react-chartjs-2";
 
 import { PlantsType } from "./GardenPlannerInterfaces";
 import { isBoxedPrimitive } from "util/types";
+import { endianness } from "os";
 
 ChartJS.register(annotationPlugin);
 
@@ -140,10 +141,10 @@ export default function PlantPlot(props: PlantPlotProps) {
       return null;
     });
 
-    console.log("Building wildlife list");
-    console.log(Object.keys(inputPlantObj.wildlifeAttractedBloom));
-    console.log(Object.values(inputPlantObj.wildlifeAttractedBloom));
-    console.log({ wildlifeAttractedBloom });
+    // console.log("Building wildlife list");
+    // console.log(Object.keys(inputPlantObj.wildlifeAttractedBloom));
+    // console.log(Object.values(inputPlantObj.wildlifeAttractedBloom));
+    // console.log({ wildlifeAttractedBloom });
     let holderObj: { bloom: string[]; fruit: string[]; other: string[] } = {
       bloom: wildlifeAttractedBloom,
       fruit: wildlifeAttractedFruit,
@@ -260,7 +261,9 @@ export default function PlantPlot(props: PlantPlotProps) {
     let holderObj: { [key: string]: {} } = {};
     for (let index = 0; index < minMaxYPerPlantArray.length; index++) {
       let plantBoxObj = {};
-      let bloomWildlifeObj = {};
+      let bloomWildlifeObj = {},
+        fruitWildlifeObj = {},
+        otherWildlifeObj = {};
       let currMin = minMaxYPerPlantArray[index].min;
       let currMax = minMaxYPerPlantArray[index].max;
       let currName = plantNameArray[index];
@@ -289,12 +292,33 @@ export default function PlantPlot(props: PlantPlotProps) {
 
       bloomWildlifeObj = {
         type: "label",
-        xValue: 1.1,
+        xValue: 0.1,
         yValue: minMaxYPerPlantArray[index].max + 0.03,
-        content: currWildlife.bloom.join(","),
+        content: currWildlife.bloom.join(", "),
+        position: { x: "start", y: "center" },
+      };
+      fruitWildlifeObj = {
+        type: "label",
+        xValue: 0.1,
+        yValue:
+          (minMaxYPerPlantArray[index].max - minMaxYPerPlantArray[index].min) /
+            2 +
+          minMaxYPerPlantArray[index].min +
+          0.03,
+        content: currWildlife.fruit.join(", "),
+        position: { x: "start", y: "center" },
+      };
+      otherWildlifeObj = {
+        type: "label",
+        xValue: 0.1,
+        yValue: minMaxYPerPlantArray[index].min + 0.03,
+        content: currWildlife.other.join(", "),
+        position: { x: "start", y: "center" },
       };
       holderObj[`box${index}`] = plantBoxObj;
       holderObj[`bloomLabel${index}`] = bloomWildlifeObj;
+      holderObj[`fruitLabel${index}`] = fruitWildlifeObj;
+      holderObj[`otherLabel${index}`] = otherWildlifeObj;
     }
     console.log("The options holder is:");
     console.log(holderObj);
