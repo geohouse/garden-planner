@@ -27,7 +27,7 @@ code {
 
 #bloom-date-holder {
   display: grid;
-  width: 80%;
+  width: 90%;
   height: 45vh;
   margin: 0 5vw 0 5vw;
   /* grid-template-areas:
@@ -61,7 +61,7 @@ code {
 
 #fruit-date-holder {
   display: grid;
-  width: 80%;
+  width: 90%;
   height: 45vh;
   margin: 0 5vw 0 5vw;
   /* grid-template-areas:
@@ -95,7 +95,7 @@ code {
 
 #other-date-holder {
   display: grid;
-  width: 80%;
+  width: 90%;
   height: 45vh;
   margin: 0 5vw 0 5vw;
   /* grid-template-areas:
@@ -198,10 +198,27 @@ svg {
   flex: 1 5vw;
 }
 
-#select-all-months,
-#select-no-months {
+#bloom-select-all-months,
+#bloom-select-no-months,
+#fruit-select-all-months,
+#fruit-select-no-months,
+#other-select-all-months,
+#other-select-no-months {
   margin: 0.5vw;
-  border-radius: 30px;
+  border: 2px solid darkblue;
+  border-radius: 50px;
+}
+
+/*Pseudoclass selector when disabled to make the outline lighter and the button less apparent*/
+#bloom-select-all-months:disabled,
+#bloom-select-no-months:disabled,
+#fruit-select-all-months:disabled,
+#fruit-select-no-months:disabled,
+#other-select-all-months:disabled,
+#other-select-no-months:disabled {
+  margin: 0.5vw;
+  border: 2px solid lightblue;
+  border-radius: 50px;
 }
 
 .selected-month {

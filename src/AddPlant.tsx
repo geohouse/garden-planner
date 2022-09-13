@@ -242,7 +242,7 @@ export default function AddPlant(props: AddPlantsProps) {
         </div>
       </form>
 
-      <h1>Garden planner in progress</h1>
+      {/* <h1>Garden planner in progress</h1> */}
     </>
   );
 }

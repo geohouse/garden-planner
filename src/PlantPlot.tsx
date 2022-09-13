@@ -15,7 +15,7 @@ import type { Tick } from "chart.js";
 
 import { Line } from "react-chartjs-2";
 
-import { PlantsType } from "./GardenPlannerInterfaces";
+import { PlantsType, BloomFruitTimeObj } from "./GardenPlannerInterfaces";
 import { isBoxedPrimitive } from "util/types";
 import { endianness } from "os";
 
@@ -79,9 +79,7 @@ export default function PlantPlot(props: PlantPlotProps) {
   ];
 
   function determinePlantCharsToPlot(inputPlantObj: PlantsType) {
-    let plantCharacteristicsToPlot: [
-      "" | "bloomTime" | "fruitTime" | "otherTime"
-    ] = [""];
+    let plantCharacteristicsToPlot: string[] = [];
     if (inputPlantObj.bloomTime.monthNameArray.length > 0) {
       plantCharacteristicsToPlot.push("bloomTime");
     }
@@ -178,25 +176,31 @@ export default function PlantPlot(props: PlantPlotProps) {
         continue;
       } else {
         let plantEventArray = [...templateArray];
-        inputPlantObj[plantEvent].monthNumAsStringArray.forEach(
-          (timeEntryStr) => {
-            const timeEntryNum = Number.parseInt(timeEntryStr, 10);
-            // Fill in the graph entry to span the bloom month start and the bloom month end
-            // Graph indices are 0-based
-            if (plantEvent === "bloomTime") {
-              plantEventArray[timeEntryNum - 1] = plantIndex + 1;
-              plantEventArray[timeEntryNum] = plantIndex + 1;
-            }
-            if (plantEvent === "fruitTime") {
-              plantEventArray[timeEntryNum - 1] = plantIndex + 0.9;
-              plantEventArray[timeEntryNum] = plantIndex + 0.9;
-            }
-            if (plantEvent === "otherTime") {
-              plantEventArray[timeEntryNum - 1] = plantIndex + 0.8;
-              plantEventArray[timeEntryNum] = plantIndex + 0.8;
-            }
+        // Need to tell TS that the plantEvent is limited to being a PlantsType key, and the indexing
+        // operation will return ONLY a BloomFruitTimeObj (not the other types associated with
+        // different keys in PlantsType). This allows the dynamic indexing with the plantEvent variable
+        // while also correctly being able to access the 'monthNumAsStringArray' array in the 'inputPlantEventArray'
+        let inputPlantEventArray = inputPlantObj[
+          plantEvent as keyof PlantsType
+        ] as BloomFruitTimeObj;
+
+        inputPlantEventArray.monthNumAsStringArray.forEach((timeEntryStr) => {
+          const timeEntryNum = Number.parseInt(timeEntryStr, 10);
+          // Fill in the graph entry to span the bloom month start and the bloom month end
+          // Graph indices are 0-based
+          if (plantEvent === "bloomTime") {
+            plantEventArray[timeEntryNum - 1] = plantIndex + 1;
+            plantEventArray[timeEntryNum] = plantIndex + 1;
           }
-        );
+          if (plantEvent === "fruitTime") {
+            plantEventArray[timeEntryNum - 1] = plantIndex + 0.9;
+            plantEventArray[timeEntryNum] = plantIndex + 0.9;
+          }
+          if (plantEvent === "otherTime") {
+            plantEventArray[timeEntryNum - 1] = plantIndex + 0.8;
+            plantEventArray[timeEntryNum] = plantIndex + 0.8;
+          }
+        });
         let borderColor: string = "",
           backgroundColor: string = "";
         if (plantEvent === "bloomTime") {
@@ -220,12 +224,72 @@ export default function PlantPlot(props: PlantPlotProps) {
     return singlePlantPlotDataArray;
   }
 
+  // This is used to keep track of the x values (0-based) for the wildlife labels needed on the
+  // plot for bloom, fruit, other for each of the plants. If there is a gap in the timing for an event
+  // e.g. flowering from Mar-May, then again in Sept-Oct, then this tags both March and Sept to get the
+  // labels (labels are placed at the start of each distinct event), using the array [2,8] for the value to the bloom: key
+  let plotWildlifeLabelLocations: {
+    bloom: number[];
+    fruit: number[];
+    other: number[];
+  }[] = [];
+
+  function parseWildlifeArrayForLabels(inputWildlifeArray: string[]): number[] {
+    let flagHolder = [];
+    for (let index = 0; index < inputWildlifeArray.length; index++) {
+      // If it's the first entry and that's not undefined (which is the placeholder I use when the month shouldn't be plotted)
+      if (index === 0 && inputWildlifeArray[index]) {
+        flagHolder.push(index);
+        continue;
+      }
+      let prevValue = inputWildlifeArray[index - 1];
+      if (prevValue === undefined && inputWildlifeArray[index] !== undefined) {
+        flagHolder.push(index);
+      }
+    }
+    return flagHolder;
+  }
+
+  function generatePlotWildlifeLabelLocations(inputPlant: PlantsType) {
+    const plantCharacteristicsToPlot = determinePlantCharsToPlot(inputPlant);
+    for (
+      let plantCharIndex = 0;
+      plantCharIndex < plantCharacteristicsToPlot.length;
+      plantCharIndex++
+    ) {
+      // This is one of 'bloomTime', 'fruitTime', or 'otherTime'
+      let currentPlantChar = plantCharacteristicsToPlot[plantCharIndex];
+      // // need to split off the 'Time' suffix and capitalize the first letter before can use for the wildlife lookup
+      // let splitPlantChar = currentPlantChar.split("Time")[0]
+      // // Will be one of 'Bloom', 'Fruit', or 'Other'
+      // let parsedPlantChar = splitPlantChar[0].toUpperCase() + splitPlantChar.slice(1);
+      // // use keyof to assert that this will match one of the keys of in the inputPlant object (with type PlantsType)
+      // let parsedPlantLookup = `wildlifeAttracted${parsedPlantChar}` as keyof PlantsType;
+
+      // Need to tell TS that the plantEvent is limited to being a PlantsType key, and the indexing
+      // operation will return ONLY a BloomFruitTimeObj (not the other types associated with
+      // different keys in PlantsType).
+      let test = inputPlant[
+        currentPlantChar as keyof PlantsType
+      ] as BloomFruitTimeObj;
+
+      let labelXAxisLocArray = parseWildlifeArrayForLabels(
+        test.monthNumAsStringArray
+      );
+      console.log("x axis loc array");
+      console.log(labelXAxisLocArray);
+      return plotWildlifeLabelLocations;
+    }
+  }
+
   function createDatasets() {
     let datasetArray = [];
 
     for (let plantIndex = 0; plantIndex < inputPlants.length; plantIndex++) {
       let currPlant = inputPlants[plantIndex];
       let currPlantDataArray = createSinglePlantData(currPlant, plantIndex);
+      let wildlifeLabelLocations =
+        generatePlotWildlifeLabelLocations(currPlant);
       // Need to unpack array of objects and add each to the cumulative array to plot
       for (let plantPlotData of currPlantDataArray) {
         datasetArray.push(plantPlotData);
@@ -246,6 +310,7 @@ export default function PlantPlot(props: PlantPlotProps) {
   let otherArray: number[] = [];
   let minMaxYPerPlantArray: { min: number; max: number }[] = [];
 
+  // length of the yTickArray is the same as the number of plants to plot
   for (let typeObj of yTickArray) {
     bloomArray.push(typeObj.bloom);
     fruitArray.push(typeObj.fruit);
