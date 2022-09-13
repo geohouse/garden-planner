@@ -229,9 +229,9 @@ export default function PlantPlot(props: PlantPlotProps) {
   // e.g. flowering from Mar-May, then again in Sept-Oct, then this tags both March and Sept to get the
   // labels (labels are placed at the start of each distinct event), using the array [2,8] for the value to the bloom: key
   let plotWildlifeLabelLocations: {
-    bloom: number[];
-    fruit: number[];
-    other: number[];
+    bloomTime: number[];
+    fruitTime: number[];
+    otherTime: number[];
   }[] = [];
 
   // The input is the month name array, which is collapsed so that there aren't any undefined entries for
@@ -266,9 +266,9 @@ export default function PlantPlot(props: PlantPlotProps) {
     const plantCharacteristicsToPlot = determinePlantCharsToPlot(inputPlant);
     //console.log({ plantCharacteristicsToPlot });
     let tempPlotWildlifeLabelLocations: {
-      bloom: number[];
-      fruit: number[];
-      other: number[];
+      bloomTime: number[];
+      fruitTime: number[];
+      otherTime: number[];
     } = Object(null);
 
     for (
@@ -292,7 +292,8 @@ export default function PlantPlot(props: PlantPlotProps) {
       let currPlantCharObj = inputPlant[
         currentPlantChar as keyof PlantsType
       ] as BloomFruitTimeObj;
-
+      console.log("currentPlantChar");
+      console.log({ currentPlantChar });
       let labelXAxisLocArray = parseWildlifeArrayForLabels(
         currPlantCharObj.monthNameArray
       );
@@ -317,6 +318,8 @@ export default function PlantPlot(props: PlantPlotProps) {
       let currPlantDataArray = createSinglePlantData(currPlant, plantIndex);
       let wildlifeLabelLocations =
         generatePlotWildlifeLabelLocations(currPlant);
+      console.log("wildlife label locations");
+      console.log(wildlifeLabelLocations);
       plotWildlifeLabelLocations.push(wildlifeLabelLocations);
       // Need to unpack array of objects and add each to the cumulative array to plot
       for (let plantPlotData of currPlantDataArray) {
@@ -326,9 +329,10 @@ export default function PlantPlot(props: PlantPlotProps) {
     return datasetArray;
   }
 
+  const plottingData = createDatasets();
+
   console.log("wildlife label locations holder is:");
   console.log(plotWildlifeLabelLocations);
-  const plottingData = createDatasets();
 
   const dataToGraph = {
     labels: monthLabels,
@@ -359,6 +363,12 @@ export default function PlantPlot(props: PlantPlotProps) {
       let bloomWildlifeObj = {},
         fruitWildlifeObj = {},
         otherWildlifeObj = {};
+      let plotWildlifeLabelObj = plotWildlifeLabelLocations[index];
+      let plotWildlifeLocations_bloom = plotWildlifeLabelObj.bloomTime;
+      //console.log({ plotWildlifeLocations_bloom });
+      //console.log(minMaxYPerPlantArray.length);
+      let plotWildlifeLocations_fruit = plotWildlifeLabelObj.fruitTime;
+      let plotWildlifeLocations_other = plotWildlifeLabelObj.otherTime;
       let currMin = minMaxYPerPlantArray[index].min;
       let currMax = minMaxYPerPlantArray[index].max;
       let currName = plantNameArray[index];
@@ -385,33 +395,90 @@ export default function PlantPlot(props: PlantPlotProps) {
         drawTime: "beforeDatasetsDraw",
       };
 
-      bloomWildlifeObj = {
-        type: "label",
-        xValue: 0.1,
-        yValue: minMaxYPerPlantArray[index].max + 0.03,
-        content: currWildlife.bloom.join(", "),
-        position: { x: "start", y: "center" },
-      };
-      fruitWildlifeObj = {
-        type: "label",
-        xValue: 0.1,
-        yValue:
-          (minMaxYPerPlantArray[index].max - minMaxYPerPlantArray[index].min) /
-            2 +
-          minMaxYPerPlantArray[index].min +
-          0.03,
-        content: currWildlife.fruit.join(", "),
-        position: { x: "start", y: "center" },
-      };
-      otherWildlifeObj = {
-        type: "label",
-        xValue: 0.1,
-        yValue: minMaxYPerPlantArray[index].min + 0.03,
-        content: currWildlife.other.join(", "),
-        position: { x: "start", y: "center" },
-      };
+      // Return 1 label object (with unique id key in the holderObj)
+      // for each of the bloom, fruit, and other label x locations, which
+      // are placed at the left end of each disjunct line segment in their graphs.
+      for (
+        let bloomIndex = 0;
+        bloomIndex < plotWildlifeLocations_bloom.length;
+        bloomIndex++
+      ) {
+        let currXLocation = plotWildlifeLocations_bloom[bloomIndex];
+        bloomWildlifeObj = {
+          type: "label",
+          xValue: currXLocation,
+          yValue: minMaxYPerPlantArray[index].max + 0.03,
+          content: currWildlife.bloom.join(", "),
+          position: { x: "start", y: "center" },
+        };
+        // Generate a dynamic, combination label index value to make
+        // each added object have a unique key in the object. These keys aren't
+        // currently used for any referencing, but need to be unique.
+        holderObj[`bloomLabel${index}-${bloomIndex}`] = bloomWildlifeObj;
+      }
+      // bloomWildlifeObj = {
+      //   type: "label",
+      //   xValue: 0.1,
+      //   yValue: minMaxYPerPlantArray[index].max + 0.03,
+      //   content: currWildlife.bloom.join(", "),
+      //   position: { x: "start", y: "center" },
+      // };
+      for (
+        let fruitIndex = 0;
+        fruitIndex < plotWildlifeLocations_fruit.length;
+        fruitIndex++
+      ) {
+        let currXLocation = plotWildlifeLocations_fruit[fruitIndex];
+        fruitWildlifeObj = {
+          type: "label",
+          xValue: currXLocation,
+          yValue:
+            (minMaxYPerPlantArray[index].max -
+              minMaxYPerPlantArray[index].min) /
+              2 +
+            minMaxYPerPlantArray[index].min +
+            0.03,
+          content: currWildlife.fruit.join(", "),
+          position: { x: "start", y: "center" },
+        };
+        holderObj[`fruitLabel${index}-${fruitIndex}`] = fruitWildlifeObj;
+      }
+
+      for (
+        let otherIndex = 0;
+        otherIndex < plotWildlifeLocations_other.length;
+        otherIndex++
+      ) {
+        let currXLocation = plotWildlifeLocations_other[otherIndex];
+        otherWildlifeObj = {
+          type: "label",
+          xValue: currXLocation,
+          yValue: minMaxYPerPlantArray[index].min + 0.03,
+          content: currWildlife.other.join(", "),
+          position: { x: "start", y: "center" },
+        };
+        holderObj[`otherLabel${index}-${otherIndex}`] = otherWildlifeObj;
+      }
+      // fruitWildlifeObj = {
+      //   type: "label",
+      //   xValue: 0.1,
+      //   yValue:
+      //     (minMaxYPerPlantArray[index].max - minMaxYPerPlantArray[index].min) /
+      //       2 +
+      //     minMaxYPerPlantArray[index].min +
+      //     0.03,
+      //   content: currWildlife.fruit.join(", "),
+      //   position: { x: "start", y: "center" },
+      // };
+      // otherWildlifeObj = {
+      //   type: "label",
+      //   xValue: 0.1,
+      //   yValue: minMaxYPerPlantArray[index].min + 0.03,
+      //   content: currWildlife.other.join(", "),
+      //   position: { x: "start", y: "center" },
+      // };
       holderObj[`box${index}`] = plantBoxObj;
-      holderObj[`bloomLabel${index}`] = bloomWildlifeObj;
+      //holderObj[`bloomLabel${index}`] = bloomWildlifeObj;
       holderObj[`fruitLabel${index}`] = fruitWildlifeObj;
       holderObj[`otherLabel${index}`] = otherWildlifeObj;
     }
