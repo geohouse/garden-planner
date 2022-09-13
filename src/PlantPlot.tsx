@@ -234,24 +234,43 @@ export default function PlantPlot(props: PlantPlotProps) {
     other: number[];
   }[] = [];
 
+  // The input is the month name array, which is collapsed so that there aren't any undefined entries for
+  // characteristics that are missing for a given month.
   function parseWildlifeArrayForLabels(inputWildlifeArray: string[]): number[] {
+    //console.log("In parse wildlife array");
+    //console.log(inputWildlifeArray);
     let flagHolder = [];
+    // Initialize to a flag value (normal range: 0-11)
+    let prevMonthIndex = -1;
     for (let index = 0; index < inputWildlifeArray.length; index++) {
+      // For the current month, look up the index value of that month. (range 0-11)
+      let currMonthIndex = monthLabels.indexOf(inputWildlifeArray[index]);
+      //console.log({ currMonthIndex });
       // If it's the first entry and that's not undefined (which is the placeholder I use when the month shouldn't be plotted)
-      if (index === 0 && inputWildlifeArray[index]) {
-        flagHolder.push(index);
+      if (index === 0 && currMonthIndex === 0) {
+        flagHolder.push(currMonthIndex);
+        prevMonthIndex = currMonthIndex;
         continue;
       }
-      let prevValue = inputWildlifeArray[index - 1];
-      if (prevValue === undefined && inputWildlifeArray[index] !== undefined) {
-        flagHolder.push(index);
+
+      //console.log({ prevMonthIndex });
+      if (prevMonthIndex !== currMonthIndex - 1) {
+        flagHolder.push(currMonthIndex);
       }
+      prevMonthIndex = currMonthIndex;
     }
     return flagHolder;
   }
 
   function generatePlotWildlifeLabelLocations(inputPlant: PlantsType) {
     const plantCharacteristicsToPlot = determinePlantCharsToPlot(inputPlant);
+    //console.log({ plantCharacteristicsToPlot });
+    let tempPlotWildlifeLabelLocations: {
+      bloom: number[];
+      fruit: number[];
+      other: number[];
+    } = Object(null);
+
     for (
       let plantCharIndex = 0;
       plantCharIndex < plantCharacteristicsToPlot.length;
@@ -259,6 +278,7 @@ export default function PlantPlot(props: PlantPlotProps) {
     ) {
       // This is one of 'bloomTime', 'fruitTime', or 'otherTime'
       let currentPlantChar = plantCharacteristicsToPlot[plantCharIndex];
+      //console.log({ currentPlantChar });
       // // need to split off the 'Time' suffix and capitalize the first letter before can use for the wildlife lookup
       // let splitPlantChar = currentPlantChar.split("Time")[0]
       // // Will be one of 'Bloom', 'Fruit', or 'Other'
@@ -269,17 +289,24 @@ export default function PlantPlot(props: PlantPlotProps) {
       // Need to tell TS that the plantEvent is limited to being a PlantsType key, and the indexing
       // operation will return ONLY a BloomFruitTimeObj (not the other types associated with
       // different keys in PlantsType).
-      let test = inputPlant[
+      let currPlantCharObj = inputPlant[
         currentPlantChar as keyof PlantsType
       ] as BloomFruitTimeObj;
 
       let labelXAxisLocArray = parseWildlifeArrayForLabels(
-        test.monthNumAsStringArray
+        currPlantCharObj.monthNameArray
       );
-      console.log("x axis loc array");
-      console.log(labelXAxisLocArray);
-      return plotWildlifeLabelLocations;
+      //console.log("x axis loc array");
+      //console.log(labelXAxisLocArray);
+
+      // Assign array to the correct event type key in the temp holder object
+      tempPlotWildlifeLabelLocations[
+        currentPlantChar as keyof typeof tempPlotWildlifeLabelLocations
+      ] = labelXAxisLocArray;
     }
+    console.log("Temp labels are");
+    console.log(tempPlotWildlifeLabelLocations);
+    return tempPlotWildlifeLabelLocations;
   }
 
   function createDatasets() {
@@ -290,6 +317,7 @@ export default function PlantPlot(props: PlantPlotProps) {
       let currPlantDataArray = createSinglePlantData(currPlant, plantIndex);
       let wildlifeLabelLocations =
         generatePlotWildlifeLabelLocations(currPlant);
+      plotWildlifeLabelLocations.push(wildlifeLabelLocations);
       // Need to unpack array of objects and add each to the cumulative array to plot
       for (let plantPlotData of currPlantDataArray) {
         datasetArray.push(plantPlotData);
@@ -298,6 +326,8 @@ export default function PlantPlot(props: PlantPlotProps) {
     return datasetArray;
   }
 
+  console.log("wildlife label locations holder is:");
+  console.log(plotWildlifeLabelLocations);
   const plottingData = createDatasets();
 
   const dataToGraph = {
