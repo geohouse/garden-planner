@@ -22,3 +22,8 @@ Using `keyof` to resolve type errors when using square bracket notation with a s
 When needing to create data objects/arrays for plotting multiple line segments for each of the plants (bloom, fruiting, other), re-factoring as needed to use the most efficient way to loop through the input data to create the needed output format - `map` or `for` loops.
 
 Importing type from Chart.js (`Tick[]`) to enable correct typing and autocompletion of tick values created manually using a callback function and a type `Tick[]` array of objects.
+
+Getting experience working with nested objects that contain multiple types and they need to be dynamically indexed by a variable. Use `as` characterizer to limit the type to be a key of a type in order to allow dynamic look-up, then use `as` to specify that the returned value is another specific type that will have other properties that need to be called (statically) 
+e.g. 
+```let test = inputPlant[currentPlantChar as keyof PlantsType] as BloomFruitTimeObj;```
+Where `currentPlantChar` is dynamic
