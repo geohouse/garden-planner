@@ -97,31 +97,52 @@ export default function GardenPlanner() {
     // so need React to both provide it with its updated value and to
     // keep track of the month name corresponding to the month num (as a string).
     // Do that in an object.
-    setBloomTime({
-      monthNumAsStringArray: Object.keys(selectedMonthObj),
-      monthNameArray: Object.values(selectedMonthObj),
-    });
+
+    // If an empty object was returned (when all months have been toggled off),
+    // then need to explicitly re-set to arrays with empty strings, otherwise other code fails
+    if (Object.keys(selectedMonthObj).length === 0) {
+      setBloomTime({ monthNumAsStringArray: [""], monthNameArray: [""] });
+    } else {
+      setBloomTime({
+        monthNumAsStringArray: Object.keys(selectedMonthObj),
+        monthNameArray: Object.values(selectedMonthObj),
+      });
+    }
     console.log("bloom time object is:");
     console.log(bloomTime);
     console.log(selectedMonthObj);
   }
 
   function handleFruitTimeChange(selectedMonthObj: { [key: number]: string }) {
-    setFruitTime({
-      monthNumAsStringArray: Object.keys(selectedMonthObj),
-      monthNameArray: Object.values(selectedMonthObj),
-    });
+    // If an empty object was returned (when all months have been toggled off),
+    // then need to explicitly re-set to arrays with empty strings, otherwise other code fails
+    if (Object.keys(selectedMonthObj).length === 0) {
+      setFruitTime({ monthNumAsStringArray: [""], monthNameArray: [""] });
+    } else {
+      setFruitTime({
+        monthNumAsStringArray: Object.keys(selectedMonthObj),
+        monthNameArray: Object.values(selectedMonthObj),
+      });
+    }
     console.log("fruit time object is:");
     console.log(fruitTime);
+    console.log(otherTime);
   }
 
   function handleOtherTimeChange(selectedMonthObj: { [key: number]: string }) {
-    setOtherTime({
-      monthNumAsStringArray: Object.keys(selectedMonthObj),
-      monthNameArray: Object.values(selectedMonthObj),
-    });
+    // If an empty object was returned (when all months have been toggled off),
+    // then need to explicitly re-set to arrays with empty strings, otherwise other code fails
+    if (Object.keys(selectedMonthObj).length === 0) {
+      setOtherTime({ monthNumAsStringArray: [""], monthNameArray: [""] });
+    } else {
+      setOtherTime({
+        monthNumAsStringArray: Object.keys(selectedMonthObj),
+        monthNameArray: Object.values(selectedMonthObj),
+      });
+    }
     console.log("other time object is:");
     console.log(otherTime);
+    console.log(fruitTime);
   }
 
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
@@ -240,6 +261,12 @@ export default function GardenPlanner() {
   }
 
   function getFirstEventDuration(plantEventMonthNumAsStringArray: string[]) {
+    // if the input is an empty array (will be if the plant event e.g. bloom isn't specified for the current plant)
+    // then return 0
+    if (plantEventMonthNumAsStringArray[0] === "") {
+      return 0;
+    }
+
     // convert to array of numbers
     const monthNumArray = plantEventMonthNumAsStringArray.map(
       (monthNumString) => Number.parseInt(monthNumString, 10)
@@ -297,7 +324,7 @@ export default function GardenPlanner() {
     },
     plantEvent: string
   ): number[] {
-    let plantResortArrayOrder = [];
+    let plantReSortArrayOrder = [];
     // The key order of any obj is NOT guaranteed, so need to loop through following the month
     // order in order to provide the plants id order array to use for re-ordering the list of Plants objects
 
@@ -353,11 +380,11 @@ export default function GardenPlanner() {
           entryIndex++
         ) {
           let currPlantID = currMonthArrayEntry[entryIndex].plantID;
-          plantResortArrayOrder.push(currPlantID);
+          plantReSortArrayOrder.push(currPlantID);
         }
       }
     }
-    return plantResortArrayOrder;
+    return plantReSortArrayOrder;
   }
 
   function handlePlantSortClick(eventTypeToSort: string) {
@@ -401,7 +428,7 @@ export default function GardenPlanner() {
       Dec: [],
     };
 
-    plants.forEach((plant, plantIndex) => {
+    plants.forEach((plant) => {
       console.log(eventTypeToSort);
       console.log("plant entry");
       console.log(plant);
@@ -410,10 +437,22 @@ export default function GardenPlanner() {
         `${eventTypeToSort}Time` as keyof PlantsType
       ] as BloomFruitTimeObj;
       // Get the first month of the event. Will be used to index into the correct month key in the holderObj
-      const startEventMonth = inputPlantEventArray.monthNameArray[0];
+      // If the startEventMonth would otherwise be undefined (if there's no plant event e.g. bloom specified for the current plant)
+      // then set the start month to "Jan"
+      const startEventMonth =
+        inputPlantEventArray.monthNameArray[0] === undefined ||
+        inputPlantEventArray.monthNameArray[0] !== ""
+          ? inputPlantEventArray.monthNameArray[0]
+          : "Jan";
+      // returns 0 duration if the current plant doesn't have the event (e.g. blooming) specified
       let firstEventDuration = getFirstEventDuration(
         inputPlantEventArray.monthNumAsStringArray
       );
+
+      console.log(inputPlantEventArray.monthNameArray[0]);
+      console.log({ startEventMonth });
+      console.log({ firstEventDuration });
+
       // Add the current plant's object to the holderObj.
       holderObj[startEventMonth as keyof typeof holderObj].push({
         plantID: plant.id,
