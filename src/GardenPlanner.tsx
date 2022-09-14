@@ -233,32 +233,39 @@ export default function GardenPlanner() {
     setPlants(plants.filter((plant) => plant.id !== plantID));
   }
 
-  const monthLabels = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-    "Jan",
-  ];
+  function getFirstEventDuration(plantEventMonthNumAsStringArray: string[]) {
+    // convert to array of numbers
+    const monthNumArray = plantEventMonthNumAsStringArray.map(
+      (monthNumString) => Number.parseInt(monthNumString, 10)
+    );
 
-  function getFirstEventMonthAndDuration(plantEventMonthNameArray: string[]) {
+    let currentMonthNum = 0;
+    let nextMonthNum = 0;
+
+    // Will keep track of how long (in months) the first instance of the event for the plant lasts
+    // e.g. blooming starts in May and ends in August, so duration will be 4
+    // e.g. other wildlife attracted by leaves from March - May, then twigs from Oct-Dec, so duration will be 3 (
+    // only consider the first instance of the event in a calendar year, so only consider the leaves dates)
+    let eventDuration = 1;
+    // this is a loop with a look-ahead condition to check the next month number compared to the current one,
+    // so needs to end 1 before the end of the array
     for (
-      let eventIndex = 0;
-      eventIndex < plantEventMonthNameArray.length;
-      eventIndex++
+      let monthIndex = 0;
+      monthIndex < monthNumArray.length - 1;
+      monthIndex++
     ) {
-      if (eventIndex === 0) {
-        return plantEventMonthNameArray[eventIndex];
+      currentMonthNum = monthNumArray[monthIndex];
+      nextMonthNum = monthNumArray[monthIndex + 1];
+      console.log({ currentMonthNum });
+      console.log({ nextMonthNum });
+      if (nextMonthNum === currentMonthNum + 1) {
+        eventDuration++;
+        continue;
+      } else {
+        return eventDuration;
       }
     }
+    return eventDuration;
   }
 
   function handlePlantSortClick(eventTypeToSort: string) {
@@ -267,7 +274,9 @@ export default function GardenPlanner() {
     // month of the year that month. Each of those plant objects has a key of the
     // index of the plant it represents (index in the plants state object), and a value of how many consecutive months that plant blooms starting in the current month
     //
-    let holderObj = {
+    let holderObj: {
+      [key: string]: { plantID: number; eventDuration: number }[];
+    } = {
       Jan: [],
       Feb: [],
       Mar: [],
@@ -281,18 +290,62 @@ export default function GardenPlanner() {
       Nov: [],
       Dec: [],
     };
-    plants.forEach((plant) => {
+
+    // don't mutate the original holder, but create a new sorted copy within each month
+    let holderObj_sorted: {
+      [key: string]: { plantID: number; eventDuration: number }[];
+    } = {
+      Jan: [],
+      Feb: [],
+      Mar: [],
+      Apr: [],
+      May: [],
+      Jun: [],
+      Jul: [],
+      Aug: [],
+      Sep: [],
+      Oct: [],
+      Nov: [],
+      Dec: [],
+    };
+
+    plants.forEach((plant, plantIndex) => {
       console.log(eventTypeToSort);
       console.log("plant entry");
       console.log(plant);
+      // Need to add 'Time' to the end of each of the event types for the lookup to match a key
       let inputPlantEventArray = plant[
         `${eventTypeToSort}Time` as keyof PlantsType
       ] as BloomFruitTimeObj;
-      let firstEventMonthAndDuration = getFirstEventMonthAndDuration(
-        inputPlantEventArray.monthNameArray
+      // Get the first month of the event. Will be used to index into the correct month key in the holderObj
+      const startEventMonth = inputPlantEventArray.monthNameArray[0];
+      let firstEventDuration = getFirstEventDuration(
+        inputPlantEventArray.monthNumAsStringArray
       );
-      console.log({ firstEventMonthAndDuration });
+      // Add the current plant's object to the holderObj.
+      holderObj[startEventMonth as keyof typeof holderObj].push({
+        plantID: plantIndex,
+        eventDuration: firstEventDuration,
+      });
+      console.log("holder obj is:");
+      console.log(holderObj);
+
+      // Need to sort the array of objects within each holderObj's month by the eventDuration (increasing)
+      // do this by providing a custom compare function to array.sort()
+      for (let monthKey in holderObj) {
+        // spreading into a new array is critical to avoid mutating the holderObj entries
+        let currMonthArray = [...holderObj[monthKey]];
+        // sorts (in place)
+        currMonthArray.sort(function (a, b) {
+          return a.eventDuration - b.eventDuration;
+        });
+        holderObj_sorted[monthKey as keyof typeof holderObj_sorted] =
+          currMonthArray;
+      }
     });
+
+    console.log("sorted holder is:");
+    console.log(holderObj_sorted);
   }
 
   return (
