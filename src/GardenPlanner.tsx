@@ -59,6 +59,12 @@ export default function GardenPlanner() {
     mammals: false,
     other: false,
   });
+  const [wildlifeSortStartOfYearToggle, setWildlifeSortStartOfYearToggle] =
+    useState({
+      bloom: true,
+      fruit: true,
+      other: true,
+    });
 
   // Will need to read back from local storage later.
   // The type is an array (of objects) having the PlantsType
@@ -285,26 +291,57 @@ export default function GardenPlanner() {
     setPlants(tempPlantResortArr);
   }
 
-  function generatePlantReSortArray(sortedInputObj: {
-    [key: string]: { plantID: number; eventDuration: number }[];
-  }): number[] {
+  function generatePlantReSortArray(
+    sortedInputObj: {
+      [key: string]: { plantID: number; eventDuration: number }[];
+    },
+    plantEvent: string
+  ): number[] {
     let plantResortArrayOrder = [];
     // The key order of any obj is NOT guaranteed, so need to loop through following the month
     // order in order to provide the plants id order array to use for re-ordering the list of Plants objects
-    for (let month of [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ]) {
+
+    // Toggle the month order with each press of the sort button (the state used below in the if statement is toggled with each click)
+    // in order to toggle whether the plants are ordered in the graph and list with ones blooming earlier in the year listed first
+    // or those blooming later in the year
+
+    let monthHolder: string[] = [];
+    if (
+      wildlifeSortStartOfYearToggle[
+        plantEvent as keyof typeof wildlifeSortStartOfYearToggle
+      ]
+    ) {
+      monthHolder = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+    } else {
+      monthHolder = [
+        "Dec",
+        "Nov",
+        "Oct",
+        "Sep",
+        "Aug",
+        "Jul",
+        "Jun",
+        "May",
+        "Apr",
+        "Mar",
+        "Feb",
+        "Jan",
+      ];
+    }
+    for (let month of monthHolder) {
       // Skip any months that aren't the start of the type of selected event for any of the plants
       if (sortedInputObj[month].length === 0) {
         continue;
@@ -391,9 +428,25 @@ export default function GardenPlanner() {
         // spreading into a new array is critical to avoid mutating the holderObj entries
         let currMonthArray = [...holderObj[monthKey]];
         // sorts (in place)
-        currMonthArray.sort(function (a, b) {
-          return b.eventDuration - a.eventDuration;
-        });
+        // With each successive press of the sort button, this toggles (through a toggled state set on each button press)
+        // whether plants with the same event (e.g. bloom) start time (but different durations) are sorted
+        // with shortest duration ahead, or longest duration ahead.
+        if (
+          wildlifeSortStartOfYearToggle[
+            eventTypeToSort as keyof typeof wildlifeSortStartOfYearToggle
+          ]
+        ) {
+          console.log("firing true");
+          currMonthArray.sort(function (a, b) {
+            return b.eventDuration - a.eventDuration;
+          });
+        } else {
+          console.log("firing false");
+          currMonthArray.sort(function (a, b) {
+            return a.eventDuration - b.eventDuration;
+          });
+        }
+
         holderObj_sorted[monthKey as keyof typeof holderObj_sorted] =
           currMonthArray;
       }
@@ -402,9 +455,33 @@ export default function GardenPlanner() {
     console.log("sorted holder is:");
     console.log(holderObj_sorted);
 
+    console.log("original");
+    console.log(wildlifeSortStartOfYearToggle);
+    // for the type of event selected, toggle whether it's now set (on its next click)
+    // to sort from the start of the year or the end of the year.
+    let newWildlifeEventToggle = { ...wildlifeSortStartOfYearToggle };
+    newWildlifeEventToggle[
+      eventTypeToSort as keyof typeof newWildlifeEventToggle
+    ] =
+      !wildlifeSortStartOfYearToggle[
+        eventTypeToSort as keyof typeof wildlifeSortStartOfYearToggle
+      ];
+    console.log(newWildlifeEventToggle);
+    setWildlifeSortStartOfYearToggle(newWildlifeEventToggle);
+
+    //   const [wildlifeSortStartOfYearToggle, setWildlifeSortStartOfYearToggle] =
+    // useState({
+    //   bloom: true,
+    //   fruit: true,
+    //   other: true,
+    // });
+
     // Will hold the order that the Plants array should be updated to in order for its Plants to be sorted correctly
     // the array elements are the index values of each plant in the original Plants array.
-    let plantResortArrayOrder = generatePlantReSortArray(holderObj_sorted);
+    let plantResortArrayOrder = generatePlantReSortArray(
+      holderObj_sorted,
+      eventTypeToSort
+    );
     console.log(plantResortArrayOrder);
 
     // Re-sort the Plants array
