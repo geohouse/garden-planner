@@ -2,7 +2,7 @@ import AddPlant from "./AddPlant";
 import PlantList from "./PlantList";
 import { useState } from "react";
 import PlantPlot from "./PlantPlot";
-import { PlantsType } from "./GardenPlannerInterfaces";
+import { BloomFruitTimeObj, PlantsType } from "./GardenPlannerInterfaces";
 
 // interface BloomTimeObj {
 //   [key: number]: string;
@@ -233,6 +233,68 @@ export default function GardenPlanner() {
     setPlants(plants.filter((plant) => plant.id !== plantID));
   }
 
+  const monthLabels = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+    "Jan",
+  ];
+
+  function getFirstEventMonthAndDuration(plantEventMonthNameArray: string[]) {
+    for (
+      let eventIndex = 0;
+      eventIndex < plantEventMonthNameArray.length;
+      eventIndex++
+    ) {
+      if (eventIndex === 0) {
+        return plantEventMonthNameArray[eventIndex];
+      }
+    }
+  }
+
+  function handlePlantSortClick(eventTypeToSort: string) {
+    // The array value for each month key will be an array of objects (one object for each plant). Each month object will hold
+    // an array of objects representing which plants from the plants state object have their first blooming/fruiting/other wildlife attracting
+    // month of the year that month. Each of those plant objects has a key of the
+    // index of the plant it represents (index in the plants state object), and a value of how many consecutive months that plant blooms starting in the current month
+    //
+    let holderObj = {
+      Jan: [],
+      Feb: [],
+      Mar: [],
+      Apr: [],
+      May: [],
+      Jun: [],
+      Jul: [],
+      Aug: [],
+      Sep: [],
+      Oct: [],
+      Nov: [],
+      Dec: [],
+    };
+    plants.forEach((plant) => {
+      console.log(eventTypeToSort);
+      console.log("plant entry");
+      console.log(plant);
+      let inputPlantEventArray = plant[
+        `${eventTypeToSort}Time` as keyof PlantsType
+      ] as BloomFruitTimeObj;
+      let firstEventMonthAndDuration = getFirstEventMonthAndDuration(
+        inputPlantEventArray.monthNameArray
+      );
+      console.log({ firstEventMonthAndDuration });
+    });
+  }
+
   return (
     <>
       <AddPlant
@@ -257,6 +319,7 @@ export default function GardenPlanner() {
       <PlantList
         inputPlants={plants}
         onDeletePlantClick={handleDeletePlantClick}
+        onPlantSortClick={handlePlantSortClick}
       />
     </>
   );

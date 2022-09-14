@@ -17,11 +17,30 @@ import { PlantsType } from "./GardenPlannerInterfaces";
 interface PlantListProps {
   inputPlants: PlantsType[];
   onDeletePlantClick: (plantID: number) => void;
+  onPlantSortClick: (eventTypeToSort: string) => void;
 }
 
 export default function PlantList(props: PlantListProps) {
   return (
     <>
+      <button
+        className="sort-bloom"
+        onClick={() => props.onPlantSortClick("bloom")}
+      >
+        Sort plants by bloom time
+      </button>
+      <button
+        className="sort-fruit"
+        onClick={() => props.onPlantSortClick("fruit")}
+      >
+        Sort plants by fruit time
+      </button>
+      <button
+        className="sort-other"
+        onClick={() => props.onPlantSortClick("other")}
+      >
+        Sort plants by other time
+      </button>
       <ul className="plantList">
         {props.inputPlants.map((plant) => {
           return (
