@@ -262,9 +262,13 @@ export default function GardenPlanner() {
         eventDuration++;
         continue;
       } else {
+        console.log("return 1");
+        console.log({ eventDuration });
         return eventDuration;
       }
     }
+    console.log("return 2");
+    console.log({ eventDuration });
     return eventDuration;
   }
 
@@ -273,8 +277,7 @@ export default function GardenPlanner() {
     plantReSortIndexArray.forEach((index) => {
       // because .filter returns an array, but need to push just the PlantsType within that array (otherwise type error)
       // need to access and return the [0] element of it.
-      // the plant.id is 1-based, so need to add 1 to the index value before comparison
-      let currPlant = plants.filter((plant) => plant.id === index + 1)[0];
+      let currPlant = plants.filter((plant) => plant.id === index)[0];
       tempPlantResortArr.push(currPlant);
     });
     console.log("re-sorting");
@@ -376,7 +379,7 @@ export default function GardenPlanner() {
       );
       // Add the current plant's object to the holderObj.
       holderObj[startEventMonth as keyof typeof holderObj].push({
-        plantID: plantIndex,
+        plantID: plant.id,
         eventDuration: firstEventDuration,
       });
       console.log("holder obj is:");
@@ -389,7 +392,7 @@ export default function GardenPlanner() {
         let currMonthArray = [...holderObj[monthKey]];
         // sorts (in place)
         currMonthArray.sort(function (a, b) {
-          return a.eventDuration - b.eventDuration;
+          return b.eventDuration - a.eventDuration;
         });
         holderObj_sorted[monthKey as keyof typeof holderObj_sorted] =
           currMonthArray;
