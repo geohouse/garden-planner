@@ -268,6 +268,58 @@ export default function GardenPlanner() {
     return eventDuration;
   }
 
+  function reSortPlantsArray(plantReSortIndexArray: number[]) {
+    let tempPlantResortArr: PlantsType[] = [];
+    plantReSortIndexArray.forEach((index) => {
+      // because .filter returns an array, but need to push just the PlantsType within that array (otherwise type error)
+      // need to access and return the [0] element of it.
+      // the plant.id is 1-based, so need to add 1 to the index value before comparison
+      let currPlant = plants.filter((plant) => plant.id === index + 1)[0];
+      tempPlantResortArr.push(currPlant);
+    });
+    console.log("re-sorting");
+    console.log(tempPlantResortArr);
+    setPlants(tempPlantResortArr);
+  }
+
+  function generatePlantReSortArray(sortedInputObj: {
+    [key: string]: { plantID: number; eventDuration: number }[];
+  }): number[] {
+    let plantResortArrayOrder = [];
+    // The key order of any obj is NOT guaranteed, so need to loop through following the month
+    // order in order to provide the plants id order array to use for re-ordering the list of Plants objects
+    for (let month of [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ]) {
+      // Skip any months that aren't the start of the type of selected event for any of the plants
+      if (sortedInputObj[month].length === 0) {
+        continue;
+      } else {
+        let currMonthArrayEntry = sortedInputObj[month];
+        for (
+          let entryIndex = 0;
+          entryIndex < currMonthArrayEntry.length;
+          entryIndex++
+        ) {
+          let currPlantID = currMonthArrayEntry[entryIndex].plantID;
+          plantResortArrayOrder.push(currPlantID);
+        }
+      }
+    }
+    return plantResortArrayOrder;
+  }
+
   function handlePlantSortClick(eventTypeToSort: string) {
     // The array value for each month key will be an array of objects (one object for each plant). Each month object will hold
     // an array of objects representing which plants from the plants state object have their first blooming/fruiting/other wildlife attracting
@@ -346,6 +398,14 @@ export default function GardenPlanner() {
 
     console.log("sorted holder is:");
     console.log(holderObj_sorted);
+
+    // Will hold the order that the Plants array should be updated to in order for its Plants to be sorted correctly
+    // the array elements are the index values of each plant in the original Plants array.
+    let plantResortArrayOrder = generatePlantReSortArray(holderObj_sorted);
+    console.log(plantResortArrayOrder);
+
+    // Re-sort the Plants array
+    reSortPlantsArray(plantResortArrayOrder);
   }
 
   return (
