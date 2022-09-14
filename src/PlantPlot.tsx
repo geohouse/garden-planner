@@ -194,11 +194,11 @@ export default function PlantPlot(props: PlantPlotProps) {
           }
           if (plantEvent === "fruitTime") {
             plantEventArray[timeEntryNum - 1] = plantIndex + 0.9;
-            //plantEventArray[timeEntryNum] = plantIndex + 0.9;
+            plantEventArray[timeEntryNum] = plantIndex + 0.9;
           }
           if (plantEvent === "otherTime") {
             plantEventArray[timeEntryNum - 1] = plantIndex + 0.8;
-            //plantEventArray[timeEntryNum] = plantIndex + 0.8;
+            plantEventArray[timeEntryNum] = plantIndex + 0.8;
           }
         });
         let borderColor: string = "",
@@ -355,7 +355,8 @@ export default function PlantPlot(props: PlantPlotProps) {
   const combinedArray = bloomArray.concat(fruitArray).concat(otherArray);
 
   function buildAnnotationObjects(
-    minMaxYPerPlantArray: { min: number; max: number }[]
+    minMaxYPerPlantArray: { min: number; max: number }[],
+    numPlants: number
   ) {
     let holderObj: { [key: string]: {} } = {};
     for (let index = 0; index < minMaxYPerPlantArray.length; index++) {
@@ -374,13 +375,21 @@ export default function PlantPlot(props: PlantPlotProps) {
       let currName = plantNameArray[index];
       let currWildlife = plantWildlifeArray[index];
       console.log({ currWildlife });
+      // This is the default plant name label position (above the gray annotation box).
+      // Only override if this is the only plant being graphed
+      let yLabelPostion = -20;
+      if (numPlants === 1) {
+        // Override default position to place the plant name at the top of the gray annotation box
+        // if it's the only plant being plotted, because otherwise the label is invisible (off the graph's canvas)
+        yLabelPostion = 0;
+      }
       plantBoxObj = {
         type: "box",
         label: {
           content: currName,
           display: true,
           position: { x: "center", y: "start" },
-          yAdjust: -40,
+          yAdjust: yLabelPostion,
         },
         xMin: 0,
         xMax: 13,
@@ -494,7 +503,13 @@ export default function PlantPlot(props: PlantPlotProps) {
   }
 
   console.log({ minMaxYPerPlantArray });
-  const annotationObject = buildAnnotationObjects(minMaxYPerPlantArray);
+  // Pass the number of plants in as an arg to allow the plant name annotation to remain easily visible regardless of how many plants are rendered
+  // (it has to render inside the annotation rectangle to be visible with a single rendered plant, then outside of it for > 1 plant to not
+  // overlap with the wildlife strings)
+  const annotationObject = buildAnnotationObjects(
+    minMaxYPerPlantArray,
+    inputPlants.length
+  );
 
   // I was getting lots of type errors when setting the ticks callback - it's supposed to be a fancy
   // intersection type combining lots of different subtypes for the Line component, but was very hard
