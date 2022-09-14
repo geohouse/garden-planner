@@ -518,6 +518,10 @@ export default function PlantPlot(props: PlantPlotProps) {
   // but it's the only way I could clear this error for now.
   const plottingOptions: any = {
     plugins: {
+      // Removing the legend entries (now redundant with the plant name and plant event type annotations on the plot)
+      legend: {
+        display: false,
+      },
       annotation: {
         annotations: annotationObject,
         // annotations: {
