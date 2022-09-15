@@ -506,10 +506,10 @@ export default function PlantPlot(props: PlantPlotProps) {
   // Pass the number of plants in as an arg to allow the plant name annotation to remain easily visible regardless of how many plants are rendered
   // (it has to render inside the annotation rectangle to be visible with a single rendered plant, then outside of it for > 1 plant to not
   // overlap with the wildlife strings)
-  // const annotationObject = buildAnnotationObjects(
-  //   minMaxYPerPlantArray,
-  //   inputPlants.length
-  // );
+  const annotationObject = buildAnnotationObjects(
+    minMaxYPerPlantArray,
+    inputPlants.length
+  );
 
   // I was getting lots of type errors when setting the ticks callback - it's supposed to be a fancy
   // intersection type combining lots of different subtypes for the Line component, but was very hard
@@ -522,31 +522,31 @@ export default function PlantPlot(props: PlantPlotProps) {
       legend: {
         display: false,
       },
-      //annotation: {
-      //  annotations: annotationObject,
-      // annotations: {
-      //   box1: {
-      //     type: "box",
-      //     label: {
-      //       content: "Testing Gussy",
-      //       display: true,
-      //       position: { x: "center", y: "start" },
-      //       yAdjust: -30,
-      //     },
-      //     xMin: 1,
-      //     xMax: 13,
-      //     yMin: 0.8,
-      //     yMax: 0.9,
-      //     backgroundColor: "rgba(200,200,200,0.4)",
-      //     borderColor: "rgba(220,220,220,0.6)",
-      //     yScaleID: "y",
-      //     xScaleID: "x",
-      //     // This draws the rectangle first, behind the lines (the z parameter for drawing order
-      //     // doesn't seem to work, so use this instead.)
-      //     drawTime: "beforeDatasetsDraw",
-      //   },
-      // },
-      //},
+      annotation: {
+        annotations: annotationObject,
+        // annotations: {
+        //   box1: {
+        //     type: "box",
+        //     label: {
+        //       content: "Testing Gussy",
+        //       display: true,
+        //       position: { x: "center", y: "start" },
+        //       yAdjust: -30,
+        //     },
+        //     xMin: 1,
+        //     xMax: 13,
+        //     yMin: 0.8,
+        //     yMax: 0.9,
+        //     backgroundColor: "rgba(200,200,200,0.4)",
+        //     borderColor: "rgba(220,220,220,0.6)",
+        //     yScaleID: "y",
+        //     xScaleID: "x",
+        //     // This draws the rectangle first, behind the lines (the z parameter for drawing order
+        //     // doesn't seem to work, so use this instead.)
+        //     drawTime: "beforeDatasetsDraw",
+        //   },
+        // },
+      },
     },
     scales: {
       y: {
