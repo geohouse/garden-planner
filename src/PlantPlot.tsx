@@ -292,8 +292,8 @@ export default function PlantPlot(props: PlantPlotProps) {
       let currPlantCharObj = inputPlant[
         currentPlantChar as keyof PlantsType
       ] as BloomFruitTimeObj;
-      console.log("currentPlantChar");
-      console.log({ currentPlantChar });
+      //console.log("currentPlantChar");
+      //console.log({ currentPlantChar });
       let labelXAxisLocArray = parseWildlifeArrayForLabels(
         currPlantCharObj.monthNameArray
       );
@@ -305,8 +305,8 @@ export default function PlantPlot(props: PlantPlotProps) {
         currentPlantChar as keyof typeof tempPlotWildlifeLabelLocations
       ] = labelXAxisLocArray;
     }
-    console.log("Temp labels are");
-    console.log(tempPlotWildlifeLabelLocations);
+    //console.log("Temp labels are");
+    //console.log(tempPlotWildlifeLabelLocations);
     return tempPlotWildlifeLabelLocations;
   }
 
@@ -318,8 +318,8 @@ export default function PlantPlot(props: PlantPlotProps) {
       let currPlantDataArray = createSinglePlantData(currPlant, plantIndex);
       let wildlifeLabelLocations =
         generatePlotWildlifeLabelLocations(currPlant);
-      console.log("wildlife label locations");
-      console.log(wildlifeLabelLocations);
+      //console.log("wildlife label locations");
+      //console.log(wildlifeLabelLocations);
       plotWildlifeLabelLocations.push(wildlifeLabelLocations);
       // Need to unpack array of objects and add each to the cumulative array to plot
       for (let plantPlotData of currPlantDataArray) {
@@ -331,8 +331,8 @@ export default function PlantPlot(props: PlantPlotProps) {
 
   const plottingData = createDatasets();
 
-  console.log("wildlife label locations holder is:");
-  console.log(plotWildlifeLabelLocations);
+  //console.log("wildlife label locations holder is:");
+  //console.log(plotWildlifeLabelLocations);
 
   const dataToGraph = {
     labels: monthLabels,
@@ -374,7 +374,7 @@ export default function PlantPlot(props: PlantPlotProps) {
       let currMax = minMaxYPerPlantArray[index].max;
       let currName = plantNameArray[index];
       let currWildlife = plantWildlifeArray[index];
-      console.log({ currWildlife });
+      //console.log({ currWildlife });
       // This is the default plant name label position (above the gray annotation box).
       // Only override if this is the only plant being graphed
       let yLabelPostion = -20;
@@ -497,12 +497,12 @@ export default function PlantPlot(props: PlantPlotProps) {
       holderObj[`fruitLabel${index}`] = fruitWildlifeObj;
       holderObj[`otherLabel${index}`] = otherWildlifeObj;
     }
-    console.log("The options holder is:");
-    console.log(holderObj);
+    //console.log("The options holder is:");
+    //console.log(holderObj);
     return holderObj;
   }
 
-  console.log({ minMaxYPerPlantArray });
+  //console.log({ minMaxYPerPlantArray });
   // Pass the number of plants in as an arg to allow the plant name annotation to remain easily visible regardless of how many plants are rendered
   // (it has to render inside the annotation rectangle to be visible with a single rendered plant, then outside of it for > 1 plant to not
   // overlap with the wildlife strings)
@@ -607,8 +607,8 @@ export default function PlantPlot(props: PlantPlotProps) {
   //   },
   // };
 
-  console.log("Data to graph is:");
-  console.log(dataToGraph);
+  //console.log("Data to graph is:");
+  //console.log(dataToGraph);
   //return <></>;
   return <Line options={plottingOptions} data={dataToGraph} />;
 }
