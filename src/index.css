@@ -186,17 +186,30 @@ svg {
   height: 10vh;
 } */
 
-.bloom-month {
+.bloom-month,
+.fruit-month,
+.other-month {
   flex: 1 5vw;
+  border-radius: 0;
+  min-height: 25px;
+  border: 0.25px solid rgb(225, 225, 225);
+  background-color: rgb(255, 255, 255);
+  text-align: center;
 }
 
-.fruit-month {
+.bloom-month:hover,
+.fruit-month:hover,
+.other-month:hover {
+  background-color: rgba(50, 250, 250, 0.1);
+}
+
+/* .fruit-month {
   flex: 1 5vw;
 }
 
 .other-month {
   flex: 1 5vw;
-}
+} */
 
 #bloom-select-all-months,
 #bloom-select-no-months,
@@ -222,6 +235,6 @@ svg {
 }
 
 .selected-month {
-  border: 3px solid hotpink;
-  border-radius: 5px;
+  border: 1px solid hotpink;
+  border-radius: 0px;
 }
