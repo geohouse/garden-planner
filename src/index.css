@@ -59,6 +59,38 @@ code {
   grid-column: 1/4;
 }
 
+/* Code to put the buttons in a snaking configuration in the table
+to allow each paint over selection through the year. They're still correctly
+tab-able due to the correct tab index being set on them in the DateSelect component
+
+/* The indexing for nth-child includes ALL child elements, regardless of whether they match
+the button selector or not, so this is the selector for April */
+#bloom-date-holder > button:nth-child(6) {
+  grid-column: 3/4;
+  grid-row: 4/5;
+}
+#bloom-date-holder > button:nth-child(7) {
+  grid-column: 2/3;
+  grid-row: 4/5;
+}
+#bloom-date-holder > button:nth-child(8) {
+  grid-column: 1/2;
+  grid-row: 4/5;
+}
+
+#bloom-date-holder > button:nth-child(12) {
+  grid-column: 3/4;
+  grid-row: 6/7;
+}
+#bloom-date-holder > button:nth-child(13) {
+  grid-column: 2/3;
+  grid-row: 6/7;
+}
+#bloom-date-holder > button:nth-child(14) {
+  grid-column: 1/2;
+  grid-row: 6/7;
+}
+
 #fruit-date-holder {
   display: grid;
   width: 90%;
@@ -93,6 +125,38 @@ code {
   grid-column: 1/4;
 }
 
+/* Code to put the buttons in a snaking configuration in the table
+to allow each paint over selection through the year. They're still correctly
+tab-able due to the correct tab index being set on them in the DateSelect component
+
+/* The indexing for nth-child includes ALL child elements, regardless of whether they match
+the button selector or not, so this is the selector for April */
+#fruit-date-holder > button:nth-child(6) {
+  grid-column: 3/4;
+  grid-row: 4/5;
+}
+#fruit-date-holder > button:nth-child(7) {
+  grid-column: 2/3;
+  grid-row: 4/5;
+}
+#fruit-date-holder > button:nth-child(8) {
+  grid-column: 1/2;
+  grid-row: 4/5;
+}
+
+#fruit-date-holder > button:nth-child(12) {
+  grid-column: 3/4;
+  grid-row: 6/7;
+}
+#fruit-date-holder > button:nth-child(13) {
+  grid-column: 2/3;
+  grid-row: 6/7;
+}
+#fruit-date-holder > button:nth-child(14) {
+  grid-column: 1/2;
+  grid-row: 6/7;
+}
+
 #other-date-holder {
   display: grid;
   width: 90%;
@@ -125,6 +189,38 @@ code {
 
 #other-date-holder > #other-attracted-wildlife-div {
   grid-column: 1/4;
+}
+
+/* Code to put the buttons in a snaking configuration in the table
+to allow each paint over selection through the year. They're still correctly
+tab-able due to the correct tab index being set on them in the DateSelect component
+
+/* The indexing for nth-child includes ALL child elements, regardless of whether they match
+the button selector or not, so this is the selector for April */
+#other-date-holder > button:nth-child(6) {
+  grid-column: 3/4;
+  grid-row: 4/5;
+}
+#other-date-holder > button:nth-child(7) {
+  grid-column: 2/3;
+  grid-row: 4/5;
+}
+#other-date-holder > button:nth-child(8) {
+  grid-column: 1/2;
+  grid-row: 4/5;
+}
+
+#other-date-holder > button:nth-child(12) {
+  grid-column: 3/4;
+  grid-row: 6/7;
+}
+#other-date-holder > button:nth-child(13) {
+  grid-column: 2/3;
+  grid-row: 6/7;
+}
+#other-date-holder > button:nth-child(14) {
+  grid-column: 1/2;
+  grid-row: 6/7;
 }
 
 #add-plant {

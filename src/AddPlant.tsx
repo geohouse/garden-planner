@@ -66,6 +66,8 @@ export default function AddPlant(props: AddPlantsProps) {
             id="plant-name"
             placeholder="What is the name of the plant?"
             size={60}
+            // auto-focus the plant name to allow easy start to entering a new plant
+            autoFocus
             value={props.plantName}
             onChange={props.onNameChange}
           >

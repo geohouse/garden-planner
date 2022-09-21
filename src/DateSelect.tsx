@@ -226,6 +226,10 @@ export default function DateSelect(props: DateSelectProps) {
           <button
             type="button"
             key={monthNum}
+            // Specify the tab index to keep the tabbing order of the months correct
+            // even though the visual display allows paint-over 'snaking', which would otherwise
+            // cause the tab index order to fail, with e.g. March tabbing wrongly to June
+            tabIndex={index}
             className={`${eventTypeForDate}-month`}
             onMouseOver={handleMonthMouseOver}
             onMouseDown={handleMonthToggle}
