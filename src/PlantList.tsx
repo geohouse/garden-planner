@@ -21,6 +21,27 @@ interface PlantListProps {
 }
 
 export default function PlantList(props: PlantListProps) {
+  // Need to list the plant cards in the same order that they appear in the
+  // graph (with the top-most trace in the graph being the top leftmost card) shown.
+  // To make this happen, need to invert the plant list to show the cards in reverse order
+  // because the graphing happens from the y axis upward, so the top trace
+  // is the plant at the end of the regular plant list.
+  function invertPlantList(inputPlantList: PlantsType[]) {
+    let invertedPlantList: PlantsType[] = [];
+    // Go through the inputPlants backwards, pushing the entries to the new list
+    for (
+      let plantIndex = props.inputPlants.length - 1;
+      plantIndex >= 0;
+      plantIndex--
+    ) {
+      let currPlant = props.inputPlants[plantIndex];
+      invertedPlantList.push(currPlant);
+    }
+
+    return invertedPlantList;
+  }
+
+  let invertedPlantList = invertPlantList(props.inputPlants);
   return (
     <>
       <button
@@ -42,7 +63,7 @@ export default function PlantList(props: PlantListProps) {
         Sort plants by other time
       </button>
       <ul className="plantList">
-        {props.inputPlants.map((plant) => {
+        {invertedPlantList.map((plant) => {
           return (
             <li key={plant.id}>
               <Plant plantInfo={plant} />
