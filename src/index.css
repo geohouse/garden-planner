@@ -334,3 +334,15 @@ svg {
   border: 1px solid hotpink;
   border-radius: 0px;
 }
+
+.plant-card-bloom-months {
+  display: grid;
+  grid-template-rows: repeat(4, 20px);
+  grid-template-columns: repeat(3, 20px);
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+}
+
+.plant-card-bloom-months div {
+  border: 1px solid gray;
+}

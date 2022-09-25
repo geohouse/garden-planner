@@ -18,6 +18,8 @@ interface PlantProps {
 }
 
 export default function Plant(props: PlantProps) {
+  // Filter to include only the wildlife types that are attracted by
+  // bloom, fruit, other (have true entries)
   function prepWildlifeListsForDisplay() {
     let wildlifeAttractedBloom = Object.keys(
       props.plantInfo.wildlifeAttractedBloom
@@ -96,6 +98,28 @@ export default function Plant(props: PlantProps) {
     wildlifeAttractedFruit,
     wildlifeAttractedOther,
   } = prepWildlifeListsForDisplay();
+
+  const monthsFirstLetter = [
+    "J",
+    "F",
+    "M",
+    "A",
+    "M",
+    "J",
+    "J",
+    "A",
+    "S",
+    "O",
+    "N",
+    "D",
+  ];
+
+  // Convert from string array to numeric to allow matching by index with monthsFirstLetter array to render
+  // month diagram in plant card.
+  let bloomMonthsNumeric = props.plantInfo.bloomTime.monthNumAsStringArray.map(
+    (monthString) => Number.parseInt(monthString, 10)
+  );
+
   return (
     <>
       <div role="list" className="plant-card">
@@ -125,11 +149,21 @@ export default function Plant(props: PlantProps) {
           </div>
           <div className="plant-card-blooming">
             <p>Blooming months</p>
-            <ul className="bloom-months">
-              {props.plantInfo.bloomTime.monthNameArray.map((month, index) => {
-                return <li key={index}>{month}</li>;
+            <div className="plant-card-bloom-months">
+              {monthsFirstLetter.map((monthLetter, index) => {
+                const blockStyle = {
+                  backgroundColor: "white",
+                };
+                // loop through all months; if the current month is one of the blooming months
+                // (matched by index), then set the background for that month's box in the plant
+                // card bloom section to be the bloom color.
+                if (bloomMonthsNumeric.includes(index + 1)) {
+                  blockStyle.backgroundColor = props.plantInfo.bloomColor;
+                }
+                return <div style={blockStyle}>{monthLetter}</div>;
               })}
-            </ul>
+            </div>
+
             <p>Attracts:</p>
             <ul className="bloom-months-wildlife">
               {wildlifeAttractedBloom.map((entry) => {
