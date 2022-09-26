@@ -346,3 +346,27 @@ svg {
 .plant-card-bloom-months div {
   border: 1px solid gray;
 }
+
+.plant-card-fruit-months {
+  display: grid;
+  grid-template-rows: repeat(4, 20px);
+  grid-template-columns: repeat(3, 20px);
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+}
+
+.plant-card-fruit-months div {
+  border: 1px solid gray;
+}
+
+.plant-card-other-months {
+  display: grid;
+  grid-template-rows: repeat(4, 20px);
+  grid-template-columns: repeat(3, 20px);
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+}
+
+.plant-card-other-months div {
+  border: 1px solid gray;
+}
