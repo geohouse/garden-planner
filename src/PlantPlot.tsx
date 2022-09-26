@@ -16,8 +16,6 @@ import type { Tick } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 import { PlantsType, BloomFruitTimeObj } from "./GardenPlannerInterfaces";
-import { isBoxedPrimitive } from "util/types";
-import { endianness } from "os";
 
 ChartJS.register(annotationPlugin);
 
