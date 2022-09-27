@@ -185,6 +185,8 @@ export default function PlantPlot(props: PlantPlotProps) {
         ] as BloomFruitTimeObj;
         // The month numbers are the keys
         Object.keys(inputPlantEventArray).forEach((timeEntryStr) => {
+          console.log("looping through inputPlantEventArray");
+          console.log(timeEntryStr);
           const timeEntryNum = Number.parseInt(timeEntryStr, 10);
           // Fill in the graph entry to span the bloom month start and the bloom month end
           // Graph indices are 0-based

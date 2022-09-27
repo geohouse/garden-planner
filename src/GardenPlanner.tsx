@@ -92,12 +92,9 @@ export default function GardenPlanner() {
     // If an empty object was returned (when all months have been toggled off),
     // then need to explicitly re-set to arrays with empty strings, otherwise other code fails
     if (Object.keys(selectedMonthObj).length === 0) {
-      setBloomTime({ monthNumAsStringArray: [""], monthNameArray: [""] });
+      setBloomTime({});
     } else {
-      setBloomTime({
-        monthNumAsStringArray: Object.keys(selectedMonthObj),
-        monthNameArray: Object.values(selectedMonthObj),
-      });
+      setBloomTime({ ...selectedMonthObj });
     }
     console.log("bloom time object is:");
     console.log(bloomTime);
@@ -108,12 +105,9 @@ export default function GardenPlanner() {
     // If an empty object was returned (when all months have been toggled off),
     // then need to explicitly re-set to arrays with empty strings, otherwise other code fails
     if (Object.keys(selectedMonthObj).length === 0) {
-      setFruitTime({ monthNumAsStringArray: [""], monthNameArray: [""] });
+      setFruitTime({});
     } else {
-      setFruitTime({
-        monthNumAsStringArray: Object.keys(selectedMonthObj),
-        monthNameArray: Object.values(selectedMonthObj),
-      });
+      setFruitTime({ ...selectedMonthObj });
     }
     console.log("fruit time object is:");
     console.log(fruitTime);
@@ -124,12 +118,9 @@ export default function GardenPlanner() {
     // If an empty object was returned (when all months have been toggled off),
     // then need to explicitly re-set to arrays with empty strings, otherwise other code fails
     if (Object.keys(selectedMonthObj).length === 0) {
-      setOtherTime({ monthNumAsStringArray: [""], monthNameArray: [""] });
+      setOtherTime({});
     } else {
-      setOtherTime({
-        monthNumAsStringArray: Object.keys(selectedMonthObj),
-        monthNameArray: Object.values(selectedMonthObj),
-      });
+      setOtherTime({ ...selectedMonthObj });
     }
     console.log("other time object is:");
     console.log(otherTime);
