@@ -9,6 +9,7 @@ import { DateSelectionObj } from "./GardenPlannerInterfaces";
 interface DateSelectProps {
   onDateSelectChange: (selectedMonthObj: DateSelectionObj) => void;
   eventTypeForDate: string;
+  //   dateStateForEventType: BloomTime;
 }
 
 export default function DateSelect(props: DateSelectProps) {
@@ -17,6 +18,28 @@ export default function DateSelect(props: DateSelectProps) {
   // Disable by default because when page loaded, no buttons are selected.
   const [disableNoneSelection, setDisableNoneSelection] = useState(true);
   const { onDateSelectChange, eventTypeForDate } = props;
+
+  // The bloom/fruiting/other time state objects in the main garden planner
+  // are objects with keys 'monthNumAsStringArray' and 'monthNameArray'
+  // where the values are arrays of strings either of the month numbers
+  // or the 3-letter month abbreviations. These are derived from the selectedMonths
+  // state object used here in this component, which has format {1:"Jan",2:"Feb",...}
+  // when the state is getting send down from the main component to here
+  // (in case of clearing form after submit or editing a plant's characteristics)
+  // then need to back-transform the two arrays sent to this component to the single object
+  // that it uses. Not ideal, but a workaround for a single shared state (did not anticipate needing
+  // to have the dates set from the main component when I built these date selectors)
+
+  // let selectedMonthObject: { [key: number]: string } = {};
+  // if (dateStateForEventType.monthNumAsStringArray.length > 0) {
+  //   dateStateForEventType.monthNumAsStringArray.forEach((numString, index) => {
+  //     selectedMonthObject[Number.parseInt(numString, 10)] =
+  //       dateStateForEventType.monthNameArray[index];
+  //   });
+  // }
+
+  //setSelectedMonths(selectedMonthObject);
+
   useEffect(() => {
     console.log("The new selected months are:");
     console.log(selectedMonths);

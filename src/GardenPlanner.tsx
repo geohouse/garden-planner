@@ -19,18 +19,9 @@ import { BloomFruitTimeObj, PlantsType } from "./GardenPlannerInterfaces";
 
 export default function GardenPlanner() {
   const [plantName, setPlantName] = useState("");
-  const [bloomTime, setBloomTime] = useState({
-    monthNumAsStringArray: [""],
-    monthNameArray: [""],
-  });
-  const [fruitTime, setFruitTime] = useState({
-    monthNumAsStringArray: [""],
-    monthNameArray: [""],
-  });
-  const [otherTime, setOtherTime] = useState({
-    monthNumAsStringArray: [""],
-    monthNameArray: [""],
-  });
+  const [bloomTime, setBloomTime] = useState({});
+  const [fruitTime, setFruitTime] = useState({});
+  const [otherTime, setOtherTime] = useState({});
   const [bloomColor, setBloomColor] = useState("");
   const [bloomColorName, setBloomColorName] = useState("");
   // This sets the useState object type to be more inclusive and take any string as a key
@@ -249,6 +240,34 @@ export default function GardenPlanner() {
         wildlifeAttractedOther: wildlifeAttractedOther,
       },
     ]);
+    // Reset the values of the controlled elements after a plant is
+    // added in order to clear the AddPlant form
+    setPlantName("");
+    setBloomTime({});
+    setFruitTime({});
+    setOtherTime({});
+    setBloomColor("");
+    setBloomColorName("");
+    setWildlifeAttractedBloom({
+      bees: false,
+      butterflies: false,
+      hummingbirds: false,
+      songbirds: false,
+      other: false,
+    });
+    setWildlifeAttractedFruit({
+      songbirds: false,
+      mammals: false,
+      other: false,
+    });
+    setWildlifeAttractedOther({
+      bees: false,
+      butterflies: false,
+      hummingbirds: false,
+      songbirds: false,
+      mammals: false,
+      other: false,
+    });
   }
   //console.log(`Here's the plant list:`);
   //console.log(plants);
@@ -433,23 +452,23 @@ export default function GardenPlanner() {
       console.log("plant entry");
       console.log(plant);
       // Need to add 'Time' to the end of each of the event types for the lookup to match a key
-      let inputPlantEventArray = plant[
+      let inputPlantEventObject = plant[
         `${eventTypeToSort}Time` as keyof PlantsType
-      ] as BloomFruitTimeObj;
+      ] as keyof BloomFruitTimeObj;
       // Get the first month of the event. Will be used to index into the correct month key in the holderObj
       // If the startEventMonth would otherwise be undefined (if there's no plant event e.g. bloom specified for the current plant)
       // then set the start month to "Jan"
       const startEventMonth =
-        inputPlantEventArray.monthNameArray[0] === undefined ||
-        inputPlantEventArray.monthNameArray[0] !== ""
-          ? inputPlantEventArray.monthNameArray[0]
+        Object.values(inputPlantEventObject)[0] === undefined ||
+        Object.values(inputPlantEventObject)[0] !== ""
+          ? Object.values(inputPlantEventObject)[0]
           : "Jan";
       // returns 0 duration if the current plant doesn't have the event (e.g. blooming) specified
       let firstEventDuration = getFirstEventDuration(
-        inputPlantEventArray.monthNumAsStringArray
+        Object.keys(inputPlantEventObject)
       );
 
-      console.log(inputPlantEventArray.monthNameArray[0]);
+      console.log(Object.values(inputPlantEventObject)[0]);
       console.log({ startEventMonth });
       console.log({ firstEventDuration });
 

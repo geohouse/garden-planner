@@ -1,7 +1,7 @@
 import React from "react";
 import ColorBlocks from "./ColorBlocks";
 import DateSelect from "./DateSelect";
-import { BloomTime, DateSelectionObj } from "./GardenPlannerInterfaces";
+import { BloomFruitTimeObj, DateSelectionObj } from "./GardenPlannerInterfaces";
 // Will need to re-factor these into their own file to be
 // able to import and use the interfaces in the
 // main GardenPlanner app and also here.
@@ -33,9 +33,9 @@ import { BloomTime, DateSelectionObj } from "./GardenPlannerInterfaces";
 interface AddPlantsProps {
   plantName: string;
   onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  bloomTime: BloomTime;
-  fruitTime: BloomTime;
-  otherTime: BloomTime;
+  bloomTime: BloomFruitTimeObj;
+  fruitTime: BloomFruitTimeObj;
+  otherTime: BloomFruitTimeObj;
   onBloomTimeChange: (selectedMonthObj: DateSelectionObj) => void;
   onFruitTimeChange: (selectedMonthObj: DateSelectionObj) => void;
   onOtherTimeChange: (selectedMonthObj: DateSelectionObj) => void;
@@ -95,6 +95,7 @@ export default function AddPlant(props: AddPlantsProps) {
             <DateSelect
               onDateSelectChange={props.onBloomTimeChange}
               eventTypeForDate="bloom"
+              // dateStateForEventType={props.bloomTime}
             />
             {/* Will need to make a better month selector myself because
          Firefox and Safari both don't support ticks and tick numbers for sliders
@@ -154,6 +155,7 @@ export default function AddPlant(props: AddPlantsProps) {
             <DateSelect
               onDateSelectChange={props.onFruitTimeChange}
               eventTypeForDate="fruit"
+              // dateStateForEventType={props.fruitTime}
             />
             <div id="fruit-attracted-wildlife-div">
               <p id="fruit-attracted-wildlife">Attracts</p>
@@ -188,6 +190,7 @@ export default function AddPlant(props: AddPlantsProps) {
             <DateSelect
               onDateSelectChange={props.onOtherTimeChange}
               eventTypeForDate="other"
+              // dateStateForEventType={props.otherTime}
             />
             <div id="other-attracted-wildlife-div">
               <p id="other-attracted-wildlife">Attracts</p>

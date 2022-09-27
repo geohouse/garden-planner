@@ -78,15 +78,17 @@ export default function PlantPlot(props: PlantPlotProps) {
 
   function determinePlantCharsToPlot(inputPlantObj: PlantsType) {
     let plantCharacteristicsToPlot: string[] = [];
-    if (inputPlantObj.bloomTime.monthNameArray.length > 0) {
+    if (Object.keys(inputPlantObj.bloomTime).length > 0) {
       plantCharacteristicsToPlot.push("bloomTime");
     }
-    if (inputPlantObj.fruitTime.monthNameArray.length > 0) {
+    if (Object.keys(inputPlantObj.fruitTime).length > 0) {
       plantCharacteristicsToPlot.push("fruitTime");
     }
-    if (inputPlantObj.otherTime.monthNameArray.length > 0) {
+    if (Object.keys(inputPlantObj.otherTime).length > 0) {
       plantCharacteristicsToPlot.push("otherTime");
     }
+    // console.log("Plant chars to plot are");
+    // console.log(plantCharacteristicsToPlot);
     return plantCharacteristicsToPlot;
   }
 
@@ -181,8 +183,8 @@ export default function PlantPlot(props: PlantPlotProps) {
         let inputPlantEventArray = inputPlantObj[
           plantEvent as keyof PlantsType
         ] as BloomFruitTimeObj;
-
-        inputPlantEventArray.monthNumAsStringArray.forEach((timeEntryStr) => {
+        // The month numbers are the keys
+        Object.keys(inputPlantEventArray).forEach((timeEntryStr) => {
           const timeEntryNum = Number.parseInt(timeEntryStr, 10);
           // Fill in the graph entry to span the bloom month start and the bloom month end
           // Graph indices are 0-based
@@ -293,7 +295,8 @@ export default function PlantPlot(props: PlantPlotProps) {
       //console.log("currentPlantChar");
       //console.log({ currentPlantChar });
       let labelXAxisLocArray = parseWildlifeArrayForLabels(
-        currPlantCharObj.monthNameArray
+        // These are the month names
+        Object.values(currPlantCharObj)
       );
       //console.log("x axis loc array");
       //console.log(labelXAxisLocArray);
@@ -405,7 +408,10 @@ export default function PlantPlot(props: PlantPlotProps) {
       // Return 1 label object (with unique id key in the holderObj)
       // for each of the bloom, fruit, and other label x locations, which
       // are placed at the left end of each disjunct line segment in their graphs.
-      if (plotWildlifeLocations_bloom.length > 0) {
+      if (
+        plotWildlifeLocations_bloom !== undefined &&
+        plotWildlifeLocations_bloom.length > 0
+      ) {
         for (
           let bloomIndex = 0;
           bloomIndex < plotWildlifeLocations_bloom.length;
@@ -432,7 +438,10 @@ export default function PlantPlot(props: PlantPlotProps) {
       //   content: currWildlife.bloom.join(", "),
       //   position: { x: "start", y: "center" },
       // };
-      if (plotWildlifeLocations_fruit.length > 0) {
+      if (
+        plotWildlifeLocations_fruit !== undefined &&
+        plotWildlifeLocations_fruit.length > 0
+      ) {
         for (
           let fruitIndex = 0;
           fruitIndex < plotWildlifeLocations_fruit.length;
@@ -455,7 +464,10 @@ export default function PlantPlot(props: PlantPlotProps) {
         }
       }
 
-      if (plotWildlifeLocations_other.length > 0) {
+      if (
+        plotWildlifeLocations_other !== undefined &&
+        plotWildlifeLocations_other.length > 0
+      ) {
         for (
           let otherIndex = 0;
           otherIndex < plotWildlifeLocations_other.length;
