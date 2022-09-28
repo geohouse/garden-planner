@@ -1,27 +1,49 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 interface ColorBlocksProps {
   onBloomColorChange: (hexColor: string, colorName: string) => void;
+  bloomColorName: string;
 }
 
 export default function ColorBlocks(props: ColorBlocksProps) {
-  const [currColor, setCurrentColor] = useState("");
+  //const [currColor, setCurrentColor] = useState(props.bloomColor);
 
   // Update the selected border every time the color selection is changed
+  // as kept track of the state from the GardenPlanner component.
+  // the handleColorChange function on click removes any color selection,
+  // then calls the onBloomColorChange function provided in props
+  // to update the state in the GardenPlanner component, and that
+  // then triggers this useEffect. This keeps the bloom color toggling
+  // as before, but also allows the GardenPlanner component to directly
+  // set the selected color (used to reset the color on submission
+  // and to enable editing of an existing plant)
   useEffect(() => {
+    // console.log("tests");
+    // console.log(props.bloomColorName);
     const allColorButtons = document.querySelectorAll(".color-block-button");
     allColorButtons.forEach((colorButton) => {
-      if (colorButton.innerHTML === currColor) {
-        colorButton.classList.toggle("selected-color");
-      } else {
-        // Calling remove on the classList is safe even if the 'selected-color'
-        // class isn't in the classList.
-        colorButton.classList.remove("selected-color");
+      if (colorButton.innerHTML === props.bloomColorName) {
+        // All selected color class labels are removed on click
+        // in the handleColorChange function below, so this needs
+        // to add it to the currently selected bloom color.
+        // (Removes problem with using toggle requiring a double click to get selected)
+        colorButton.classList.add("selected-color");
       }
     });
-  }, [currColor]);
+  }, [props.bloomColorName]);
 
-  const { onBloomColorChange } = props;
+  const { onBloomColorChange, bloomColorName } = props;
+
+  // const allColorButtons = document.querySelectorAll(".color-block-button");
+  // allColorButtons.forEach((colorButton) => {
+  //   if (colorButton.innerHTML === bloomColor) {
+  //     colorButton.classList.toggle("selected-color");
+  //   } else {
+  //     // Calling remove on the classList is safe even if the 'selected-color'
+  //     // class isn't in the classList.
+  //     colorButton.classList.remove("selected-color");
+  //   }
+  // });
 
   const colors = {
     Red: "#ff0033",
@@ -48,7 +70,16 @@ export default function ColorBlocks(props: ColorBlocksProps) {
       event.currentTarget.style.backgroundColor,
       event.currentTarget.innerHTML
     );
-    setCurrentColor(event.currentTarget.innerHTML);
+    const allColorButtons = document.querySelectorAll(".color-block-button");
+    allColorButtons.forEach((colorButton) => {
+      // Calling remove on the classList is safe even if the 'selected-color'
+      // class isn't in the classList.
+      colorButton.classList.remove("selected-color");
+    });
+
+    //event.currentTarget.classList.toggle("selected-color");
+
+    //setCurrentColor(event.currentTarget.innerHTML);
   }
 
   return (
@@ -66,6 +97,9 @@ export default function ColorBlocks(props: ColorBlocksProps) {
           classList += " light-text";
         } else {
           classList += " dark-text";
+        }
+        if (colorName === bloomColorName) {
+          classList += " selected-color";
         }
 
         return (

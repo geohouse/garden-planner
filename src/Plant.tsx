@@ -114,17 +114,18 @@ export default function Plant(props: PlantProps) {
     "D",
   ];
 
-  // Convert from string array to numeric to allow matching by index with monthsFirstLetter array to render
+  // Convert from string array of month numbers (keys) to numeric to allow matching by index with monthsFirstLetter array to render
   // month diagram in plant card.
-  let bloomMonthsNumeric = props.plantInfo.bloomTime.monthNumAsStringArray.map(
+  let bloomMonthsNumeric = Object.keys(props.plantInfo.bloomTime).map(
+    (monthString) => Number.parseInt(monthString, 10)
+  );
+  console.log("bloom months numeric is:");
+  console.log(bloomMonthsNumeric);
+  let fruitMonthsNumeric = Object.keys(props.plantInfo.fruitTime).map(
     (monthString) => Number.parseInt(monthString, 10)
   );
 
-  let fruitMonthsNumeric = props.plantInfo.fruitTime.monthNumAsStringArray.map(
-    (monthString) => Number.parseInt(monthString, 10)
-  );
-
-  let otherMonthsNumeric = props.plantInfo.otherTime.monthNumAsStringArray.map(
+  let otherMonthsNumeric = Object.keys(props.plantInfo.otherTime).map(
     (monthString) => Number.parseInt(monthString, 10)
   );
   return (
