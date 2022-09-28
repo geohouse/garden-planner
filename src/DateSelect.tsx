@@ -41,14 +41,40 @@ export default function DateSelect(props: DateSelectProps) {
 
   //setSelectedMonths(selectedMonthObject);
 
-  // useEffect(() => {
-  //   console.log("The new selected months are:");
-  //   console.log(selectedMonths);
-  // }, [selectedMonths]);
+  // This updates the date selector to mirror the date selected state
+  // that's currently being held by the main GardenPlanner component.
+  // This is currently used to clear the date selections after plant form
+  // submission and will be used to allow editing the information of an existing
+  // plant by pre-populating the dates for that plant.
+  // It takes care of resetting the all or none selection buttons
+  // too, as needed.
   useEffect(() => {
-    console.log("In use effect");
-    console.log(eventTypeValue);
-  }, [eventTypeValue]);
+    // console.log("In use effect");
+    // console.log(eventTypeValue);
+
+    const monthButtonList = document.querySelectorAll(
+      `.${eventTypeForDate}-month`
+    ) as NodeListOf<HTMLButtonElement>;
+    monthButtonList.forEach((monthButton) => {
+      if (Object.values(eventTypeValue).includes(monthButton.innerText)) {
+        console.log("button match");
+        monthButton.classList.add("selected-month");
+      } else {
+        // this class removal is safe even if the class doesn't
+        monthButton.classList.remove("selected-month");
+      }
+    });
+
+    // Edge cases to disable the all or none selection buttons
+    // if the current state contains all or none of the months
+    if (Object.keys(eventTypeValue).length === 0) {
+      setDisableNoneSelection(true);
+    }
+    if (Object.keys(eventTypeForDate).length === 12) {
+      setDisableAllSelection(true);
+    }
+  }, [eventTypeValue, eventTypeForDate]);
+
   useEffect(() => {
     console.log("in disable effect");
     const allMonthsButton = document.querySelector(
@@ -113,12 +139,12 @@ export default function DateSelect(props: DateSelectProps) {
 
   function handleAllMonthSelect() {
     console.log("all month click");
-    const monthButtonList = document.querySelectorAll(
-      `.${eventTypeForDate}-month`
-    );
-    monthButtonList.forEach((monthButton) => {
-      monthButton.classList.add("selected-month");
-    });
+    // const monthButtonList = document.querySelectorAll(
+    //   `.${eventTypeForDate}-month`
+    // );
+    // monthButtonList.forEach((monthButton) => {
+    //   monthButton.classList.add("selected-month");
+    // });
     // Use the months object directly to set the state because
     // all months have been selected.
     onDateSelectChange(months);
@@ -129,12 +155,12 @@ export default function DateSelect(props: DateSelectProps) {
 
   function handleNoMonthSelect() {
     console.log("no month click");
-    const monthButtonList = document.querySelectorAll(
-      `.${eventTypeForDate}-month`
-    );
-    monthButtonList.forEach((monthButton) => {
-      monthButton.classList.remove("selected-month");
-    });
+    // const monthButtonList = document.querySelectorAll(
+    //   `.${eventTypeForDate}-month`
+    // );
+    // monthButtonList.forEach((monthButton) => {
+    //   monthButton.classList.remove("selected-month");
+    // });
     // Use empty object to set the state because none of the months
     // are selected
     onDateSelectChange({});
