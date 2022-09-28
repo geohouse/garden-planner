@@ -99,6 +99,7 @@ export default function AddPlant(props: AddPlantsProps) {
             <DateSelect
               onDateSelectChange={props.onBloomTimeChange}
               eventTypeForDate="bloom"
+              eventTypeValue={props.bloomTime}
               // dateStateForEventType={props.bloomTime}
             />
             {/* Will need to make a better month selector myself because
@@ -159,6 +160,7 @@ export default function AddPlant(props: AddPlantsProps) {
             <DateSelect
               onDateSelectChange={props.onFruitTimeChange}
               eventTypeForDate="fruit"
+              eventTypeValue={props.fruitTime}
               // dateStateForEventType={props.fruitTime}
             />
             <div id="fruit-attracted-wildlife-div">
@@ -194,6 +196,7 @@ export default function AddPlant(props: AddPlantsProps) {
             <DateSelect
               onDateSelectChange={props.onOtherTimeChange}
               eventTypeForDate="other"
+              eventTypeValue={props.otherTime}
               // dateStateForEventType={props.otherTime}
             />
             <div id="other-attracted-wildlife-div">

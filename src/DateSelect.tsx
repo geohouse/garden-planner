@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { DateSelectionObj } from "./GardenPlannerInterfaces";
+import { DateSelectionObj, BloomFruitTimeObj } from "./GardenPlannerInterfaces";
 // This accommodates the keys being 1-12 (or any number) without any hardcoding.
 // Could make more specific to only allow 1-12 and that would also be OK.
 // interface DateSelectionObj {
@@ -9,15 +9,16 @@ import { DateSelectionObj } from "./GardenPlannerInterfaces";
 interface DateSelectProps {
   onDateSelectChange: (selectedMonthObj: DateSelectionObj) => void;
   eventTypeForDate: string;
+  eventTypeValue: BloomFruitTimeObj;
   //   dateStateForEventType: BloomTime;
 }
 
 export default function DateSelect(props: DateSelectProps) {
-  const [selectedMonths, setSelectedMonths] = useState({});
+  //const [selectedMonths, setSelectedMonths] = useState({});
   const [disableAllSelection, setDisableAllSelection] = useState(false);
   // Disable by default because when page loaded, no buttons are selected.
   const [disableNoneSelection, setDisableNoneSelection] = useState(true);
-  const { onDateSelectChange, eventTypeForDate } = props;
+  const { onDateSelectChange, eventTypeForDate, eventTypeValue } = props;
 
   // The bloom/fruiting/other time state objects in the main garden planner
   // are objects with keys 'monthNumAsStringArray' and 'monthNameArray'
@@ -40,11 +41,14 @@ export default function DateSelect(props: DateSelectProps) {
 
   //setSelectedMonths(selectedMonthObject);
 
+  // useEffect(() => {
+  //   console.log("The new selected months are:");
+  //   console.log(selectedMonths);
+  // }, [selectedMonths]);
   useEffect(() => {
-    console.log("The new selected months are:");
-    console.log(selectedMonths);
-  }, [selectedMonths]);
-
+    console.log("In use effect");
+    console.log(eventTypeValue);
+  }, [eventTypeValue]);
   useEffect(() => {
     console.log("in disable effect");
     const allMonthsButton = document.querySelector(
@@ -118,7 +122,7 @@ export default function DateSelect(props: DateSelectProps) {
     // Use the months object directly to set the state because
     // all months have been selected.
     onDateSelectChange(months);
-    setSelectedMonths(months);
+    //setSelectedMonths(months);
     setDisableAllSelection(true);
     setDisableNoneSelection(false);
   }
@@ -134,7 +138,7 @@ export default function DateSelect(props: DateSelectProps) {
     // Use empty object to set the state because none of the months
     // are selected
     onDateSelectChange({});
-    setSelectedMonths({});
+    //setSelectedMonths({});
     setDisableNoneSelection(true);
     setDisableAllSelection(false);
   }
@@ -164,14 +168,14 @@ export default function DateSelect(props: DateSelectProps) {
       // and is not already in the list
       if (
         monthButton.classList.contains("selected-month") &&
-        !Object.keys(selectedMonths).includes(monthNum.toString())
+        !Object.keys(eventTypeValue).includes(monthNum.toString())
       ) {
         //Need to re-establish the key/value types
         const newSelectedMonths: { [key: number]: string } = {
-          ...selectedMonths,
+          ...eventTypeValue,
         };
         newSelectedMonths[monthNum] = monthName;
-        setSelectedMonths(newSelectedMonths);
+        //setSelectedMonths(newSelectedMonths);
         onDateSelectChange(newSelectedMonths);
         // Activate the all/none selectors depending on
         // how many months are selected
@@ -189,15 +193,15 @@ export default function DateSelect(props: DateSelectProps) {
       }
       // REMOVE any months from the list that aren't selected any longer.
       if (
-        Object.keys(selectedMonths).includes(monthNum.toString()) &&
+        Object.keys(eventTypeValue).includes(monthNum.toString()) &&
         !monthButton.classList.contains("selected-month")
       ) {
         // deconstruct the selectedMonths obj using the dynamic value of monthNum
         // to extract the part to remove (need to do : assignment for dynamic destructuring to work)
         // Need to re-establish the key:value types
         const { [monthNum]: toRemove, ...rest }: { [key: number]: string } =
-          selectedMonths;
-        setSelectedMonths({ ...rest });
+          eventTypeValue;
+        //setSelectedMonths({ ...rest });
         onDateSelectChange({ ...rest });
 
         if (Object.keys(rest).length >= 1) {
