@@ -94,6 +94,7 @@ export default function GardenPlanner() {
     if (Object.keys(selectedMonthObj).length === 0) {
       setBloomTime({});
     } else {
+      // spread into new object so selectedMonthObj isn't wrapped in another object
       setBloomTime({ ...selectedMonthObj });
     }
     console.log("bloom time object is:");
@@ -107,11 +108,12 @@ export default function GardenPlanner() {
     if (Object.keys(selectedMonthObj).length === 0) {
       setFruitTime({});
     } else {
+      // spread into new object so selectedMonthObj isn't wrapped in another object
       setFruitTime({ ...selectedMonthObj });
     }
     console.log("fruit time object is:");
     console.log(fruitTime);
-    console.log(otherTime);
+    //console.log(otherTime);
   }
 
   function handleOtherTimeChange(selectedMonthObj: { [key: number]: string }) {
@@ -120,11 +122,12 @@ export default function GardenPlanner() {
     if (Object.keys(selectedMonthObj).length === 0) {
       setOtherTime({});
     } else {
+      // spread into new object so selectedMonthObj isn't wrapped in another object
       setOtherTime({ ...selectedMonthObj });
     }
     console.log("other time object is:");
     console.log(otherTime);
-    console.log(fruitTime);
+    //console.log(fruitTime);
   }
 
   //console.log(`The bloom time is: ${bloomTime["monthNameArray"]}`);
@@ -542,6 +545,7 @@ export default function GardenPlanner() {
       <AddPlant
         plantName={plantName}
         onNameChange={handleNameChange}
+        bloomColorName={bloomColorName}
         bloomTime={bloomTime}
         fruitTime={fruitTime}
         otherTime={otherTime}

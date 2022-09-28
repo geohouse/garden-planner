@@ -49,6 +49,7 @@ interface WildlifeAttractedOtherType {
 export interface PlantsType {
   id: number;
   plantName: string;
+  bloomColorName: string;
   bloomTime: BloomFruitTimeObj;
   fruitTime: BloomFruitTimeObj;
   otherTime: BloomFruitTimeObj;

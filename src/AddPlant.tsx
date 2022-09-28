@@ -33,6 +33,7 @@ import { BloomFruitTimeObj, DateSelectionObj } from "./GardenPlannerInterfaces";
 interface AddPlantsProps {
   plantName: string;
   onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  bloomColorName: string;
   bloomTime: BloomFruitTimeObj;
   fruitTime: BloomFruitTimeObj;
   otherTime: BloomFruitTimeObj;
@@ -76,7 +77,10 @@ export default function AddPlant(props: AddPlantsProps) {
         </div>
         <label htmlFor="color-block-holder">Bloom color</label>
         <div id="color-block-holder">
-          <ColorBlocks onBloomColorChange={props.onBloomColorChange} />
+          <ColorBlocks
+            onBloomColorChange={props.onBloomColorChange}
+            bloomColorName={props.bloomColorName}
+          />
           {/* <input
             id="bloom-color"
             type="color"
