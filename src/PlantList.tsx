@@ -44,24 +44,27 @@ export default function PlantList(props: PlantListProps) {
   let invertedPlantList = invertPlantList(props.inputPlants);
   return (
     <>
-      <button
-        className="sort-bloom"
-        onClick={() => props.onPlantSortClick("bloom")}
-      >
-        Sort plants by bloom time
-      </button>
-      <button
-        className="sort-fruit"
-        onClick={() => props.onPlantSortClick("fruit")}
-      >
-        Sort plants by fruit time
-      </button>
-      <button
-        className="sort-other"
-        onClick={() => props.onPlantSortClick("other")}
-      >
-        Sort plants by other time
-      </button>
+      <div className="sort-buttons">
+        Sort plants -
+        <button
+          className="sort-bloom"
+          onClick={() => props.onPlantSortClick("bloom")}
+        >
+          By bloom time
+        </button>
+        <button
+          className="sort-fruit"
+          onClick={() => props.onPlantSortClick("fruit")}
+        >
+          By fruit time
+        </button>
+        <button
+          className="sort-other"
+          onClick={() => props.onPlantSortClick("other")}
+        >
+          By other time
+        </button>
+      </div>
       <ul className="plantList">
         {invertedPlantList.map((plant) => {
           return (
