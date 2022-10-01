@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.c26027b4.css",
-    "main.js": "/static/js/main.86bd471d.js",
-    "index.html": "/index.html",
-    "main.c26027b4.css.map": "/static/css/main.c26027b4.css.map",
-    "main.86bd471d.js.map": "/static/js/main.86bd471d.js.map"
+    "main.css": "/garden-planner/static/css/main.c26027b4.css",
+    "main.js": "/garden-planner/static/js/main.86bd471d.js",
+    "index.html": "/garden-planner/index.html",
+    "main.c26027b4.css.map": "/garden-planner/static/css/main.c26027b4.css.map",
+    "main.86bd471d.js.map": "/garden-planner/static/js/main.86bd471d.js.map"
   },
   "entrypoints": [
     "static/css/main.c26027b4.css",
