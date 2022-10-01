@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/garden-planner/static/css/main.c26027b4.css",
-    "main.js": "/garden-planner/static/js/main.86bd471d.js",
+    "main.css": "/garden-planner/static/css/main.a2726632.css",
+    "main.js": "/garden-planner/static/js/main.34f7b946.js",
     "index.html": "/garden-planner/index.html",
-    "main.c26027b4.css.map": "/garden-planner/static/css/main.c26027b4.css.map",
-    "main.86bd471d.js.map": "/garden-planner/static/js/main.86bd471d.js.map"
+    "main.a2726632.css.map": "/garden-planner/static/css/main.a2726632.css.map",
+    "main.34f7b946.js.map": "/garden-planner/static/js/main.34f7b946.js.map"
   },
   "entrypoints": [
-    "static/css/main.c26027b4.css",
-    "static/js/main.86bd471d.js"
+    "static/css/main.a2726632.css",
+    "static/js/main.34f7b946.js"
   ]
 }
