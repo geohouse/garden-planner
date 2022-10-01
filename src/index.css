@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+#new-plant-form label {
+  margin-left: 10px;
+}
+
+#date-select-heading {
+  margin-left: 10px;
+}
+
 #plant-name {
   margin: 10px;
   height: 20px;
@@ -51,6 +59,7 @@ code {
 
 #bloom-date-holder > #bloom-date-holder-label {
   grid-column: 1/4;
+  margin: 5px 0px 5px 0px;
 }
 
 #bloom-date-holder > #bloom-select-all-months {
@@ -117,6 +126,7 @@ the button selector or not, so this is the selector for April */
 
 #fruit-date-holder > #fruit-date-holder-label {
   grid-column: 1/4;
+  margin: 5px 0px 5px 0px;
 }
 
 #fruit-date-holder > #fruit-select-all-months {
@@ -183,6 +193,7 @@ the button selector or not, so this is the selector for April */
 
 #other-date-holder > #other-date-holder-label {
   grid-column: 1/4;
+  margin: 5px 0px 5px 0px;
 }
 
 #other-date-holder > #other-select-all-months {
@@ -231,6 +242,7 @@ the button selector or not, so this is the selector for April */
 
 #add-plant {
   flex: 1 5vw;
+  margin-top: 10px;
 }
 
 canvas {
@@ -281,7 +293,7 @@ canvas {
 
 .color-block-button {
   flex: 1 10px;
-  margin: 7px;
+  margin: 10px;
   padding: 5px;
   color: #aaaaaa;
   border: 3px solid #222222;
