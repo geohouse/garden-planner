@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "tsc",
+    "build": "tsc --build && react-scripts build",
     "test": "react-scripts test --coverage --verbose",
     "eject": "react-scripts eject"
   },
