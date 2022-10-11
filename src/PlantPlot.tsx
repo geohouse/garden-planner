@@ -505,9 +505,11 @@ export default function PlantPlot(props: PlantPlotProps) {
       //   position: { x: "start", y: "center" },
       // };
       holderObj[`box${index}`] = plantBoxObj;
+      // These MUST remain commented out, otherwise they're the cause of the
+      // diagonal gray line rendering when not all 3 wildlife features are specified for each plant.
       //holderObj[`bloomLabel${index}`] = bloomWildlifeObj;
-      holderObj[`fruitLabel${index}`] = fruitWildlifeObj;
-      holderObj[`otherLabel${index}`] = otherWildlifeObj;
+      //holderObj[`fruitLabel${index}`] = fruitWildlifeObj;
+      // holderObj[`otherLabel${index}`] = otherWildlifeObj;
     }
     //console.log("The options holder is:");
     //console.log(holderObj);
