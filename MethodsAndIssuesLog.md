@@ -27,3 +27,10 @@ Getting experience working with nested objects that contain multiple types and t
 e.g. 
 ```let test = inputPlant[currentPlantChar as keyof PlantsType] as BloomFruitTimeObj;```
 Where `currentPlantChar` is dynamic
+
+To build the app for deployment to GH pages - 
+1. Updated the `build` command in `package.json` to be building for TypeScript first then building the resulting .jsx files with Webpack with `tsc --build && react-scripts build`
+2. Added `homepage` key to `package.json` with value of the target main page: `https://geohouse.github.io/garden-planner/`. This makes all links start with that correct prefix so the files can be found correctly when served on GitHub.
+3. Run `npm run build` from PowerShell
+4. Switch to `gh-pages` branch, where the page is served. Have this as a different branch because the site is served from the root after (currently) manually moving files, and don't want that to clutter/confuse the main branch.
+5. Make copy of all contents in resulting `build` folder and paste them into the root of the folder
