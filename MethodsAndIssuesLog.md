@@ -1,4 +1,3 @@
-
 JestDOM, used for testing, does not support `resize-observer`, which the `Chart` library uses. Tried multiple possible solutions from related GitHub and Stack Overflow posts. Ended up using a polyfill to allow testing of the full app with the plot from Chart enabled.
 
 Solution used from here
@@ -23,14 +22,16 @@ When needing to create data objects/arrays for plotting multiple line segments f
 
 Importing type from Chart.js (`Tick[]`) to enable correct typing and autocompletion of tick values created manually using a callback function and a type `Tick[]` array of objects.
 
-Getting experience working with nested objects that contain multiple types and they need to be dynamically indexed by a variable. Use `as` characterizer to limit the type to be a key of a type in order to allow dynamic look-up, then use `as` to specify that the returned value is another specific type that will have other properties that need to be called (statically) 
-e.g. 
-```let test = inputPlant[currentPlantChar as keyof PlantsType] as BloomFruitTimeObj;```
+Getting experience working with nested objects that contain multiple types and they need to be dynamically indexed by a variable. Use `as` characterizer to limit the type to be a key of a type in order to allow dynamic look-up, then use `as` to specify that the returned value is another specific type that will have other properties that need to be called (statically)
+e.g.
+`let test = inputPlant[currentPlantChar as keyof PlantsType] as BloomFruitTimeObj;`
 Where `currentPlantChar` is dynamic
 
-To build the app for deployment to GH pages - 
+To build the app for deployment to GH pages -
+
 1. Updated the `build` command in `package.json` to be building for TypeScript first then building the resulting .jsx files with Webpack with `tsc --build && react-scripts build`
 2. Added `homepage` key to `package.json` with value of the target main page: `https://geohouse.github.io/garden-planner/`. This makes all links start with that correct prefix so the files can be found correctly when served on GitHub.
 3. Run `npm run build` from PowerShell
-4. Switch to `gh-pages` branch, where the page is served. Have this as a different branch because the site is served from the root after (currently) manually moving files, and don't want that to clutter/confuse the main branch.
-5. Make copy of all contents in resulting `build` folder and paste them into the root of the folder
+4. Make copy of all contents in resulting `build` folder (on the `main` branch)
+5. Switch to `gh-pages` branch, where the page is served by GitHub. Have this as a different branch because the site is served from the root after (currently) manually moving files, and don't want that to clutter/confuse the `main` branch.
+6. Paste the contents of the `build` folder from the `main` branch into the root of the folder on the `gh-pages` branch.
