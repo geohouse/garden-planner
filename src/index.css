@@ -12,23 +12,31 @@ code {
     monospace;
 }
 
+#new-plant-form {
+  background-color: #eeeeee;
+  border-radius: 5px;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#new-plant-form label {
+  margin-left: 10px;
+}
+
+#date-select-heading {
+  margin-left: 10px;
+}
+
 #plant-name {
   margin: 10px;
-  height: 20px;
+  min-height: 20px;
   width: 35vw;
 }
 
 #date-selectors {
   display: flex;
   flex-direction: row;
-}
-
-#new-plant-form {
-  background-color: #eeeeee;
-  border-radius: 5px;
-  height: 70vh;
-  display: flex;
-  flex-direction: column;
 }
 
 #bloom-date-holder {
@@ -51,6 +59,7 @@ code {
 
 #bloom-date-holder > #bloom-date-holder-label {
   grid-column: 1/4;
+  margin: 2px 0px 2px 0px;
 }
 
 #bloom-date-holder > #bloom-select-all-months {
@@ -97,6 +106,10 @@ the button selector or not, so this is the selector for April */
   grid-row: 6/7;
 }
 
+#bloom-attracted-wildlife {
+  margin: 3px 0 3px 0;
+}
+
 #fruit-date-holder {
   display: grid;
   width: 90%;
@@ -117,6 +130,7 @@ the button selector or not, so this is the selector for April */
 
 #fruit-date-holder > #fruit-date-holder-label {
   grid-column: 1/4;
+  margin: 2px 0px 2px 0px;
 }
 
 #fruit-date-holder > #fruit-select-all-months {
@@ -163,6 +177,10 @@ the button selector or not, so this is the selector for April */
   grid-row: 6/7;
 }
 
+#fruit-attracted-wildlife {
+  margin: 3px 0 3px 0;
+}
+
 #other-date-holder {
   display: grid;
   width: 90%;
@@ -183,6 +201,7 @@ the button selector or not, so this is the selector for April */
 
 #other-date-holder > #other-date-holder-label {
   grid-column: 1/4;
+  margin: 2px 0px 2px 0px;
 }
 
 #other-date-holder > #other-select-all-months {
@@ -229,12 +248,17 @@ the button selector or not, so this is the selector for April */
   grid-row: 6/7;
 }
 
+#other-attracted-wildlife {
+  margin: 3px 0 3px 0;
+}
+
 #add-plant {
-  flex: 1 5vw;
+  margin: 10px 0 10px 0;
 }
 
 canvas {
   margin: 10px;
+  min-height: 20%;
 }
 .plant-name {
   font-size: 1.7em;
@@ -328,6 +352,7 @@ svg {
   border: 0.25px solid rgb(225, 225, 225);
   background-color: rgb(255, 255, 255);
   text-align: center;
+  transition: border 0.15s ease-out;
 }
 
 .bloom-month:hover,
@@ -368,8 +393,7 @@ svg {
 }
 
 .selected-month {
-  border: 1px solid hotpink;
-  border-radius: 0px;
+  border: hotpink 3px solid;
 }
 
 .plant-card-bloom-months {
