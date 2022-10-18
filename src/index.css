@@ -34,6 +34,10 @@ code {
   width: 35vw;
 }
 
+#date-select-p {
+  margin: 5px 0 5px 10px;
+}
+
 #date-selectors {
   display: flex;
   flex-direction: row;
@@ -352,13 +356,15 @@ svg {
   border: 0.25px solid rgb(225, 225, 225);
   background-color: rgb(255, 255, 255);
   text-align: center;
-  transition: border 0.15s ease-out;
+  color: #222222;
+  transition: background-color, color 0.2s ease-out;
 }
 
 .bloom-month:hover,
 .fruit-month:hover,
 .other-month:hover {
   background-color: rgba(50, 250, 250, 0.1);
+  color: #999999;
 }
 
 /* .fruit-month {
@@ -393,7 +399,8 @@ svg {
 }
 
 .selected-month {
-  border: hotpink 3px solid;
+  background-color: #177f62;
+  color: #eeeeee;
 }
 
 .plant-card-bloom-months {

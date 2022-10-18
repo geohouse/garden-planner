@@ -89,7 +89,7 @@ export default function AddPlant(props: AddPlantsProps) {
           ></input> */}
         </div>
 
-        <p>
+        <p id="date-select-p">
           Date selectors (all support clicking and dragging to quickly 'paint'
           over multiple months)
         </p>
